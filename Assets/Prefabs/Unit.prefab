@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3693206565360142310}
+  - component: {fileID: 6154204713618698327}
   - component: {fileID: 5759127370097135013}
   m_Layer: 0
   m_Name: Unit
@@ -152,6 +153,18 @@ Transform:
   - {fileID: 763066358610962656}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6154204713618698327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5434739321879948937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7995c39949fa87d48a4593ba73112910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5759127370097135013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d485442663d4746a82b14b7be92440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _health: {fileID: 6154204713618698327}
   _stats: {fileID: 11400000, guid: 7ef8484ef02fa144ba027e98f12da433, type: 2}
   _pathAndArea: {fileID: 11400000, guid: b46f8b2c520889e4c9959c007d9c6b74, type: 2}
   _rotationNode: {fileID: 763066358610962656}

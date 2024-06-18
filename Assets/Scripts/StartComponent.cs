@@ -1,57 +1,43 @@
 using RedBjorn;
 using RedBjorn.ProtoTiles;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StartComponent : MonoBehaviour
 {
-    public MapSettings Map;
-    public KeyCode GridToggle = KeyCode.G;
-    public MapView MapView;
-    public Unit Unit;
+    [SerializeField] private MapSettings _map;
+    [SerializeField] private KeyCode _gridToggle = KeyCode.G;
+    [SerializeField] private MapView _mapView;
+
+    private List<Unit> _allUnitList = new();
 
     public MapEntity MapEntity { get; private set; }
 
-    void Start()
+    private void Start()
     {
-        if (!MapView)
-        {
-#if UNITY_2023_1_OR_NEWER
-            MapView = FindFirstObjectByType<MapView>();
-#else
-                MapView = FindObjectOfType<MapView>();
-#endif
-        }
-        MapEntity = new MapEntity(Map, MapView);
-        if (MapView)
-        {
-            MapView.Init(MapEntity);
-        }
-        else
-        {
-            Log.E("Can't find MapView. Random errors can occur");
-        }
+        Init();
+    }
 
-        if (!Unit)
+    private void Init()
+    {
+        MapEntity = new MapEntity(_map, _mapView);
+        _mapView.Init(MapEntity);
+        
+        _allUnitList = FindObjectsByType<Unit>(FindObjectsSortMode.InstanceID).ToList();
+        Debug.Log(_allUnitList.Count);
+        if (_allUnitList.Count > 0)
         {
-#if UNITY_2023_1_OR_NEWER
-            Unit = FindFirstObjectByType<Unit>();
-#else
-                Unit = FindObjectOfType<UnitMove>();
-#endif
-        }
-        if (Unit)
-        {
-            Unit.Init(MapEntity);
-        }
-        else
-        {
-            Log.E("Can't find any Unit. Example level start incorrect");
+            foreach (var unit in _allUnitList)
+            {
+                unit.Init(MapEntity);
+            }
         }
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyUp(GridToggle))
+        if (Input.GetKeyUp(_gridToggle))
         {
             MapEntity.GridToggle();
         }

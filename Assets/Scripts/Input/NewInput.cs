@@ -15,7 +15,7 @@ public class NewInput
     private static Ray _screemCenterRay;
     private static Ray _mouseRay;
     private static Vector2 _mousePosition;
-    private static FrameInfo _lastFrame = new();
+    private static readonly FrameInfo _lastFrame = new();
 
     static void Validate(Plane plane)
     {
