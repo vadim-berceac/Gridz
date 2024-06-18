@@ -19,18 +19,16 @@ public class Movement
     }
     public void Move(ref Coroutine movingCoroutine, List<TileEntity> path, Action onCompleted)
     {
-        if (path != null)
-        {
-            if (movingCoroutine != null)
-            {
-                _unit.StopCoroutine(movingCoroutine);
-            }
-            movingCoroutine = _unit.StartCoroutine(Moving(path, onCompleted));
-        }
-        else
+        if (path == null)
         {
             onCompleted.SafeInvoke();
+            return;            
         }
+        if (movingCoroutine != null)
+        {
+            _unit.StopCoroutine(movingCoroutine);
+        }
+        movingCoroutine = _unit.StartCoroutine(Moving(path, onCompleted));
     }
 
     private IEnumerator Moving(List<TileEntity> path, Action onCompleted)
@@ -42,14 +40,6 @@ public class Movement
         {
             _targetPoint = _unit.Map.WorldPosition(path[_nextIndex]);
             _stepDirection = (_targetPoint - _unit.transform.position) * _unit.Stats.MoveSpeed;
-            if (_unit.Map.RotationType == RotationType.LookAt)
-            {
-                _unit.RotationNode.rotation = Quaternion.LookRotation(_stepDirection, Vector3.up);
-            }
-            else if (_unit.Map.RotationType == RotationType.Flip)
-            {
-                _unit.RotationNode.rotation = _unit.Map.Settings.Flip(_stepDirection);
-            }
             _reached = _stepDirection.sqrMagnitude < 0.01f;
             while (!_reached)
             {
@@ -61,5 +51,21 @@ public class Movement
             _nextIndex++;
         }
         onCompleted.SafeInvoke();
+    }
+
+    public void Rotate(List<TileEntity> path)
+    {
+        if (path == null || _nextIndex >= path.Count || _stepDirection == null)
+        {
+            return;
+        }
+        if (_unit.Map.RotationType == RotationType.LookAt)
+        {
+            _unit.RotationNode.rotation = Quaternion.LookRotation(_stepDirection, Vector3.up);
+        }
+        else if (_unit.Map.RotationType == RotationType.Flip)
+        {
+            _unit.RotationNode.rotation = _unit.Map.Settings.Flip(_stepDirection);
+        }
     }
 }

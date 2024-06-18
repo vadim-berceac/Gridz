@@ -31,6 +31,7 @@ public class Unit : MonoBehaviour
     private void Update()
     {
         HandleWorldClick();
+        _movement.Rotate(_tilePath);
         _pathAndArea.PathUpdate(_area, _path, _map, transform.position, _stats);
     }
 
