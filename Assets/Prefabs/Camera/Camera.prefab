@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eps: 0.1
+  _unitToFollow: {fileID: 0}
 --- !u!114 &7426205643618272513
 MonoBehaviour:
   m_ObjectHideFlags: 0
