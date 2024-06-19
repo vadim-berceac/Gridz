@@ -43,7 +43,7 @@ public class UnitPathAndArea : ScriptableObject
         }
     }
 
-    public void PathUpdate(AreaOutline area, PathDrawer path, MapEntity map, Vector3 position, UnitStats stats)
+    public void UpdatePath(AreaOutline area, PathDrawer path, MapEntity map, Vector3 position, UnitStats stats)
     {
         if(!path || !path.IsEnabled)
         {

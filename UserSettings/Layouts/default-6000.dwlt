@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2560
     height: 1357
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Game
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 44
+  controlID: 85
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -121,16 +121,16 @@ MonoBehaviour:
     y: 836
     width: 2064
     height: 471
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 15}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 15}
   - {fileID: 20}
   - {fileID: 14}
   - {fileID: 13}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 45
+  controlID: 40
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 46
+  controlID: 41
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -322,7 +322,7 @@ MonoBehaviour:
   GridAxisType: 0
   GridType: 1
   RotationType: 0
-  TilePresetCurrent: 3
+  TilePresetCurrent: 4
   TilePresetPrefab: 0
   ToolCurrent: 1
   RulesFoldout: 1
@@ -909,7 +909,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 2, y: -5, z: 3}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -920,7 +920,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 3, y: -5, z: 2}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1019,7 +1019,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: -1, y: -2, z: 3}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1052,7 +1052,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 2, y: -4, z: 2}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1063,7 +1063,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 3, y: -4, z: 1}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1151,7 +1151,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: -2, y: -1, z: 3}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1162,7 +1162,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: -1, y: -1, z: 2}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1184,7 +1184,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 1, y: -2, z: 1}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1195,7 +1195,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 2, y: -3, z: 1}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1206,7 +1206,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 3, y: -3, z: 0}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1217,7 +1217,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 4, y: -4, z: 0}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1316,7 +1316,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 0, y: -1, z: 1}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1338,7 +1338,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 2, y: -2, z: 0}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1492,7 +1492,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 3, y: -1, z: -2}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1591,7 +1591,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: -1, y: 2, z: -1}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1657,7 +1657,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 5, y: -1, z: -4}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1734,7 +1734,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: -1, y: 3, z: -2}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1745,7 +1745,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 0, y: 2, z: -2}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1800,7 +1800,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 5, y: 0, z: -5}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1877,7 +1877,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: -1, y: 4, z: -3}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1888,7 +1888,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 0, y: 3, z: -3}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -1943,7 +1943,7 @@ MonoBehaviour:
         - 0
         - 0
       - TilePos: {x: 5, y: 1, z: -6}
-        Id: 26697f579febd8844834aeab5783acd2
+        Id: a80cee8097dd1bd4a863ab8a45ee5fe0
         PrefabIndex: 0
         MovableArea: 1
         SideHeight:
@@ -3620,22 +3620,26 @@ MonoBehaviour:
       - 98efd35f51fc1da41a2b0801384a5213
       - f911f57591fddb14885af4dd838b7b60
       - 9c892fb15b6cd8845b21410572f0cd63
+      - a80cee8097dd1bd4a863ab8a45ee5fe0
       Values:
       - {r: 1, g: 0.47346824, b: 0, a: 0.5019608}
       - {r: 0, g: 1, b: 0.90932775, a: 0.5019608}
       - {r: 0.754717, g: 0.7013172, b: 0.7013172, a: 0.5019608}
       - {r: 0.1509434, g: 0.13314347, b: 0.13314347, a: 0.5019608}
+      - {r: 0.4668738, g: 0.8962264, b: 0.31706125, a: 0.5}
     CursorTileColors:
       Keys:
       - 26697f579febd8844834aeab5783acd2
       - 98efd35f51fc1da41a2b0801384a5213
       - f911f57591fddb14885af4dd838b7b60
       - 9c892fb15b6cd8845b21410572f0cd63
+      - a80cee8097dd1bd4a863ab8a45ee5fe0
       Values:
       - {r: 1, g: 0.47346824, b: 0, a: 0.75294125}
       - {r: 0, g: 1, b: 0.90932775, a: 0.75294125}
       - {r: 0.754717, g: 0.7013172, b: 0.7013172, a: 0.75294125}
       - {r: 0.1509434, g: 0.13314347, b: 0.13314347, a: 0.75294125}
+      - {r: 0.4668738, g: 0.8962264, b: 0.31706125, a: 0.75}
     TilePrefabIndex: 0
   CachedMap: {fileID: 11400000, guid: 1ce6a53b8c4951e42851fb7602e01e76, type: 2}
 --- !u!114 &13
@@ -3661,7 +3665,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 909
-    width: 2190
+    width: 2063
     height: 450
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -4181,8 +4185,8 @@ MonoBehaviour:
                 m_SortedColumns: 03000000
           m_FullThreadName: Main Thread
           m_ThreadName: Main Thread
-          <threadId>k__BackingField: 0
-          <threadIndex>k__BackingField: -1
+          <threadId>k__BackingField: 1484
+          <threadIndex>k__BackingField: 0
           m_GroupName: 
     - rid: 3450892411823194365
       type: {class: GPUProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
@@ -4666,7 +4670,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 909
-    width: 2143
+    width: 2063
     height: 450
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -4681,7 +4685,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_ViewTransforms:
     m_KeySerializationHelper:
-    - {fileID: -5602963042399094863, guid: de7d531a4a1370e44a6e22bc1480f4f4, type: 2}
+    - {fileID: 4776893034272869359, guid: 5efebc9ff1bb643cc9fa371b503c0a80, type: 2}
     m_ValueSerializationHelper:
     - e00: 1
       e01: 0
@@ -4700,9 +4704,9 @@ MonoBehaviour:
       e32: 0
       e33: 1
   m_PreviewAnimator: {fileID: 0}
-  m_AnimatorController: {fileID: 9100000, guid: de7d531a4a1370e44a6e22bc1480f4f4, type: 2}
+  m_AnimatorController: {fileID: 9100000, guid: 5efebc9ff1bb643cc9fa371b503c0a80, type: 2}
   m_BreadCrumbs:
-  - m_Target: {fileID: -5602963042399094863, guid: de7d531a4a1370e44a6e22bc1480f4f4, type: 2}
+  - m_Target: {fileID: 4776893034272869359, guid: 5efebc9ff1bb643cc9fa371b503c0a80, type: 2}
     m_ScrollPosition: {x: 0, y: 0}
   stateMachineGraph: {fileID: 0}
   stateMachineGraphGUI: {fileID: 0}
@@ -4762,7 +4766,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Scripts/Bases/Unit
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -4772,16 +4776,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Scripts/Bases/Unit
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\GitHub\Gridz
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 48130200
-    m_LastClickedID: 136008
-    m_ExpandedIDs: 00000000c4a90000c6a9000000ca9a3b
+    scrollPos: {x: 0, y: 306}
+    m_SelectedIDs: dac80100
+    m_LastClickedID: 116954
+    m_ExpandedIDs: 0000000002db000004db00000cdb000010db000014db00001ce000001ee0000028e000003ce0000040e00000cac80100d0c8010000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4810,7 +4814,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c4a90000c6a90000
+    m_ExpandedIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4836,10 +4840,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c6230000c41701006ef10d0000000000a6a90000
+    m_SelectedInstanceIDs: 1adf0000
+    m_LastClickedInstanceID: 57114
+    m_HadKeyboardFocusLastEvent: 0
+    m_ExpandedInstanceIDs: c6230000c41701006ef10d0000000000a6a9000034d70000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4956,9 +4960,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 10130200
-      m_LastClickedID: 0
-      m_ExpandedIDs: 4e07ffffd6faffff06a70000
+      m_SelectedIDs: aa45ffff
+      m_LastClickedID: -47702
+      m_ExpandedIDs: 9a45ffff9e45ffff8850ffff2e58ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -5562,9 +5566,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 10.160238, y: 7.834688, z: 4.5548687}
+    m_Target: {x: 9.619511, y: 12.287005, z: -6.6639247}
     speed: 2
-    m_Value: {x: 10.160238, y: 7.834688, z: 4.5548687}
+    m_Value: {x: 9.619511, y: 12.287005, z: -6.6639247}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -5610,13 +5614,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.26492298, y: 0.6174698, z: -0.23263511, w: -0.70316565}
+    m_Target: {x: -0.3742596, y: 0.47040114, z: -0.23002344, w: -0.76535094}
     speed: 2
-    m_Value: {x: -0.26457188, y: 0.6185195, z: -0.2330306, w: -0.70223373}
+    m_Value: {x: -0.3742558, y: 0.47039637, z: -0.23002112, w: -0.7653432}
   m_Size:
-    m_Target: 12.222369
+    m_Target: 0.8903578
     speed: 2
-    m_Value: 12.222369
+    m_Value: 0.8903578
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -5716,7 +5720,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1

@@ -1,4 +1,6 @@
 using RedBjorn.ProtoTiles;
+using RedBjorn.Utils;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +12,7 @@ public class ClickInputHandler : InputHandler
     {
     }
 
-    public override void Update(ref List<TileEntity> tilePath, ref Coroutine movingCoroutine)
+    public override void Update(ref List<TileEntity> tilePath, Action action)
     {
         if (!NewInput.GetOnWorldUp(_unit.Map.Settings.Plane()))
         {
@@ -24,11 +26,7 @@ public class ClickInputHandler : InputHandler
             _unit.Path.IsEnabled = false;
             _unit.UnitPathAndArea.PathHide(_unit.Path);
             tilePath = _unit.Map.PathTiles(_unit.transform.position, _clickPosition, _unit.Stats.MoveRange);
-            _unit.Movement.Move(ref movingCoroutine, tilePath, () =>
-            {
-                _unit.Path.IsEnabled = true;
-                _unit.UnitPathAndArea.AreaShow(_unit.Area, _unit.Map, _unit.transform.position, _unit.Stats);
-            });
+            action.SafeInvoke();
         }
     }
 }

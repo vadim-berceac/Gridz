@@ -7,11 +7,13 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class Unit : MonoBehaviour
 {
+    [SerializeField] private Animator _animator;
     [SerializeField] private Health _health;
     [SerializeField] private UnitStats _stats;
     [SerializeField] private UnitPathAndArea _pathAndArea;
     [SerializeField] private Transform _rotationNode;
 
+    private CameraSetter _cameraSetter;
     private InputHandler _inputHandler;
     private Movement _movement;
     private MapEntity _map;
@@ -21,6 +23,7 @@ public class Unit : MonoBehaviour
     private List<TileEntity> _tilePath;
 
     public Movement Movement => _movement;
+    public Animator Animator => _animator;
     public AreaOutline Area => _area;
     public PathDrawer Path => _path;
     public UnitPathAndArea UnitPathAndArea => _pathAndArea;
@@ -34,9 +37,9 @@ public class Unit : MonoBehaviour
 
     private void Update()
     {        
-        _inputHandler.Update(ref _tilePath, ref _movingCoroutine);
+        _inputHandler.Update(ref _tilePath, OnInput);
         _movement.Rotate(_tilePath);
-        _pathAndArea.PathUpdate(_area, _path, _map, transform.position, _stats);
+        _pathAndArea.UpdatePath(_area, _path, _map, transform.position, _stats);
     }
 
     public void Init(MapEntity map)
@@ -45,6 +48,7 @@ public class Unit : MonoBehaviour
         _area = Spawner.Spawn(_pathAndArea.AreaOutline, Vector3.zero, Quaternion.identity);
         _pathAndArea.AreaShow(_area, _map, transform.position, _stats);
         _pathAndArea.PathCreate(ref _path, _map);
+        _cameraSetter = new(transform);
         _movement = new(this);
         _inputHandler = new ClickInputHandler(this);
         _health.OnHealthChanged += OnDamage;
@@ -74,5 +78,16 @@ public class Unit : MonoBehaviour
     {
         _health.OnHealthChanged -= OnDamage;
         _health.OnDeath -= OnDeath;
+    }
+
+    private void OnInput()
+    {
+        _cameraSetter.SetCameraTarget();
+        Movement.Move(ref _movingCoroutine, _tilePath, () =>
+        {
+            Path.IsEnabled = true;
+            UnitPathAndArea.AreaShow(Area, Map, transform.position, Stats);
+            _cameraSetter.EnableFreeCamera();
+        });
     }
 }

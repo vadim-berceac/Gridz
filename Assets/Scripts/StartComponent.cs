@@ -1,4 +1,3 @@
-using RedBjorn;
 using RedBjorn.ProtoTiles;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +24,6 @@ public class StartComponent : MonoBehaviour
         _mapView.Init(MapEntity);
         
         _allUnitList = FindObjectsByType<Unit>(FindObjectsSortMode.InstanceID).ToList();
-        Debug.Log(_allUnitList.Count);
         if (_allUnitList.Count > 0)
         {
             foreach (var unit in _allUnitList)

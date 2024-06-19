@@ -1,10 +1,12 @@
 using RedBjorn.ProtoTiles;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class StrategyCamera : MonoBehaviour
 {
     [SerializeField] private float _eps = 0.1f;
-    [SerializeField] private Transform _transformToFollow;
+    private static Transform _transformToFollow;
+    private static StrategyCamera _instance;
     private Vector3? _holdPosition;
     private Vector3? _clickPosition;
     private MapEntity _cachedMap;
@@ -16,14 +18,24 @@ public class StrategyCamera : MonoBehaviour
     private static bool _isMovingByPlayer;
     public static bool IsMovingByPlayer => _isMovingByPlayer;
 
+    private void Awake()
+    {
+        _instance = this;
+    }
+
     private void LateUpdate()
     {
-        HandleInput();
+        HandleButtonsInput();
         UpdatePosition();
     }
 
-    public void SetTarget(Transform transformToFollow)
+    public static void SetTarget(Transform transformToFollow)
     {
+        if(_instance == null)
+        {
+            Debug.LogWarning("Strategic camera does not exist");
+            return;
+        }
         _transformToFollow = transformToFollow;
     }
 
@@ -45,7 +57,7 @@ public class StrategyCamera : MonoBehaviour
         return _cachedMap;
     }
 
-    private void HandleInput()
+    private void HandleButtonsInput()
     {
         if (NewInput.GetOnWorldDownFree(Map.Settings.Plane()))
         {
@@ -88,4 +100,5 @@ public class StrategyCamera : MonoBehaviour
 
         transform.position = _newPosition;
     }
+
 }

@@ -1,6 +1,6 @@
 using RedBjorn.ProtoTiles;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public abstract class InputHandler
 {
@@ -10,5 +10,5 @@ public abstract class InputHandler
         _unit = unit;
     }
 
-    public abstract void Update(ref List<TileEntity> tilePath, ref Coroutine movingCoroutine);
+    public abstract void Update(ref List<TileEntity> tilePath, Action action);
 }
