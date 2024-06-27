@@ -9,8 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c843d0718623c034aa5f955fc2daab32, type: 3}
-  m_Name: ExampleStats
+  m_Script: {fileID: 11500000, guid: aadebc97f4b5f054588bf5d424f506c0, type: 3}
+  m_Name: Ghost
   m_EditorClassIdentifier: 
-  _moveSpeed: 2
+  _prefab: {fileID: 8135159938414375671, guid: b8f6e9e7bd99b1b488a899fb32d3b4d3, type: 3}
+  _name: Blue Ghost
+  _modelScale: {x: 2, y: 2, z: 2}
+  _maxHealthValue: 20
+  _moveSpeed: 5
   _moveRange: 3

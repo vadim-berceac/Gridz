@@ -13,7 +13,7 @@ public class UnitPathAndArea : ScriptableObject
     public AreaOutline AreaOutline => _areaOutline;
     public PathDrawer PathDrawer => _pathDrawer;
 
-    public void AreaShow(AreaOutline area, MapEntity map, Vector3 position, UnitStats stats)
+    public void AreaShow(AreaOutline area, MapEntity map, Vector3 position, UnitPattern stats)
     {
         AreaHide(area);
         area.Show(map.WalkableBorder(position, stats.MoveRange), map);
@@ -43,7 +43,7 @@ public class UnitPathAndArea : ScriptableObject
         }
     }
 
-    public void UpdatePath(AreaOutline area, PathDrawer path, MapEntity map, Vector3 position, UnitStats stats)
+    public void UpdatePath(AreaOutline area, PathDrawer path, MapEntity map, Vector3 position, UnitPattern stats)
     {
         if(!path || !path.IsEnabled)
         {

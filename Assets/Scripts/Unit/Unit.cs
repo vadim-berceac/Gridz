@@ -9,7 +9,7 @@ public class Unit : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     [SerializeField] private Health _health;
-    [SerializeField] private UnitStats _stats;
+    [SerializeField] private UnitPattern _stats;
     [SerializeField] private UnitPathAndArea _pathAndArea;
     [SerializeField] private Transform _rotationNode;
 
@@ -28,7 +28,7 @@ public class Unit : MonoBehaviour
     public PathDrawer Path => _path;
     public UnitPathAndArea UnitPathAndArea => _pathAndArea;
     public MapEntity Map => _map;
-    public UnitStats Stats => _stats;
+    public UnitPattern Stats => _stats;
     public Transform RotationNode
     {
         get => _rotationNode;
@@ -50,7 +50,7 @@ public class Unit : MonoBehaviour
         _pathAndArea.PathCreate(ref _path, _map);
         _cameraSetter = new(transform);
         _movement = new(this);
-        _inputHandler = new ClickInputHandler(this);
+        //_inputHandler = new ClickInputHandler(this);
         _health.OnHealthChanged += OnDamage;
         _health.OnDeath += OnDeath;
     }
@@ -83,10 +83,10 @@ public class Unit : MonoBehaviour
     private void OnInput()
     {
         _cameraSetter.SetCameraTarget();
-        Movement.Move(ref _movingCoroutine, _tilePath, () =>
+        _movement.Move(ref _movingCoroutine, _tilePath, () =>
         {
             Path.IsEnabled = true;
-            UnitPathAndArea.AreaShow(Area, Map, transform.position, Stats);
+            _pathAndArea.AreaShow(Area, Map, transform.position, Stats);
             _cameraSetter.EnableFreeCamera();
         });
     }

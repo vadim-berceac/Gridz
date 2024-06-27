@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public abstract class InputHandler
 {
-    protected Unit _unit;
-    public InputHandler(Unit unit)
+    protected UnitFSM _unit;
+    public InputHandler(UnitFSM unit)
     {
         _unit = unit;
     }

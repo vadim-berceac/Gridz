@@ -9,7 +9,7 @@ public class StartComponent : MonoBehaviour
     [SerializeField] private KeyCode _gridToggle = KeyCode.G;
     [SerializeField] private MapView _mapView;
 
-    private List<Unit> _allUnitList = new();
+    private List<UnitFSM> _allUnitList = new();
 
     public MapEntity MapEntity { get; private set; }
 
@@ -23,7 +23,7 @@ public class StartComponent : MonoBehaviour
         MapEntity = new MapEntity(_map, _mapView);
         _mapView.Init(MapEntity);
         
-        _allUnitList = FindObjectsByType<Unit>(FindObjectsSortMode.InstanceID).ToList();
+        _allUnitList = FindObjectsByType<UnitFSM>(FindObjectsSortMode.InstanceID).ToList();
         if (_allUnitList.Count > 0)
         {
             foreach (var unit in _allUnitList)

@@ -8,7 +8,7 @@ public class ClickInputHandler : InputHandler
 {
     private Vector3 _clickPosition;
     private TileEntity _tileEntity;
-    public ClickInputHandler(Unit unit) : base(unit)
+    public ClickInputHandler(UnitFSM unit) : base(unit)
     {
     }
 
@@ -22,10 +22,10 @@ public class ClickInputHandler : InputHandler
         _tileEntity = _unit.Map.Tile(_clickPosition);
         if (_tileEntity != null && _tileEntity.Vacant)
         {
-            _unit.UnitPathAndArea.AreaHide(_unit.Area);
+            _unit.PathAndArea.AreaHide(_unit.Area);
             _unit.Path.IsEnabled = false;
-            _unit.UnitPathAndArea.PathHide(_unit.Path);
-            tilePath = _unit.Map.PathTiles(_unit.transform.position, _clickPosition, _unit.Stats.MoveRange);
+            _unit.PathAndArea.PathHide(_unit.Path);
+            tilePath = _unit.Map.PathTiles(_unit.transform.position, _clickPosition, _unit.UnitPattern.MoveRange);
             action.SafeInvoke();
         }
     }

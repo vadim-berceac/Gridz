@@ -7,17 +7,19 @@ public class Health : MonoBehaviour
     public delegate void DeathHandler(object source);
     public event DeathHandler OnDeath;
 
-    [SerializeField] private float _maxValue;
+    private float _maxValue;
     private float _currentValue;
     private float _oldHealth;
     private float _newHealth;
     private bool _isDead;
 
+    public float MaxValue => _maxValue;
     public float CurrentValue => _currentValue;
     public bool IsDead => _isDead;
 
-    private void Awake()
+    public void Init(float maxValue)
     {
+       _maxValue = maxValue;
         _currentValue = _maxValue;
     }
 
