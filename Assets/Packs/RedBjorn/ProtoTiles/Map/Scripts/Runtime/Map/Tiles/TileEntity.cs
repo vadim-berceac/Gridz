@@ -41,6 +41,18 @@ namespace RedBjorn.ProtoTiles
             MovableArea = Data.MovableArea;
         }
 
+        public void SetObtacle(bool value)
+        {
+            if(value)
+            {
+                ObstacleCount = 1;
+            }
+            else
+            {
+                ObstacleCount = 0;    
+            }
+        }
+
         public override string ToString()
         {
             return string.Format("Position: {0}. Vacant = {1}", Position, Vacant);

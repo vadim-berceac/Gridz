@@ -62,7 +62,7 @@ public class UnitFSM : MonoBehaviour
 
     private void Update()
     {
-        _currentState.UpdateState();        
+        _currentState.UpdateState();
     }
 
     public void SetNewState(BaseState newState)
