@@ -10,10 +10,11 @@ public class StartComponent : MonoBehaviour
     [SerializeField] private MapView _mapView;
 
     private List<UnitFSM> _allUnitList = new();
+    private GameObject _selector;
 
     public MapEntity MapEntity { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         Init();
     }
@@ -31,6 +32,9 @@ public class StartComponent : MonoBehaviour
                 unit.Init(MapEntity);
             }
         }
+        _selector = new GameObject("Selector");
+        _selector.transform.parent = gameObject.transform;
+        _selector.AddComponent<Selector>();
     }
 
     private void Update()
@@ -39,5 +43,10 @@ public class StartComponent : MonoBehaviour
         {
             MapEntity.GridToggle();
         }
+    }
+
+    private void OnDisable()
+    {
+        Destroy(_selector);
     }
 }

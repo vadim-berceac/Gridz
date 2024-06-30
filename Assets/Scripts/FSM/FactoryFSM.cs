@@ -1,25 +1,28 @@
 
 public static class FactoryFSM
 {
-    public static BaseState IdleSelected(UnitFSM controller)
+    public static BaseState IdleSelectedState(UnitFSM controller)
     {
-        return null;
+        return new IdleSelectedState(controller);
     }
     public static BaseState IdleNotSelectedState(UnitFSM controller)
     {
         return new IdleNotSelectedState(controller);
     }
-    public static BaseState Moving(UnitFSM controller)
+    public static BaseState MovingState(UnitFSM controller)
     {
-        //return new StateMoving(controller);
-        return null;
+        return new MovingState(controller);
     }    
-    public static BaseState Walk(UnitFSM controller)
+    public static BaseState RotationSubState(UnitFSM controller)
+    {
+        return new RotationSubState(controller);
+    }
+    public static BaseState WalkState(UnitFSM controller)
     {
         //return new StateWalk(controller);
         return null;
     }
-    public static BaseState Run(UnitFSM controller)
+    public static BaseState RunState(UnitFSM controller)
     {
         //return new StateRun(controller);
         return null;

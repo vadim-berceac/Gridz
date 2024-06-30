@@ -16,5 +16,5 @@ MonoBehaviour:
   _name: Blue Ghost
   _modelScale: {x: 2, y: 2, z: 2}
   _maxHealthValue: 20
-  _moveSpeed: 5
+  _moveSpeed: 2
   _moveRange: 3

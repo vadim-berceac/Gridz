@@ -3,9 +3,11 @@ using UnityEngine.InputSystem;
 
 public class Selector : MonoBehaviour
 {
-    [SerializeField] private int _searchingLayer = 3;
+    private readonly int _unitLayer = 3;
     private static UnitFSM _selectedUnit;
+    private static bool _unitSelectionBlocked = false;
     public static UnitFSM SelectedUnit => _selectedUnit;
+    public static bool UnitSelectionBlocked => _unitSelectionBlocked;
     private InputAction _clickAction;
     private Vector3 _mousePosition;
     private RaycastHit _hit;
@@ -18,25 +20,34 @@ public class Selector : MonoBehaviour
         _clickAction.Enable();
     }
 
+    public static void BlockNewUnitSelection(bool value)
+    {
+        _unitSelectionBlocked = value;
+    }
+
     private void HandleMouseClick()
     {
         _mousePosition = Mouse.current.position.ReadValue();
         if (Physics.Raycast(Camera.main.ScreenPointToRay(_mousePosition), out _hit) 
-            && _hit.collider.gameObject.layer == _searchingLayer)
+            && _hit.collider.gameObject.layer == _unitLayer)
         {            
             if (_hit.collider == _lastCollider)
             {
                 return;
             }
             _lastCollider = _hit.collider;
-            _selectedUnit = _hit.collider.gameObject.GetComponent<UnitFSM>();
-            //Debug.Log(_selectedUnit.name);
+            if(!_unitSelectionBlocked)
+            {
+                _selectedUnit = _hit.collider.gameObject.GetComponent<UnitFSM>();
+            }            
         }
         else
         {
-            _selectedUnit = null;
+            if (!_unitSelectionBlocked)
+            {
+                _selectedUnit = null;
+            }                
             _lastCollider = null;
-            //Debug.Log("reset");
         }
     }
 

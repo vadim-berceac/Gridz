@@ -1,18 +1,17 @@
 using RedBjorn.ProtoTiles;
+using RedBjorn.ProtoTiles.Example;
 using RedBjorn.Utils;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class ClickInputHandler : InputHandler
 {
-    private Vector3 _clickPosition;
-    private TileEntity _tileEntity;
     public ClickInputHandler(UnitFSM unit) : base(unit)
     {
+
     }
 
-    public override void Update(ref List<TileEntity> tilePath, Action action)
+    public override void Update(ref List<TileEntity> tilePath, Action action, AreaOutline area, PathDrawer path)
     {
         if (!NewInput.GetOnWorldUp(_unit.Map.Settings.Plane()))
         {
@@ -22,9 +21,9 @@ public class ClickInputHandler : InputHandler
         _tileEntity = _unit.Map.Tile(_clickPosition);
         if (_tileEntity != null && _tileEntity.Vacant)
         {
-            _unit.PathAndArea.AreaHide(_unit.Area);
-            _unit.Path.IsEnabled = false;
-            _unit.PathAndArea.PathHide(_unit.Path);
+            _unit.PathAndArea.AreaHide(area);
+            path.IsEnabled = false;
+            _unit.PathAndArea.PathHide(path);
             tilePath = _unit.Map.PathTiles(_unit.transform.position, _clickPosition, _unit.UnitPattern.MoveRange);
             action.SafeInvoke();
         }

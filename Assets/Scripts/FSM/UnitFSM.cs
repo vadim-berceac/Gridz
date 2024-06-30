@@ -27,20 +27,17 @@ public class UnitFSM : MonoBehaviour
     private InputHandler _inputHandler;
     private Animator _animator;
     private MapEntity _map;
-    private AreaOutline _area;
-    private PathDrawer _path;
     private CameraSetter _cameraSetter;
-    private Coroutine _movingCoroutine;
-    private List<TileEntity> _tilePath;
 
+    public List<TileEntity> TilePath;
     public Health Health => _health;
     public Animator Animator => _animator;
     public UnitPattern UnitPattern => _unitPattern;
     public UnitPathAndArea PathAndArea => _pathAndArea;
     public Transform RotationNode => _rotationNode;
     public MapEntity Map => _map;
-    public AreaOutline Area => _area;
-    public PathDrawer Path => _path;
+    public InputHandler InputHandler => _inputHandler;
+    public CameraSetter CameraSetter => _cameraSetter;
 
     public void Init(MapEntity map)
     {
@@ -50,10 +47,7 @@ public class UnitFSM : MonoBehaviour
             return;
         }
         _map = map;
-        SetControlMode(_controlMode);
-        _area = Spawner.Spawn(_pathAndArea.AreaOutline, Vector3.zero, Quaternion.identity);
-        _pathAndArea.AreaShow(_area, _map, transform.position, _unitPattern);
-        _pathAndArea.PathCreate(ref _path, _map);
+        SetControlMode(_controlMode);        
         _cameraSetter = new(transform);        
         _model = Instantiate(_unitPattern.Prefab, _rotationNode);
         _model.transform.localScale = _unitPattern.ModelScale;
@@ -68,14 +62,12 @@ public class UnitFSM : MonoBehaviour
 
     private void Update()
     {
-        _currentState.UpdateState();
-        _inputHandler.Update(ref _tilePath, OnInput);
-        _pathAndArea.UpdatePath(_area, _path, _map, transform.position, _unitPattern);
+        _currentState.UpdateState();        
     }
 
     public void SetNewState(BaseState newState)
     {
-        _currentState.SwitchState(newState);
+        _currentState = newState;
     }
 
     public void SetControlMode(ControlMode mode)
@@ -105,16 +97,5 @@ public class UnitFSM : MonoBehaviour
     {
         _health.OnHealthChanged -= OnDamage;
         _health.OnDeath -= OnDeath;
-    }
-
-    private void OnInput()
-    {
-        _cameraSetter.SetCameraTarget();
-        //Movement.Move(ref _movingCoroutine, _tilePath, () =>
-        //{
-        //    Path.IsEnabled = true;
-        //    UnitPathAndArea.AreaShow(Area, Map, transform.position, UnitPattern);
-         //   _cameraSetter.EnableFreeCamera();
-        //});
     }
 }

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public abstract class BaseState
 {
     protected UnitFSM _context;
@@ -6,6 +8,8 @@ public abstract class BaseState
     protected float _crossFadeTime;
     protected int _animationLayer;
     protected string _animationName;
+
+    public Vector3 Direction;
 
     public BaseState(UnitFSM context)
     {
@@ -49,5 +53,7 @@ public abstract class BaseState
     protected void SetNewSubState(BaseState newState)
     {
         _subState = newState;
+        _subState._parentState = this;
+        _subState.EnterState();
     }
 }
