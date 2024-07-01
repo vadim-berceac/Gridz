@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aadebc97f4b5f054588bf5d424f506c0, type: 3}
-  m_Name: Ghost
+  m_Name: Ghost(Blue)
   m_EditorClassIdentifier: 
   _prefab: {fileID: 8135159938414375671, guid: b8f6e9e7bd99b1b488a899fb32d3b4d3, type: 3}
   _name: Blue Ghost

@@ -24,10 +24,16 @@ public class UnitFSM : MonoBehaviour
     [SerializeField] private Transform _rotationNode;
 
     private GameObject _model;
-    private InputHandler _inputHandler;
+    //private InputHandler _inputHandler;
     private Animator _animator;
     private MapEntity _map;
     private CameraSetter _cameraSetter;
+
+    public ControlMode CMode
+    {
+        get => _controlMode;
+        set => _controlMode = value;
+    }    
 
     public List<TileEntity> TilePath;
     public Health Health => _health;
@@ -36,7 +42,6 @@ public class UnitFSM : MonoBehaviour
     public UnitPathAndArea PathAndArea => _pathAndArea;
     public Transform RotationNode => _rotationNode;
     public MapEntity Map => _map;
-    public InputHandler InputHandler => _inputHandler;
     public CameraSetter CameraSetter => _cameraSetter;
 
     public void Init(MapEntity map)
@@ -46,8 +51,7 @@ public class UnitFSM : MonoBehaviour
             Debug.Log($"Initialization of unit {name} in impossible, UnitPatternt - missed!");
             return;
         }
-        _map = map;
-        SetControlMode(_controlMode);        
+        _map = map;       
         _cameraSetter = new(transform);        
         _model = Instantiate(_unitPattern.Prefab, _rotationNode);
         _model.transform.localScale = _unitPattern.ModelScale;
@@ -68,19 +72,6 @@ public class UnitFSM : MonoBehaviour
     public void SetNewState(BaseState newState)
     {
         _currentState = newState;
-    }
-
-    public void SetControlMode(ControlMode mode)
-    {
-        _controlMode = mode;
-        if(_controlMode == ControlMode.Player)
-        {
-            _inputHandler = new ClickInputHandler(this);
-        }
-        else
-        {
-            //_inputHandler = new AIInputHandler(this);
-        }
     }
 
     private void OnDamage(object source, float oldHP, float newHP)

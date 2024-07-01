@@ -1,9 +1,13 @@
 
 public static class FactoryFSM
 {
-    public static BaseState IdleSelectedState(UnitFSM controller)
+    public static BaseState IdleSelectedStatePlayer(UnitFSM controller)
     {
-        return new IdleSelectedState(controller);
+        return new IdleSelectedStatePlayer(controller);
+    }
+    public static BaseState IdleSelectedStateAI(UnitFSM controller)
+    {
+        return new IdleSelectedStateAI(controller);
     }
     public static BaseState IdleNotSelectedState(UnitFSM controller)
     {

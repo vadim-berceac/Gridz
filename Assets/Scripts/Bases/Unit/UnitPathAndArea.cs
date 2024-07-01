@@ -3,6 +3,7 @@ using RedBjorn.ProtoTiles.Example;
 using RedBjorn.Utils;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [CreateAssetMenu(fileName = "UnitPathAndArea", menuName = "Scriptable Objects/UnitPathAndArea")]
 public class UnitPathAndArea : ScriptableObject
@@ -45,8 +46,8 @@ public class UnitPathAndArea : ScriptableObject
 
     public void UpdatePath(AreaOutline area, PathDrawer path, MapEntity map, Vector3 position, UnitPattern stats)
     {
-        if(!path || !path.IsEnabled)
-        {
+        if (!path || !path.IsEnabled)
+        {  
             return;
         }
         var tile = map.Tile(NewInput.GroundPosition(map.Settings.Plane()));

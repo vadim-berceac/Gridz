@@ -19,11 +19,15 @@ public class MovingState : BaseState
     public override void CheckSwitchState()
     {
         base.CheckSwitchState();  
-        if(_movementComplete)
+        if(_movementComplete && _context.CMode == UnitFSM.ControlMode.Player)
         {
-            SwitchState(FactoryFSM.IdleSelectedState(_context));
+            SwitchState(FactoryFSM.IdleSelectedStatePlayer(_context));
         }
-        if(_context.TilePath != null && _nextIndex < _context.TilePath.Count && Direction != null)
+        if (_movementComplete && _context.CMode == UnitFSM.ControlMode.AI)
+        {
+            SwitchState(FactoryFSM.IdleSelectedStateAI(_context));
+        }
+        if (_context.TilePath != null && _nextIndex < _context.TilePath.Count && Direction != null)
         {            
             SetNewSubState(FactoryFSM.RotationSubState(_context));
         }

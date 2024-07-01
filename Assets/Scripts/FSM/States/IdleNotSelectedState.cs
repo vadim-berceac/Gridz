@@ -1,5 +1,4 @@
 using RedBjorn.ProtoTiles;
-
 public class IdleNotSelectedState : BaseState
 {
     private TileEntity _currentPosition;
@@ -13,9 +12,15 @@ public class IdleNotSelectedState : BaseState
     public override void CheckSwitchState()
     {
         base.CheckSwitchState();
-        if(Selector.SelectedUnit == _context)
+        if(Selector.SelectedUnit == _context 
+            && _context.CMode == UnitFSM.ControlMode.Player)
         {
-            SwitchState(FactoryFSM.IdleSelectedState(_context));
+            SwitchState(FactoryFSM.IdleSelectedStatePlayer(_context));
+        }
+        if (Selector.SelectedUnit == _context
+            && _context.CMode == UnitFSM.ControlMode.AI)
+        {
+            SwitchState(FactoryFSM.IdleSelectedStateAI(_context));
         }
     }
 
