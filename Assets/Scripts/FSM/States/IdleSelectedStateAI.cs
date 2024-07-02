@@ -11,7 +11,7 @@ public class IdleSelectedStateAI : BaseState
     {
         _crossFadeTime = 0.2f;
         _animationLayer = 0;
-        _animationName = "Idle";
+        _animationName = "IdleNotSelected";
     }
 
     public override void CheckSwitchState()

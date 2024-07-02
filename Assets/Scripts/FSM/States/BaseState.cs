@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class BaseState
@@ -9,7 +10,7 @@ public abstract class BaseState
     protected int _animationLayer;
     protected string _animationName;
 
-    public Vector3 Direction;
+    public Vector3 DirectionOfView;
 
     public BaseState(UnitFSM context)
     {
@@ -55,5 +56,14 @@ public abstract class BaseState
         _subState = newState;
         _subState._parentState = this;
         _subState.EnterState();
+    }
+
+    protected IEnumerator WaitForAnimationToEnd(string animationName, int layer, float clipEndOn)
+    {
+        _context.Animator.Play(animationName);
+        while (_context.Animator.GetCurrentAnimatorStateInfo(layer).normalizedTime < clipEndOn)
+        {
+            yield return new WaitForEndOfFrame();
+        }
     }
 }

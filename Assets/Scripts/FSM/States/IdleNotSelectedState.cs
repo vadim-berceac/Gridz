@@ -6,7 +6,7 @@ public class IdleNotSelectedState : BaseState
     {
         _crossFadeTime = 0.2f;
         _animationLayer = 0;
-        _animationName = "Idle";
+        _animationName = "IdleNotSelected";
     }
 
     public override void CheckSwitchState()
@@ -15,11 +15,13 @@ public class IdleNotSelectedState : BaseState
         if(Selector.SelectedUnit == _context 
             && _context.CMode == UnitFSM.ControlMode.Player)
         {
+            _context.StartCoroutine(WaitForAnimationToEnd("IdleSelected", 0, 1f));
             SwitchState(FactoryFSM.IdleSelectedStatePlayer(_context));
         }
         if (Selector.SelectedUnit == _context
             && _context.CMode == UnitFSM.ControlMode.AI)
         {
+            _context.StartCoroutine(WaitForAnimationToEnd("IdleSelected", 0, 1f));
             SwitchState(FactoryFSM.IdleSelectedStateAI(_context));
         }
     }

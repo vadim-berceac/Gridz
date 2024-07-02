@@ -15,7 +15,7 @@ public class RotationSubState : BaseState
 
     public override void EnterState()
     {
-        Rotate();
+        Rotate(_parentState.DirectionOfView);
     }
 
     public override void UpdateState()
@@ -24,15 +24,15 @@ public class RotationSubState : BaseState
         UpdateRotation();
     }
 
-    private void Rotate()
+    private void Rotate(Vector3 direction)
     {        
         if (_context.Map.RotationType == RotationType.LookAt)
         {
-            _targetRotation = Quaternion.LookRotation(_parentState.Direction, Vector3.up);
+            _targetRotation = Quaternion.LookRotation(direction, Vector3.up);
         }
         else
         {
-            _targetRotation = _context.Map.Settings.Flip(_parentState.Direction);
+            _targetRotation = _context.Map.Settings.Flip(direction);
         }
     }
 
