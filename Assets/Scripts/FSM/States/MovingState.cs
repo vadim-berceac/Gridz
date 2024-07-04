@@ -23,7 +23,7 @@ public class MovingState : BaseState
         {
             SwitchState(FactoryFSM.IdleSelectedStatePlayer(_context));
         }
-        if (_movementComplete && _context.CMode == UnitFSM.ControlMode.AI)
+        if (_movementComplete && _context.CMode == UnitFSM.ControlMode.AIHostile)
         {
             SwitchState(FactoryFSM.IdleSelectedStateAI(_context));
         }

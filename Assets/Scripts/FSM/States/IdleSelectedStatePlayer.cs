@@ -34,7 +34,7 @@ public class IdleSelectedStatePlayer : BaseState
             _needToMove = false;
             SwitchState(FactoryFSM.MovingState(_context));
         }
-        if(_context.CMode == UnitFSM.ControlMode.AI)
+        if(_context.CMode == UnitFSM.ControlMode.AIHostile)
         {            
             SwitchState(FactoryFSM.IdleSelectedStateAI(_context));
         }

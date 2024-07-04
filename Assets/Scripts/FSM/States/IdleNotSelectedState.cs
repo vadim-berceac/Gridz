@@ -15,13 +15,11 @@ public class IdleNotSelectedState : BaseState
         if(Selector.SelectedUnit == _context 
             && _context.CMode == UnitFSM.ControlMode.Player)
         {
-            _context.StartCoroutine(WaitForAnimationToEnd("IdleSelected", 0, 1f));
             SwitchState(FactoryFSM.IdleSelectedStatePlayer(_context));
         }
         if (Selector.SelectedUnit == _context
-            && _context.CMode == UnitFSM.ControlMode.AI)
+            && _context.CMode == UnitFSM.ControlMode.AIHostile)
         {
-            _context.StartCoroutine(WaitForAnimationToEnd("IdleSelected", 0, 1f));
             SwitchState(FactoryFSM.IdleSelectedStateAI(_context));
         }
     }
@@ -35,6 +33,8 @@ public class IdleNotSelectedState : BaseState
 
     public override void ExitState()
     {
+        base.ExitState();
+        _context.StartCoroutine(WaitForAnimationToEnd("IdleSelected", 0, 1f));
         UpdatePositionObtacle(false);
     }
 

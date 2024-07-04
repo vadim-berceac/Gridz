@@ -1,6 +1,4 @@
 using RedBjorn.ProtoTiles;
-using RedBjorn.ProtoTiles.Example;
-using RedBjorn.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +7,9 @@ public class UnitFSM : MonoBehaviour
     public enum ControlMode
     {
         Player,
-        AI
+        AIHostile,
+        AINeutral,
+        AIFreindly
     }
     [Header("Input Settings")]
     [SerializeField] private ControlMode _controlMode;
