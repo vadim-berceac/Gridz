@@ -6,11 +6,12 @@ public class TeamTurnManager : MonoBehaviour
 {
     [SerializeField][Range(0, 48)] private int _maxTurnCount;
     private int _currentTurn;
+    private int _currentSubTurn;
     private Team _activeTeam;
     private Queue<Team> _teams = new();
     private static TeamTurnManager _instance;
 
-    public int currentTurn => _currentTurn;
+    public int CurrentTurn => _currentTurn;
     public Team ActiveTeam => _activeTeam;
     public Queue<Team> Teams => _teams;
     public static TeamTurnManager Instance => _instance;
@@ -18,7 +19,7 @@ public class TeamTurnManager : MonoBehaviour
     private void Start()
     {
         Initialize();
-        StartNewTurn();
+        StartNewSubTurn();
     }
 
     private void Initialize()
@@ -38,22 +39,29 @@ public class TeamTurnManager : MonoBehaviour
         teams = new(TeamsInitializer.Instance.Teams);
     }
 
-    public void StartNewTurn()
+    public void StartNewSubTurn()
     {
         if(_currentTurn < _maxTurnCount)
         {
-            _currentTurn++;
-            if(_activeTeam != null)
+            if(_currentSubTurn < _teams.Count)
             {
-                _teams.Enqueue(_activeTeam);
+                _currentSubTurn++;
+                if (_activeTeam != null)
+                {
+                    _teams.Enqueue(_activeTeam);
+                }
+                _activeTeam = _teams.Dequeue();
+                Debug.Log(_currentTurn + " " + _activeTeam.CMode);
             }
-            _activeTeam = _teams.Dequeue();
-            Debug.Log(_currentTurn + " " + _activeTeam.CMode);
+            else
+            {
+                _currentSubTurn = 0;
+                _currentTurn ++;    
+            }
         }
         else
         {
             //invoke match end
-        }
-        //тут некорректно - ход должен переводиться только после активности всех команд в списке
+        }        
     }
 }

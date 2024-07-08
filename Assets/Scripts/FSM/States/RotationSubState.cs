@@ -15,7 +15,7 @@ public class RotationSubState : BaseState
 
     public override void EnterState()
     {
-        Rotate(_parentState.DirectionOfView);
+        Rotate(_context.DirectionOfView);
     }
 
     public override void UpdateState()

@@ -1,7 +1,5 @@
-using RedBjorn.ProtoTiles;
 public class IdleNotSelectedState : BaseState
 {
-    private TileEntity _currentPosition;
     public IdleNotSelectedState(UnitFSM context) : base(context) 
     {
         _crossFadeTime = 0.2f;
@@ -28,19 +26,13 @@ public class IdleNotSelectedState : BaseState
     {
         _context.Animator.StopPlayback();
         _context.Animator.CrossFade(_animationName, _crossFadeTime, _animationLayer);
-        UpdatePositionObtacle(true);
+        FSMMinorActions.TakePosition(true, _context);
     }
 
     public override void ExitState()
     {
         base.ExitState();
         _context.StartCoroutine(WaitForAnimationToEnd("IdleSelected", 0, 1f));
-        UpdatePositionObtacle(false);
-    }
-
-    private void UpdatePositionObtacle(bool value)
-    {
-        _currentPosition = _context.Map.Tile(_context.transform.position);
-        _currentPosition.SetObtacle(value);
+        FSMMinorActions.TakePosition(false, _context);
     }
 }

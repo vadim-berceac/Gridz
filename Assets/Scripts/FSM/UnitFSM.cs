@@ -24,7 +24,6 @@ public class UnitFSM : MonoBehaviour
     [SerializeField] private Transform _rotationNode;
 
     private GameObject _model;
-    //private InputHandler _inputHandler;
     private Animator _animator;
     private MapEntity _map;
     private CameraSetter _cameraSetter;
@@ -43,6 +42,8 @@ public class UnitFSM : MonoBehaviour
     public Transform RotationNode => _rotationNode;
     public MapEntity Map => _map;
     public CameraSetter CameraSetter => _cameraSetter;
+    public Vector3 DirectionOfView { get; set; }
+    public TileEntity CurrentPosition { get; set; }
 
     public void Init(MapEntity map)
     {

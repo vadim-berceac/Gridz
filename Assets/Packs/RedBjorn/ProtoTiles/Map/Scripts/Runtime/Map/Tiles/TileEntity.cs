@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace RedBjorn.ProtoTiles
 {
@@ -8,8 +9,10 @@ namespace RedBjorn.ProtoTiles
     {
         int CachedMovabeArea;
         int ObstacleCount;
+        private UnitFSM _obtacledBy;
         public TileData Data { get; private set; }
         public TilePreset Preset { get; private set; }
+        public UnitFSM ObtacledBy => _obtacledBy;
         MapRules Rules;
 
         public int MovableArea { get { return CachedMovabeArea; } set { CachedMovabeArea = value; } }
@@ -39,6 +42,12 @@ namespace RedBjorn.ProtoTiles
             Rules = rules;
             Preset = type;
             MovableArea = Data.MovableArea;
+        }
+
+        public void SetObtacle(bool value, UnitFSM unit)
+        {
+            _obtacledBy = unit;
+            SetObtacle(value);
         }
 
         public void SetObtacle(bool value)

@@ -10,8 +10,6 @@ public abstract class BaseState
     protected int _animationLayer;
     protected string _animationName;
 
-    public Vector3 DirectionOfView;
-
     public BaseState(UnitFSM context)
     {
         _context = context;
