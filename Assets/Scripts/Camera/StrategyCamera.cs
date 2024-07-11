@@ -2,6 +2,9 @@ using RedBjorn.ProtoTiles;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// basic coordiantes 
+// Vector3(11.4899998,15,-10.6000004)
+// Quaternion(0.3460913,-0.354817897,0.143355697,0.856606185)
 public class StrategyCamera : MonoBehaviour
 {
     [SerializeField] private float _eps = 0.1f;
@@ -14,12 +17,13 @@ public class StrategyCamera : MonoBehaviour
     private StartComponent _startComponent;
     private Vector3 _delta;
     private Vector3 _newPosition;
-    private readonly Vector3 _offset = new(11.49f, 15.00f, -10.60f);
+    private Vector3 _startCameraPosition;
     private static bool _isMovingByPlayer;
     public static bool IsMovingByPlayer => _isMovingByPlayer;
 
     private void Awake()
     {
+        _startCameraPosition = transform.position;
         _instance = this;
     }
 
@@ -96,9 +100,7 @@ public class StrategyCamera : MonoBehaviour
         {
             return;
         }
-        _newPosition = _transformToFollow.position + _offset;
-
-        transform.position = _newPosition;
+        _newPosition = _transformToFollow.position + _startCameraPosition;
+        transform.position = Vector3.Slerp(transform.position, _newPosition, 0.03f);
     }
-
 }

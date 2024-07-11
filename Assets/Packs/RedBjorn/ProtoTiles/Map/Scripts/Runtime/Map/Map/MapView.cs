@@ -4,21 +4,36 @@ namespace RedBjorn.ProtoTiles
 {
     public class MapView : MonoBehaviour
     {
-        GameObject Grid;
+        [SerializeField] private bool _createBackGround;
+        [SerializeField] private Material _backGroundMaterial;
+        [SerializeField] private Vector3 _backGroundScale = new(300, 1, 300);
+        private GameObject _grid;
+        private GameObject _backGround;
 
         public void Init(MapEntity map)
         {
-            Grid = new GameObject("Grid");
-            Grid.transform.SetParent(transform);
-            Grid.transform.localPosition = Vector3.zero;
-            map.CreateGrid(Grid.transform);
+            _grid = new GameObject("Grid");
+            _grid.transform.SetParent(transform);
+            _grid.transform.localPosition = Vector3.zero;
+            map.CreateGrid(_grid.transform);
+            if(_createBackGround)
+            {
+                _backGround = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                _backGround.transform.position = new(1, -1, 1);
+                _backGround.transform.localScale = _backGroundScale;
+                _backGround.transform.SetParent(transform);
+                _backGround.name = "BackGround";
+                _backGround.isStatic = true;
+                var renderer = _backGround.GetComponent<MeshRenderer>();
+                renderer.sharedMaterial = _backGroundMaterial;
+            }
         }
 
         public void GridEnable(bool enable)
         {
-            if (Grid)
+            if (_grid)
             {
-                Grid.SetActive(enable);
+                _grid.SetActive(enable);
             }
             else
             {
@@ -28,9 +43,9 @@ namespace RedBjorn.ProtoTiles
 
         public void GridToggle()
         {
-            if (Grid)
+            if (_grid)
             {
-                Grid.SetActive(!Grid.activeSelf);
+                _grid.SetActive(!_grid.activeSelf);
             }
             else
             {

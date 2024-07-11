@@ -19,28 +19,29 @@ public class NewInput
 
     static void Validate(Plane plane)
     {
-        if (_lastFrame.Frame != Time.frameCount)
+        if (_lastFrame.Frame == Time.frameCount)
         {
-            _lastFrame.Frame = Time.frameCount;
-            _mousePosition = Mouse.current.position.ReadValue();
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(_mousePosition), out _hit, 100f))
-            {
-                _lastFrame.OverObject = _hit.collider.gameObject;
-            }
-            else
-            {
-                _lastFrame.OverObject = null;
-            }
-            _screemCenterRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
-            _enter = 0f;
-            if (plane.Raycast(_screemCenterRay, out _enter))
-            {
-                _lastFrame.CameraGroundPosition = _screemCenterRay.GetPoint(_enter);
-            }
-            else
-            {
-                _lastFrame.CameraGroundPosition = Vector3.zero;
-            }
+            return;
+        }
+        _lastFrame.Frame = Time.frameCount;
+        _mousePosition = Mouse.current.position.ReadValue();
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(_mousePosition), out _hit, 100f))
+        {
+            _lastFrame.OverObject = _hit.collider.gameObject;
+        }
+        else
+        {
+            _lastFrame.OverObject = null;
+        }
+        _screemCenterRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
+        _enter = 0f;
+        if (plane.Raycast(_screemCenterRay, out _enter))
+        {
+            _lastFrame.CameraGroundPosition = _screemCenterRay.GetPoint(_enter);
+        }
+        else
+        {
+            _lastFrame.CameraGroundPosition = Vector3.zero;
         }
     }
 

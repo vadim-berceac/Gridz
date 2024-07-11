@@ -4,16 +4,16 @@ using static TeamsInitializer;
 
 public class TeamTurnManager : MonoBehaviour
 {
-    [SerializeField][Range(0, 48)] private int _maxTurnCount;
-    private int _currentTurn;
-    private int _currentSubTurn;
+    [SerializeField][Range(1, 48)] private int _maxTurnCount;
+    private int _currentTurn = 1;
+    private int _currentSubTurn = 0;
     private Team _activeTeam;
-    private Queue<Team> _teams = new();
+    private Queue<Team> _teamQueue;
     private static TeamTurnManager _instance;
 
     public int CurrentTurn => _currentTurn;
     public Team ActiveTeam => _activeTeam;
-    public Queue<Team> Teams => _teams;
+    public Queue<Team> TeamQueue => _teamQueue;
     public static TeamTurnManager Instance => _instance;
 
     private void Start()
@@ -24,7 +24,7 @@ public class TeamTurnManager : MonoBehaviour
 
     private void Initialize()
     {
-        CreateQueue(ref _teams);
+        CreateQueue(ref _teamQueue);
         _instance = this;
     }
 
@@ -41,27 +41,24 @@ public class TeamTurnManager : MonoBehaviour
 
     public void StartNewSubTurn()
     {
-        if(_currentTurn < _maxTurnCount)
+        _currentSubTurn++;
+        if (_currentSubTurn > 4)
         {
-            if(_currentSubTurn < _teams.Count)
-            {
-                _currentSubTurn++;
-                if (_activeTeam != null)
-                {
-                    _teams.Enqueue(_activeTeam);
-                }
-                _activeTeam = _teams.Dequeue();
-                Debug.Log(_currentTurn + " " + _activeTeam.CMode);
-            }
-            else
-            {
-                _currentSubTurn = 0;
-                _currentTurn ++;    
-            }
+            _currentSubTurn = 1;
+            _currentTurn++;
         }
-        else
+
+        if (_currentTurn >= _maxTurnCount + 1)
         {
             //invoke match end
-        }        
+            return;
+        }
+
+        if (_activeTeam != null)
+        {
+            _teamQueue.Enqueue(_activeTeam);
+        }
+        _activeTeam = _teamQueue.Dequeue();
+        Debug.Log(_currentTurn + " " + _currentSubTurn + " "+ _activeTeam.CMode);
     }
 }
