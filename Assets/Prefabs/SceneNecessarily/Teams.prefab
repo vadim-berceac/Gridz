@@ -58,3 +58,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0ec8a18d25c6e44b8c227a1009bf672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxTurnCount: 1

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using static TeamsInitializer;
 
 public class TeamTurnManager : MonoBehaviour
@@ -15,6 +16,13 @@ public class TeamTurnManager : MonoBehaviour
     public Team ActiveTeam => _activeTeam;
     public Queue<Team> TeamQueue => _teamQueue;
     public static TeamTurnManager Instance => _instance;
+    public event UnityAction<int> OnTurnChanged;
+    public event UnityAction<string> OnTeamChanged;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     private void Start()
     {
@@ -24,8 +32,7 @@ public class TeamTurnManager : MonoBehaviour
 
     private void Initialize()
     {
-        CreateQueue(ref _teamQueue);
-        _instance = this;
+        CreateQueue(ref _teamQueue);        
     }
 
     private void CreateQueue(ref Queue<Team> teams)
@@ -46,6 +53,7 @@ public class TeamTurnManager : MonoBehaviour
         {
             _currentSubTurn = 1;
             _currentTurn++;
+            OnTurnChanged.Invoke(_currentTurn);
         }
 
         if (_currentTurn >= _maxTurnCount + 1)
@@ -59,6 +67,16 @@ public class TeamTurnManager : MonoBehaviour
             _teamQueue.Enqueue(_activeTeam);
         }
         _activeTeam = _teamQueue.Dequeue();
+        OnTeamChanged.Invoke(_activeTeam.CMode.ToString());
+        RefreshTeam(_activeTeam);
         Debug.Log(_currentTurn + " " + _currentSubTurn + " "+ _activeTeam.CMode);
+    }
+
+    private void RefreshTeam(Team team)
+    {
+        foreach(var unit in team.UnitsOnTeam)
+        {
+            unit.CurrentMoveRange = unit.UnitPattern.MoveRange;
+        }
     }
 }

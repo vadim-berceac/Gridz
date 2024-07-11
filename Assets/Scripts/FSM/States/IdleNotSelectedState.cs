@@ -10,6 +10,10 @@ public class IdleNotSelectedState : BaseState
     public override void CheckSwitchState()
     {
         base.CheckSwitchState();
+        if(TeamTurnManager.Instance.ActiveTeam != _context.Team)
+        {
+            return;
+        }
         if(Selector.SelectedUnit == _context 
             && _context.CMode == UnitFSM.ControlMode.Player)
         {

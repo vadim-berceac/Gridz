@@ -1,6 +1,7 @@
 using RedBjorn.ProtoTiles;
 using System.Collections.Generic;
 using UnityEngine;
+using static TeamsInitializer;
 
 public class UnitFSM : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class UnitFSM : MonoBehaviour
 
     [Header("Rotation Node")]
     [SerializeField] private Transform _rotationNode;
-
+    
     private GameObject _model;
     private Animator _animator;
     private MapEntity _map;
@@ -44,6 +45,8 @@ public class UnitFSM : MonoBehaviour
     public CameraSetter CameraSetter => _cameraSetter;
     public Vector3 DirectionOfView { get; set; }
     public TileEntity CurrentPosition { get; set; }
+    public float CurrentMoveRange { get; set; }
+    public Team Team { get; set; }
 
     public void Init(MapEntity map)
     {
@@ -63,6 +66,7 @@ public class UnitFSM : MonoBehaviour
         _currentState.EnterState();
         _health.OnHealthChanged += OnDamage;
         _health.OnDeath += OnDeath;
+        CurrentMoveRange = _unitPattern.MoveRange;
     }
 
     private void Update()

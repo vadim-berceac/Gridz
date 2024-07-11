@@ -73,21 +73,25 @@ public class TeamsInitializer : MonoBehaviour
             if (unit.CMode == UnitFSM.ControlMode.Player)
             {
                 teams[0].UnitsOnTeam.Add(unit);
+                unit.Team = teams[0];
                 continue;
             }
             if (unit.CMode == UnitFSM.ControlMode.AIHostile)
             {
                 teams[1].UnitsOnTeam.Add(unit);
+                unit.Team = teams[1];
                 continue;
             }
             if (unit.CMode == UnitFSM.ControlMode.AINeutral)
             {
                 teams[2].UnitsOnTeam.Add(unit);
+                unit.Team = teams[2];
                 continue;
             }
             if (unit.CMode == UnitFSM.ControlMode.AIFreindly)
             {
                 teams[3].UnitsOnTeam.Add(unit);
+                unit.Team = teams[3];
             }
         }
     }

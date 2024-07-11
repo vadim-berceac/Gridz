@@ -85,6 +85,7 @@ public class MovingState : BaseState
             _context.transform.position = _targetPoint;
             _nextIndex++;
         }
+        _context.CurrentMoveRange -= path.Count - 1;
         onCompleted.SafeInvoke();
     }
 

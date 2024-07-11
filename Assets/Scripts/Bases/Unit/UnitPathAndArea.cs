@@ -3,7 +3,6 @@ using RedBjorn.ProtoTiles.Example;
 using RedBjorn.Utils;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 [CreateAssetMenu(fileName = "UnitPathAndArea", menuName = "Scriptable Objects/UnitPathAndArea")]
 public class UnitPathAndArea : ScriptableObject
@@ -14,10 +13,10 @@ public class UnitPathAndArea : ScriptableObject
     public AreaOutline AreaOutline => _areaOutline;
     public PathDrawer PathDrawer => _pathDrawer;
 
-    public void AreaShow(AreaOutline area, MapEntity map, Vector3 position, UnitPattern stats)
+    public void AreaShow(AreaOutline area, MapEntity map, Vector3 position, float moveRange)
     {
         AreaHide(area);
-        area.Show(map.WalkableBorder(position, stats.MoveRange), map);
+        area.Show(map.WalkableBorder(position, moveRange), map);
     }
 
     public void AreaHide(AreaOutline area)
@@ -44,7 +43,7 @@ public class UnitPathAndArea : ScriptableObject
         }
     }
 
-    public void UpdatePath(AreaOutline area, PathDrawer path, MapEntity map, Vector3 position, UnitPattern stats)
+    public void UpdatePath(AreaOutline area, PathDrawer path, MapEntity map, Vector3 position, float moveRange)
     {
         if (!path || !path.IsEnabled)
         {  
@@ -52,8 +51,8 @@ public class UnitPathAndArea : ScriptableObject
         }
         var tile = map.Tile(NewInput.GroundPosition(map.Settings.Plane()));
         if (tile != null && tile.Vacant)
-        {
-            var newpath = map.PathPoints(position, map.WorldPosition(tile.Position), stats.MoveRange);
+        {           
+            var newpath = map.PathPoints(position, map.WorldPosition(tile.Position), moveRange);
             path.Show(newpath, map);
             path.ActiveState();
             area.ActiveState();

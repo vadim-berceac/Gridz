@@ -24,7 +24,7 @@ public class ClickInputHandler : InputHandler
             _unit.PathAndArea.AreaHide(area);
             path.IsEnabled = false;
             _unit.PathAndArea.PathHide(path);
-            tilePath = _unit.Map.PathTiles(_unit.transform.position, _clickPosition, _unit.UnitPattern.MoveRange);
+            tilePath = _unit.Map.PathTiles(_unit.transform.position, _clickPosition, _unit.CurrentMoveRange);
             action.SafeInvoke();
         }
     }

@@ -47,7 +47,7 @@ public class IdleSelectedStatePlayer : BaseState
         _context.Animator.CrossFade(_animationName, _crossFadeTime, _animationLayer);
         _area = Spawner.Spawn(_context.PathAndArea.AreaOutline, Vector3.zero, Quaternion.identity);
         _context.PathAndArea.AreaShow(_area, _context.Map, _context.transform.position,
-            _context.UnitPattern);
+            _context.CurrentMoveRange);
         _context.PathAndArea.PathCreate(ref _path, _context.Map);
     }
 
@@ -55,7 +55,7 @@ public class IdleSelectedStatePlayer : BaseState
     {
         base.UpdateState();
         _context.PathAndArea.UpdatePath(_area, _path, _context.Map, _context.transform.position,
-           _context.UnitPattern);
+           _context.CurrentMoveRange);
         _inputHandler.Update(ref _context.TilePath, OnInput, _area, _path);       
     }
 
@@ -69,7 +69,7 @@ public class IdleSelectedStatePlayer : BaseState
     private void OnInput()
     {        
         _path.IsEnabled = true;
-        _context.PathAndArea.AreaShow(_area, _context.Map, _context.transform.position, _context.UnitPattern);
+        _context.PathAndArea.AreaShow(_area, _context.Map, _context.transform.position, _context.CurrentMoveRange);
         _needToMove = true;
     }
 }
