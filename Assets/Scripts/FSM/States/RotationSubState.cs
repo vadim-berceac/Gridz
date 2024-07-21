@@ -15,24 +15,26 @@ public class RotationSubState : BaseState
 
     public override void EnterState()
     {
-        Rotate(_context.DirectionOfView);
+        IsComplete = false;
+        _targetRotation = CalcRotate(_context.DirectionOfView);
     }
 
     public override void UpdateState()
-    {
+    {        
         base.UpdateState();
         UpdateRotation();
+        IsComplete = IsFacingTarget(_context.RotationNode.rotation, _targetRotation);
     }
 
-    private void Rotate(Vector3 direction)
+    private Quaternion CalcRotate(Vector3 direction)
     {        
         if (_context.Map.RotationType == RotationType.LookAt)
         {
-            _targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+            return Quaternion.LookRotation(direction, Vector3.up);
         }
         else
         {
-            _targetRotation = _context.Map.Settings.Flip(direction);
+            return _context.Map.Settings.Flip(direction);
         }
     }
 
@@ -40,5 +42,11 @@ public class RotationSubState : BaseState
     {
         _context.RotationNode.rotation = Quaternion.RotateTowards(
             _context.RotationNode.rotation, _targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+    }
+
+    private bool IsFacingTarget(Quaternion currentRotation, Quaternion targetRotation, float angleThreshold = 0.05f)
+    {
+        float angle = Quaternion.Angle(currentRotation, targetRotation);
+        return angle <= angleThreshold;
     }
 }

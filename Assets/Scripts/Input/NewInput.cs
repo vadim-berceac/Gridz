@@ -86,6 +86,26 @@ public class NewInput
         return Vector3.zero;
     }
 
+    public static Vector3 GroundPosition(Plane plane, LayerMask ignoreLayerMask)
+    {
+        _mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        _enter = 0f;
+        
+        RaycastHit[] hits = Physics.RaycastAll(_mouseRay, 20f, ~ignoreLayerMask);
+
+        System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
+
+        foreach (var hit in hits)
+        {
+            if (plane.Raycast(_mouseRay, out _enter))
+            {
+                return _mouseRay.GetPoint(_enter);
+            }
+        }
+
+        return Vector3.zero;
+    }
+
     public static Vector3 GroundPositionCameraOffset(Plane plane)
     {
         _mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition); 

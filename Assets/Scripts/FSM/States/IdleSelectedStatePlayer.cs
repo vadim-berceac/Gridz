@@ -7,7 +7,7 @@ public class IdleSelectedStatePlayer : BaseState
     private AreaOutline _area;
     private PathDrawer _path;
     private bool _needToMove;
-    private InputHandler _inputHandler;
+    private PathUpdater _inputHandler;
 
     public IdleSelectedStatePlayer(UnitFSM context) : base(context)
     {
@@ -19,12 +19,12 @@ public class IdleSelectedStatePlayer : BaseState
     public override void CheckSwitchState()
     {        
         base.CheckSwitchState();    
-        if(Selector.SelectedUnit == null && !_context.TilePath.Contains(_inputHandler.TileEntity) 
+        if(Selector.ActiveUnit == null && !_context.TilePath.Contains(_inputHandler.TileEntity) 
             && _inputHandler.TileEntity != null)
         {
             SwitchState(FactoryFSM.IdleNotSelectedState(_context));
         }
-        if(Selector.SelectedUnit != null && Selector.SelectedUnit != _context)
+        if(Selector.ActiveUnit != null && Selector.ActiveUnit != _context)
         {
             SwitchState(FactoryFSM.IdleNotSelectedState(_context));
         }
@@ -34,15 +34,19 @@ public class IdleSelectedStatePlayer : BaseState
             _needToMove = false;
             SwitchState(FactoryFSM.MovingState(_context));
         }
-        if(_context.CMode == UnitFSM.ControlMode.AIHostile)
+        if(_context.CMode != UnitFSM.ControlMode.Player)
         {            
             SwitchState(FactoryFSM.IdleSelectedStateAI(_context));
+        }
+        if(Selector.SelectedAsTargetUnit)
+        {
+            SwitchState(FactoryFSM.AttackState(_context));
         }
     }
 
     public override void EnterState()
     {
-        _inputHandler = new ClickInputHandler(_context);
+        _inputHandler = new PlayerPathUpdater(_context);
         _context.Animator.StopPlayback();
         _context.Animator.CrossFade(_animationName, _crossFadeTime, _animationLayer);
         _area = Spawner.Spawn(_context.PathAndArea.AreaOutline, Vector3.zero, Quaternion.identity);

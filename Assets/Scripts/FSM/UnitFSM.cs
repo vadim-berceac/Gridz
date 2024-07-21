@@ -45,6 +45,7 @@ public class UnitFSM : MonoBehaviour
     public CameraSetter CameraSetter => _cameraSetter;
     public Vector3 DirectionOfView { get; set; }
     public TileEntity CurrentPosition { get; set; }
+    public Vector3 AttackPosition { get; set; }
     public float CurrentMoveRange { get; set; }
     public Team Team { get; set; }
 

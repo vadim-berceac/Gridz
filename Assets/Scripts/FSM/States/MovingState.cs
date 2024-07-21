@@ -28,7 +28,7 @@ public class MovingState : BaseState
             SwitchState(FactoryFSM.IdleSelectedStateAI(_context));
         }
         if (_context.TilePath != null && _nextIndex < _context.TilePath.Count 
-            && _context.DirectionOfView != null)
+            && _context.DirectionOfView != Vector3.zero)
         {            
             SetNewSubState(FactoryFSM.RotationSubState(_context));
         }
@@ -37,7 +37,7 @@ public class MovingState : BaseState
     public override void EnterState()
     {
         _context.CameraSetter.SetCameraTarget();
-        Selector.BlockNewUnitSelection(true);
+        Selector.BlockNewUnitActivation(true);
         Move(_context.TilePath, OnPathEnd);
     }
 
@@ -50,8 +50,7 @@ public class MovingState : BaseState
     {
         base.ExitState();
         _context.CameraSetter.EnableFreeCamera();
-        _context.StopAllCoroutines();
-        Selector.BlockNewUnitSelection(false);
+        Selector.BlockNewUnitActivation(false);
     }
 
     public void Move(List<TileEntity> path, Action onCompleted)

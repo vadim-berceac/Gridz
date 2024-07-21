@@ -3,6 +3,8 @@ using UnityEngine;
 
 public abstract class BaseState
 {
+    public bool IsComplete;
+
     protected UnitFSM _context;
     protected BaseState _parentState;
     protected BaseState _subState;
@@ -31,6 +33,7 @@ public abstract class BaseState
     public virtual void ExitState()
     {
         _subState?.ExitState();
+        _context.StopAllCoroutines();
     }
     public virtual void CheckSwitchState()
     {

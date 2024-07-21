@@ -5,7 +5,7 @@ public class IdleSelectedStateAI : BaseState
     private AreaOutline _area;
     private PathDrawer _path;
     private bool _needToMove;
-    private InputHandler _inputHandler;
+    private PathUpdater _inputHandler;
 
     public IdleSelectedStateAI(UnitFSM context) : base(context)
     {
@@ -17,12 +17,12 @@ public class IdleSelectedStateAI : BaseState
     public override void CheckSwitchState()
     {
         base.CheckSwitchState();
-        if (Selector.SelectedUnit == null && !_context.TilePath.Contains(_inputHandler.TileEntity)
+        if (Selector.ActiveUnit == null && !_context.TilePath.Contains(_inputHandler.TileEntity)
             && _inputHandler.TileEntity != null)
         {
             SwitchState(FactoryFSM.IdleNotSelectedState(_context));
         }
-        if (Selector.SelectedUnit != null && Selector.SelectedUnit != _context)
+        if (Selector.ActiveUnit != null && Selector.ActiveUnit != _context)
         {
             SwitchState(FactoryFSM.IdleNotSelectedState(_context));
         }
@@ -30,11 +30,15 @@ public class IdleSelectedStateAI : BaseState
         {
             SwitchState(FactoryFSM.IdleSelectedStatePlayer(_context));
         }
+        if (Selector.SelectedAsTargetUnit)
+        {
+            SwitchState(FactoryFSM.AttackState(_context));
+        }
     }
 
     public override void EnterState()
     {
-        _inputHandler = new AIInputHandler(_context);
+        _inputHandler = new AIPathUpdater(_context);
         _context.Animator.StopPlayback();
         _context.Animator.CrossFade(_animationName, _crossFadeTime, _animationLayer);
     }

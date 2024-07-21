@@ -4,9 +4,9 @@ using RedBjorn.Utils;
 using System;
 using System.Collections.Generic;
 
-public class ClickInputHandler : InputHandler
+public class PlayerPathUpdater : PathUpdater
 {
-    public ClickInputHandler(UnitFSM unit) : base(unit)
+    public PlayerPathUpdater(UnitFSM unit) : base(unit)
     {
 
     }

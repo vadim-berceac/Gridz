@@ -21,6 +21,10 @@ public static class FactoryFSM
     {
         return new RotationSubState(controller);
     }
+    public static BaseState AttackState(UnitFSM controller)
+    {
+        return new AttackState(controller);
+    }
     public static BaseState WalkState(UnitFSM controller)
     {
         //return new StateWalk(controller);

@@ -3,9 +3,9 @@ using RedBjorn.ProtoTiles.Example;
 using System;
 using System.Collections.Generic;
 
-public class AIInputHandler : InputHandler
+public class AIPathUpdater : PathUpdater
 {
-    public AIInputHandler(UnitFSM unit) : base(unit)
+    public AIPathUpdater(UnitFSM unit) : base(unit)
     {
     }
 
