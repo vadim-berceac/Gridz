@@ -47,6 +47,7 @@ public class UnitFSM : MonoBehaviour
     public TileEntity CurrentPosition { get; set; }
     public Vector3 AttackPosition { get; set; }
     public float CurrentMoveRange { get; set; }
+    public int CurrentAttackRadius { get; set; }
     public Team Team { get; set; }
 
     public void Init(MapEntity map)
@@ -68,6 +69,7 @@ public class UnitFSM : MonoBehaviour
         _health.OnHealthChanged += OnDamage;
         _health.OnDeath += OnDeath;
         CurrentMoveRange = _unitPattern.MoveRange;
+        CurrentAttackRadius = _unitPattern.AttackRadius;
     }
 
     private void Update()

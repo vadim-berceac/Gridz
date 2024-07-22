@@ -18,3 +18,4 @@ MonoBehaviour:
   _maxHealthValue: 20
   _moveSpeed: 2
   _moveRange: 3
+  _attackRadius: 2

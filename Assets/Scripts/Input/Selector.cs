@@ -1,3 +1,4 @@
+using RedBjorn.ProtoTiles;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -79,7 +80,7 @@ public class Selector : MonoBehaviour
 
     private void HandleRightButtonMouseClick()
     {
-        if(!_activeUnit)
+        if (!_activeUnit)
         {
             _selectedAsTargetUnit = null;
             return;
@@ -99,9 +100,25 @@ public class Selector : MonoBehaviour
         {
             return;
         }
+        var result = CheckRadius(_activeUnit, _activeUnit.CurrentAttackRadius, temp.CurrentPosition);
+        if (!result)
+        {            
+           return;
+        }
         _selectedAsTargetUnit = temp;
 
         Debug.Log(_selectedAsTargetUnit.name);
+    }
+
+    private bool CheckRadius(UnitFSM unit, int radiusInTiles, TileEntity targetTile)
+    {
+        var path = unit.Map.LineTilePositions(unit.transform.position, unit.Map.WorldPosition(targetTile));
+        Debug.Log(path.Count);
+        if (path.Count > radiusInTiles + 1)
+        {
+            return false;
+        }
+        return true;
     }
 
     private void OnDisable()
