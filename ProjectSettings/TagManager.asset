@@ -3,12 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - ship
+  - asteroid
+  - CameraTarget
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Unit
+  - 
   - Water
   - UI
   - 
@@ -18,7 +21,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Character
   - 
   - 
   - 
