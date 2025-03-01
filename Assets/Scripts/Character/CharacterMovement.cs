@@ -97,8 +97,9 @@ public class CharacterMovement : GravitationObject
         MovementType = MovementTypes.MovementType.None;
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
+        base.Update();
         UpdateInput();
         SelectCurve();
         UpdateSpeed();

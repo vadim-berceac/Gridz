@@ -26,16 +26,20 @@ public class GravitationObject : MonoBehaviour
       CashedTransform = transform;
       CharacterController = GetComponent<CharacterController>();
    }
-   
-   private void FixedUpdate()
+
+   protected virtual void Update()
    {
       UpdateGravity();
+   }
+   
+   protected virtual void FixedUpdate()
+   {
       UpdateGrounded();
    }
 
    private void UpdateGravity()
    {
-      CharacterController.ApplyGravitation(ref _currentFallSpeed, ref _isGrounded, GravityConstants.MaxFallSpeed,
+      CharacterController.ApplyGravitation(ref _currentFallSpeed, _isGrounded, GravityConstants.MaxFallSpeed,
          GravityConstants.GravityForce);
    }
 
@@ -44,9 +48,11 @@ public class GravitationObject : MonoBehaviour
    {
       var spherePos = CashedTransform.position + GroundOffset;
       
-      var hits = Physics.OverlapSphere(spherePos, SphereRadius,GroundLayerMask);
+      var hitColliders = new Collider[32]; 
+      
+      var hitsCount = Physics.OverlapSphereNonAlloc(spherePos, SphereRadius, hitColliders, GroundLayerMask);
 
-      if (hits.Length > 0)
+      if (hitsCount > 0)
       {
          _isGrounded = true;
          return;

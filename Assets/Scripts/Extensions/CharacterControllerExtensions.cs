@@ -7,10 +7,8 @@ public static class CharacterControllerExtensions
 {
     [BurstCompile]
     public static void ApplyGravitation(this CharacterController controller, ref float currentFallSpeed,
-        ref bool isGrounded, float maxFallSpeed, float gravityForce)
+        bool isGrounded, float maxFallSpeed, float gravityForce)
     {
-        //isGrounded = controller.isGrounded;
-
         if (isGrounded && currentFallSpeed < 0)
         {
             currentFallSpeed = -2f;
