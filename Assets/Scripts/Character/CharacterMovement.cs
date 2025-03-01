@@ -1,12 +1,10 @@
 using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 using Zenject;
 
 public class CharacterMovement : GravitationObject
 {
-    [field: SerializeField] public bool UsePlayerInput { get; private set; }
     [field: SerializeField] public MovementTypes.MovementType MovementType { get; private set; }
     
     [field:Header("Rotation Settings")]
@@ -29,6 +27,7 @@ public class CharacterMovement : GravitationObject
     [field: SerializeField] public float JumpHeight { get; private set; } = 2f;
     
     public static UnityAction<CharacterMovement> OnCharacterSelected;
+    public static CharacterMovement SelectedCharacter { get; private set; }
     public Vector3 CorrectedDirection { get; private set; }
     public float CurrentSpeed { get; private set; }
     public bool IsJump => _isJumping;
@@ -37,7 +36,8 @@ public class CharacterMovement : GravitationObject
     
     private bool _previousUsePlayerInput;
     private Vector2 _nominalMovementDirection;
-    private GameInput _gameInput;
+    private ICharacterInput _characterInput;
+    private ICharacterInput _inputByPlayer;
     private CameraSystem _cameraSystem;
     private AnimationCurve _selectedMovementCurve;
     private bool _rotateByCamera;
@@ -48,53 +48,60 @@ public class CharacterMovement : GravitationObject
     private const float SpeedChangeRate = 4f;
 
     [Inject]
-    private void Construct(GameInput gameInput, CameraSystem cameraSystem)
+    private void Construct(CameraSystem cameraSystem, PlayerInput playerInput)
     {
-        _gameInput = gameInput;
         _cameraSystem = cameraSystem;
-    }
-    
-    private void OnValidate()
-    {
-        if (_previousUsePlayerInput == UsePlayerInput)
-        {
-          return;
-        }
-        CheckIsPlayer(); 
-        _previousUsePlayerInput = UsePlayerInput; 
+        _inputByPlayer = playerInput;
     }
 
     protected override void Initialize()
     {
         base.Initialize();
+        
+        _characterInput = new AICharacterInput();
+        
         CorrectedDirection = CashedTransform.position;
-        _previousUsePlayerInput = UsePlayerInput;
         _surfaceSlider = new SurfaceSlider();
-        _gameInput.Jump.performed += OnJump;
         OnCharacterSelected += OnSelect;
-       CheckIsPlayer();
-    }
-
-    private void CheckIsPlayer()
-    {
-        if (!UsePlayerInput)
-        {
-            MovementType = MovementTypes.MovementType.None;
-            OnCharacterSelected?.Invoke(null);
-            return;
-        }
-        MovementType = MovementTypes.MovementType.DotWeen;
-        OnCharacterSelected?.Invoke(this);
+        SubscribeInputs();
     }
 
     private void OnSelect(CharacterMovement characterMovement)
     {
-        if (_cameraSystem.SelectedCharacter == this)
+        if (characterMovement != this)
         {
-            MovementType = MovementTypes.MovementType.DotWeen;
             return;
         }
-        MovementType = MovementTypes.MovementType.None;
+        
+        if (SelectedCharacter != null)
+        {
+            SelectedCharacter.UnsubscribeInputs();
+            SelectedCharacter._characterInput = new AICharacterInput();
+            SelectedCharacter.MovementType = MovementTypes.MovementType.None;
+            SelectedCharacter.SubscribeInputs();
+            _cameraSystem.Select(null);
+        }
+
+        UnsubscribeInputs();
+        SelectedCharacter = this;
+        _characterInput = _inputByPlayer;
+        MovementType = MovementTypes.MovementType.DotWeen;
+        SubscribeInputs();
+        _cameraSystem.Select(this);
+    }
+
+    private void SubscribeInputs()
+    {
+        _characterInput.OnJump += OnJump;
+        _characterInput.OnSneak += HandleSneak;
+        _characterInput.OnSprint += HandleSprint;
+    }
+
+    private void UnsubscribeInputs()
+    {
+        _characterInput.OnJump -= OnJump;
+        _characterInput.OnSneak -= HandleSneak;
+        _characterInput.OnSprint -= HandleSprint;
     }
 
     protected override void Update()
@@ -120,7 +127,7 @@ public class CharacterMovement : GravitationObject
     }
 
     [BurstCompile]
-    private void OnJump(InputAction.CallbackContext context)
+    private void OnJump()
     {
         if (_isJumping || !IsGrounded)
         {
@@ -128,6 +135,16 @@ public class CharacterMovement : GravitationObject
         }
         _isJumping = true;
         CharacterController.Jump(MovementType, CurrentSpeed, JumpHeight, JumpDuration,() => _isJumping = false);
+    }
+    
+    private void HandleSprint(bool isRunning)
+    {
+        _isRunning = isRunning;
+    }
+
+    private void HandleSneak(bool isSneaking)
+    {
+        _isSneaking = isSneaking;
     }
     
     [BurstCompile]
@@ -154,10 +171,7 @@ public class CharacterMovement : GravitationObject
     [BurstCompile]
     private void UpdateInput()
     {
-        _nominalMovementDirection = _gameInput.Move.ReadValue<Vector2>();
-
-        _isRunning = _gameInput.Sprint.ReadValue<float>() > 0;
-        _isSneaking = _gameInput.Sneak.ReadValue<float>() > 0;
+        _nominalMovementDirection = _characterInput.GetMoveDirection();
         
         CorrectedDirection = _surfaceSlider.UpdateDirection(CashedTransform, _nominalMovementDirection);
     }
@@ -181,7 +195,7 @@ public class CharacterMovement : GravitationObject
 
     private void OnDisable()
     {
-        _gameInput.Jump.performed -= OnJump;
+        UnsubscribeInputs();
         OnCharacterSelected -= OnSelect;
     }
 }

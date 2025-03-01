@@ -18,20 +18,19 @@ public class CameraSystem : MonoBehaviour
     [field:SerializeField] public string CameraTag {get; private set;} = "CameraTarget";
     [field:SerializeField] public CharacterMovement SelectedCharacter {get; private set;}
     
-    private GameInput _gameInput;
+    private PlayerInput _gameInput;
     public Vector2 LookInput {get; private set;}
     private const float Threshold = 0.01f;
     private float _targetYaw;
     private float _targetPitch;
     
     [Inject]
-    private void Construct(GameInput gameInput)
+    private void Construct(PlayerInput playerInput)
     {
-        CharacterMovement.OnCharacterSelected += OnSelect;
-        _gameInput = gameInput;
+        _gameInput = playerInput;
     }
 
-    private void OnSelect(CharacterMovement characterMovement)
+    public void Select(CharacterMovement characterMovement)
     {
         if (characterMovement == null)
         {
@@ -70,7 +69,7 @@ public class CameraSystem : MonoBehaviour
     [BurstCompile]
     private void UpdateLookInput()
     {
-        LookInput = _gameInput.Look.ReadValue<Vector2>();
+        LookInput = _gameInput.GetLookDirection();
     }
 
     [BurstCompile]
@@ -97,10 +96,5 @@ public class CameraSystem : MonoBehaviour
     public float GetCameraYaw()
     {
         return MainCamera.transform.eulerAngles.y;
-    }
-
-    private void OnDisable()
-    {
-        CharacterMovement.OnCharacterSelected -= OnSelect;
     }
 }
