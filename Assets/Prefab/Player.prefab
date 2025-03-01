@@ -128,6 +128,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be3f80b171b9004ca9402de3117bd57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <GroundLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 1
+  <GroundOffset>k__BackingField: {x: 0, y: -0.8, z: 0}
+  <SphereRadius>k__BackingField: 0.3
   <UsePlayerInput>k__BackingField: 0
   <MovementType>k__BackingField: 1
   <RotationSpeed>k__BackingField: 4

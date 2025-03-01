@@ -9,7 +9,7 @@ public static class CharacterControllerExtensions
     public static void ApplyGravitation(this CharacterController controller, ref float currentFallSpeed,
         ref bool isGrounded, float maxFallSpeed, float gravityForce)
     {
-        isGrounded = controller.isGrounded;
+        //isGrounded = controller.isGrounded;
 
         if (isGrounded && currentFallSpeed < 0)
         {
