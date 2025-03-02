@@ -121,8 +121,8 @@ MonoBehaviour:
     y: 720
     width: 1955
     height: 573
-  m_MinSize: {x: 50, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 51, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 14}
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 799
+    y: 744
     width: 1954
     height: 547
   m_SerializedDataModeController:
@@ -458,7 +458,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: c2b80000
     m_LastClickedID: 47298
-    m_ExpandedIDs: 0000000018b800001ab800001cb800001eb80000aab80000bcb8000000ca9a3b
+    m_ExpandedIDs: 000000002ab800002cb800002eb8000030b8000032b80000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -487,7 +487,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000018b800001ab800001cb800001eb80000
+    m_ExpandedIDs: 000000002ab800002cb800002eb8000030b8000032b80000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -566,8 +566,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1955
-    y: 79
+    x: 1956
+    y: 24
     width: 604
     height: 1267
   m_SerializedDataModeController:
@@ -616,7 +616,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 79
+    y: 24
     width: 483
     height: 694
   m_SerializedDataModeController:
@@ -633,8 +633,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: eafaffff
-      m_LastClickedID: -1302
+      m_SelectedIDs: 
+      m_LastClickedID: 0
       m_ExpandedIDs: 7afafefff8faffff7ab40000b8b40000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -681,8 +681,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 484
-    y: 79
+    x: 485
+    y: 24
     width: 1469
     height: 694
   m_SerializedDataModeController:
@@ -1255,7 +1255,7 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: 0.11426885, y: 0.6008665, z: -0.087316364, w: 0.78632087}
+  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
   m_LastSceneViewOrtho: 0
   m_Viewpoint:
     m_SceneView: {fileID: 17}

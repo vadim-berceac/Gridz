@@ -35,6 +35,11 @@ public class AICharacterInput: ICharacterInput
     {
         
     }
+
+    public void ResetHoldTarget()
+    {
+        
+    }
     
     // Пример использования в AI
     private void ToUpdate()

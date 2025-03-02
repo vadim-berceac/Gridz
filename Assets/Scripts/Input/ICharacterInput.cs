@@ -13,4 +13,6 @@ public interface ICharacterInput
     public event Action<bool> OnDrawWeapon;
     public event Action<bool> OnSprint; 
     public event Action<bool> OnSneak;
+
+    public void ResetHoldTarget();
 }

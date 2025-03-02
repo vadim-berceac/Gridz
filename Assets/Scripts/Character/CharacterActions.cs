@@ -213,7 +213,7 @@ public class CharacterActions : GravitationObject
 
         if (Targeting.Targets.Count < 1)
         {
-            _isTargetLock = false;
+            _characterInput.ResetHoldTarget();
             return;
         }
         Targeting.UpdateTarget();

@@ -47,6 +47,12 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         SubscribeToActions();
     }
 
+    public void ResetHoldTarget()
+    {
+        _isTargetLock = false;
+        OnHoldTarget?.Invoke(false);
+    }
+
     private void FindActions()
     {
         InputActionMapGame = inputActionAsset.FindActionMap("Game");
