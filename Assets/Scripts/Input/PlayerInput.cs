@@ -29,12 +29,14 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     
     private Vector2 _moveDirection;
     private Vector2 _lookDirection;
+    private bool _isWeaponDrawn;
+    private bool _isTargetLock;
     
     public event Action OnAttack;
     public event Action OnInteract;
     public event Action OnJump;
-    public event Action OnHoldTarget;
-    public event Action OnDrawWeapon;
+    public event Action<bool> OnHoldTarget;
+    public event Action<bool> OnDrawWeapon;
     public event Action<bool> OnSprint;
     public event Action<bool> OnSneak;
 
@@ -116,8 +118,18 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Attack.performed += ctx => OnAttack?.Invoke();
         Interact.performed += ctx => OnInteract?.Invoke();
         Jump.performed += ctx => OnJump?.Invoke();
-        HoldTarget.performed += ctx => OnHoldTarget?.Invoke();
-        DrawWeapon.performed += ctx => OnDrawWeapon?.Invoke();
+
+        HoldTarget.performed += ctx =>
+        {
+            _isTargetLock = !_isTargetLock;
+            OnHoldTarget?.Invoke(_isTargetLock);
+        };
+        
+        DrawWeapon.performed += ctx => 
+        {
+            _isWeaponDrawn = !_isWeaponDrawn; 
+            OnDrawWeapon?.Invoke(_isWeaponDrawn);
+        };
         
         Sprint.performed += ctx => OnSprint?.Invoke(true);
         Sprint.canceled += ctx => OnSprint?.Invoke(false);

@@ -26,6 +26,9 @@ public class CharacterActions : GravitationObject
     [field: SerializeField] public float JumpDuration { get; private set; } = 0.5f;
     [field: SerializeField] public float JumpHeight { get; private set; } = 2f;
     
+    [field:Header("Targeting Settings")]
+    [field: SerializeField] public CharacterTargeting Targeting{ get; private set; }
+    
     public static UnityAction<CharacterActions> OnCharacterSelected;
     public static CharacterActions SelectedCharacter { get; private set; }
     public Vector3 CorrectedDirection { get; private set; }
@@ -33,6 +36,8 @@ public class CharacterActions : GravitationObject
     public bool IsJump => _isJumping;
     public bool IsRunning => _isRunning;
     public bool IsSneaking => _isSneaking;
+    public bool IsTargetLock => _isTargetLock;
+    public bool IsDrawWeapon => _isDrawWeapon;
     
     private bool _previousUsePlayerInput;
     private Vector2 _nominalMovementDirection;
@@ -45,6 +50,8 @@ public class CharacterActions : GravitationObject
     private bool _isJumping;
     private bool _isRunning;
     private bool _isSneaking;
+    private bool _isTargetLock;
+    private bool _isDrawWeapon;
     private const float SpeedChangeRate = 4f;
 
     [Inject]
@@ -80,6 +87,7 @@ public class CharacterActions : GravitationObject
             SelectedCharacter.MovementType = MovementTypes.MovementType.None;
             SelectedCharacter.SubscribeInputs();
             _cameraSystem.Select(null);
+            _rotateByCamera = false;
         }
 
         UnsubscribeInputs();
@@ -88,6 +96,7 @@ public class CharacterActions : GravitationObject
         MovementType = MovementTypes.MovementType.DotWeen;
         SubscribeInputs();
         _cameraSystem.Select(this);
+        _rotateByCamera = true;
     }
 
     private void SubscribeInputs()
@@ -95,6 +104,8 @@ public class CharacterActions : GravitationObject
         _characterInput.OnJump += OnJump;
         _characterInput.OnSneak += HandleSneak;
         _characterInput.OnSprint += HandleSprint;
+        _characterInput.OnHoldTarget += HandleTargetLock;
+        _characterInput.OnDrawWeapon += HandleDrawWeapon;
     }
 
     private void UnsubscribeInputs()
@@ -102,6 +113,8 @@ public class CharacterActions : GravitationObject
         _characterInput.OnJump -= OnJump;
         _characterInput.OnSneak -= HandleSneak;
         _characterInput.OnSprint -= HandleSprint;
+        _characterInput.OnHoldTarget -= HandleTargetLock;
+        _characterInput.OnDrawWeapon -= HandleDrawWeapon;
     }
 
     protected override void Update()
@@ -110,10 +123,9 @@ public class CharacterActions : GravitationObject
         UpdateInput();
         SelectCurve();
         UpdateSpeed();
-        CheckCameraSelection();
+        UpdateTargeting();
         CashedTransform.Move(CharacterController, MovementType, CorrectedDirection, CurrentSpeed, Time.deltaTime, _isJumping);
-        CashedTransform.RotateCombined(MovementType, _nominalMovementDirection, RotationSpeed, 
-            Time.deltaTime, _rotateByCamera, _cameraSystem.GetCameraYaw());
+        Rotate();
     }
 
     [BurstCompile]
@@ -146,6 +158,16 @@ public class CharacterActions : GravitationObject
     {
         _isSneaking = isSneaking;
     }
+
+    private void HandleTargetLock(bool isTargetLocked)
+    {
+        _isTargetLock = isTargetLocked;
+    }
+
+    private void HandleDrawWeapon(bool isDrawWeapon)
+    {
+        _isDrawWeapon = isDrawWeapon;
+    }
     
     [BurstCompile]
     private void UpdateSpeed()
@@ -169,22 +191,40 @@ public class CharacterActions : GravitationObject
     }
 
     [BurstCompile]
+    private void Rotate()
+    {
+        if (Targeting.TargetPosition == Vector3.zero || !_isTargetLock)
+        {
+            CashedTransform.RotateCombined(MovementType, _nominalMovementDirection, RotationSpeed, 
+                Time.deltaTime, _rotateByCamera, _cameraSystem.GetCameraYaw());
+            return;
+        }
+        CashedTransform.RotateCombined(MovementType, Targeting.TargetPosition, RotationSpeed, 
+            Time.deltaTime, false, _cameraSystem.GetCameraYaw());
+    }
+
+    [BurstCompile]
+    private void UpdateTargeting()
+    {
+        if (!_isTargetLock)
+        {
+            return;
+        }
+
+        if (Targeting.Targets.Count < 1)
+        {
+            _isTargetLock = false;
+            return;
+        }
+        Targeting.UpdateTarget();
+    }
+
+    [BurstCompile]
     private void UpdateInput()
     {
         _nominalMovementDirection = _characterInput.GetMoveDirection();
         
         CorrectedDirection = _surfaceSlider.UpdateDirection(CashedTransform, _nominalMovementDirection);
-    }
-    
-    [BurstCompile]
-    private void CheckCameraSelection()
-    {
-        if (_cameraSystem.SelectedCharacter != this)
-        {
-            _rotateByCamera = false;
-            return;
-        }
-        _rotateByCamera = true;
     }
     
     [BurstCompile]

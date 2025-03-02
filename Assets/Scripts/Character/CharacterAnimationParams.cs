@@ -11,6 +11,8 @@ public abstract class CharacterAnimationParams : CharacterActions
    private int _jumpHash;
    private int _runningHash;
    private int _sneakingHash;
+   private int _targetLockHash;
+   private int _drawWeaponHash;
    private int _currentSpeedHash;
    private int _inputXHash;
    private int _inputZHash;
@@ -35,6 +37,8 @@ public abstract class CharacterAnimationParams : CharacterActions
       _jumpHash = Animator.StringToHash("Jump");
       _runningHash = Animator.StringToHash("Run");
       _sneakingHash = Animator.StringToHash("Sneak");
+      _targetLockHash = Animator.StringToHash("TargetLock");
+      _drawWeaponHash = Animator.StringToHash("DrawWeapon");
       _currentSpeedHash = Animator.StringToHash("CurrentSpeed");
       _inputXHash = Animator.StringToHash("InputX");
       _inputZHash = Animator.StringToHash("InputZ");
@@ -47,6 +51,8 @@ public abstract class CharacterAnimationParams : CharacterActions
       Animator.SetBool(_jumpHash, IsJump);
       Animator.SetBool(_runningHash, IsRunning);
       Animator.SetBool(_sneakingHash, IsSneaking);
+      Animator.SetBool(_targetLockHash, IsTargetLock);
+      Animator.SetBool(_drawWeaponHash, IsDrawWeapon);
       Animator.SetFloat(_currentSpeedHash, CurrentSpeed);
       Animator.SetFloat(_inputXHash, CorrectedDirection.x);
       Animator.SetFloat(_inputZHash, CorrectedDirection.z);

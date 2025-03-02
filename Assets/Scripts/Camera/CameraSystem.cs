@@ -15,7 +15,6 @@ public class CameraSystem : MonoBehaviour
     [SerializeField] private float rotationKoef = 1f;
     
     [field:Header("Player")]
-    [field:SerializeField] public string CameraTag {get; private set;} = "CameraTarget";
     [field:SerializeField] public CharacterActions SelectedCharacter {get; private set;}
     
     private PlayerInput _gameInput;
@@ -38,7 +37,7 @@ public class CameraSystem : MonoBehaviour
             SetTarget(null);
             return;
         }
-        var target = characterActions.transform.FindObjectsWithTag(CameraTag)[0];
+        var target = characterActions.transform.FindObjectsWithTag(TagsAndLayersConst.CameraTargetTag)[0];
         if (target == null)
         {
             SelectedCharacter = null;

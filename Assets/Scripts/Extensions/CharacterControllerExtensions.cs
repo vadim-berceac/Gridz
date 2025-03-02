@@ -15,15 +15,11 @@ public static class CharacterControllerExtensions
         }
         else
         {
-            currentFallSpeed -= gravityForce * Time.deltaTime;
+            currentFallSpeed -= gravityForce * Time.fixedDeltaTime;
             currentFallSpeed = Mathf.Max(currentFallSpeed, -maxFallSpeed);
-            if (Mathf.Abs(currentFallSpeed) < gravityForce)
-            {
-                currentFallSpeed = -gravityForce;
-            }
         }
        
-        var moveVector = currentFallSpeed * Time.deltaTime * Vector3.up;
+        var moveVector = currentFallSpeed * 0.1f * Vector3.up;
       
         controller.Move(moveVector);
     }

@@ -9,8 +9,8 @@ public interface ICharacterInput
     public event Action OnAttack;
     public event Action OnInteract;
     public event Action OnJump;
-    public event Action OnHoldTarget;
-    public event Action OnDrawWeapon;
+    public event Action<bool> OnHoldTarget;
+    public event Action<bool> OnDrawWeapon;
     public event Action<bool> OnSprint; 
     public event Action<bool> OnSneak;
 }

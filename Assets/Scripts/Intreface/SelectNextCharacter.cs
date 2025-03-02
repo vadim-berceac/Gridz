@@ -1,15 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class SelectNextCharacter : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI textMesh;
     private List<CharacterActions> _chars;
     private int _currentIndex = -1;
 
     private void Awake()
     {
         _chars = FindObjectsByType<CharacterActions>(FindObjectsSortMode.None).ToList();
+        textMesh.text = "";
        // Debug.LogWarning(_chars.Count);
     }
 
@@ -25,6 +28,7 @@ public class SelectNextCharacter : MonoBehaviour
     {
         if (_chars == null || _chars.Count == 0)
         {
+            textMesh.text = "";
             return null; // Возвращаем null, если список пустой или не инициализирован
         }
 
@@ -35,6 +39,8 @@ public class SelectNextCharacter : MonoBehaviour
         {
             _currentIndex = 0;
         }
+        
+        textMesh.text = _chars[_currentIndex].gameObject.name;
 
         return _chars[_currentIndex];
     }

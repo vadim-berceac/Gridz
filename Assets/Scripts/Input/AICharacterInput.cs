@@ -11,8 +11,8 @@ public class AICharacterInput: ICharacterInput
     public event Action OnAttack;
     public event Action OnInteract;
     public event Action OnJump;
-    public event Action OnHoldTarget;
-    public event Action OnDrawWeapon;
+    public event Action<bool> OnHoldTarget;
+    public event Action<bool> OnDrawWeapon;
     public event Action<bool> OnSprint;
     public event Action<bool> OnSneak;
 
@@ -22,8 +22,8 @@ public class AICharacterInput: ICharacterInput
     public void TriggerAttack() => OnAttack?.Invoke();
     public void TriggerInteract() => OnInteract?.Invoke();
     public void TriggerJump() => OnJump?.Invoke();
-    public void TriggerHoldTarget() => OnHoldTarget?.Invoke();
-    public void TriggerDrawWeapon() => OnDrawWeapon?.Invoke();
+    public void TriggerHoldTarget(bool value) => OnHoldTarget?.Invoke(value);
+    public void TriggerDrawWeapon(bool value) => OnDrawWeapon?.Invoke(value);
     public void SetSprinting(bool value) => OnSprint?.Invoke(value);
     public void SetSneaking(bool value) => OnSneak?.Invoke(value);
 
