@@ -27,7 +27,7 @@
                     "name": "Attack",
                     "type": "Button",
                     "id": "6c2ab1b8-8984-453a-af3d-a3c78ae1679a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -90,6 +90,24 @@
                     "name": "Sneak",
                     "type": "Button",
                     "id": "b2fcc7c5-76f3-4a27-a96f-6047012551f2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HoldTarget",
+                    "type": "Button",
+                    "id": "d5fead81-0a56-4a8e-9bf5-0d2b2098c6c8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DrawWeapon",
+                    "type": "Button",
+                    "id": "57e36231-15c5-46f9-a0d6-94ae0638baa5",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -490,6 +508,28 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Sneak",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9fdd39a8-5168-45c5-ae99-62951785105a",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "HoldTarget",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ace13c55-b71c-4536-a178-61af23c3acf0",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "DrawWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -16,7 +16,7 @@ public class CameraSystem : MonoBehaviour
     
     [field:Header("Player")]
     [field:SerializeField] public string CameraTag {get; private set;} = "CameraTarget";
-    [field:SerializeField] public CharacterMovement SelectedCharacter {get; private set;}
+    [field:SerializeField] public CharacterActions SelectedCharacter {get; private set;}
     
     private PlayerInput _gameInput;
     public Vector2 LookInput {get; private set;}
@@ -30,22 +30,22 @@ public class CameraSystem : MonoBehaviour
         _gameInput = playerInput;
     }
 
-    public void Select(CharacterMovement characterMovement)
+    public void Select(CharacterActions characterActions)
     {
-        if (characterMovement == null)
+        if (characterActions == null)
         {
             SelectedCharacter = null;
             SetTarget(null);
             return;
         }
-        var target = characterMovement.transform.FindObjectsWithTag(CameraTag)[0];
+        var target = characterActions.transform.FindObjectsWithTag(CameraTag)[0];
         if (target == null)
         {
             SelectedCharacter = null;
             SetTarget(null);
             return;
         }
-        SelectedCharacter = characterMovement;
+        SelectedCharacter = characterActions;
         SetTarget(target.transform);
     }
 

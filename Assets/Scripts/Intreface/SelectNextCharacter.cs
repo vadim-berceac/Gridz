@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SelectNextCharacter : MonoBehaviour
 {
-    private List<CharacterMovement> _chars;
+    private List<CharacterActions> _chars;
     private int _currentIndex = -1;
 
     private void Awake()
     {
-        _chars = FindObjectsByType<CharacterMovement>(FindObjectsSortMode.None).ToList();
+        _chars = FindObjectsByType<CharacterActions>(FindObjectsSortMode.None).ToList();
        // Debug.LogWarning(_chars.Count);
     }
 
@@ -17,11 +17,11 @@ public class SelectNextCharacter : MonoBehaviour
     {
         if (_chars.Count > 0)
         {
-            CharacterMovement.OnCharacterSelected(GetNextCharacter());
+            CharacterActions.OnCharacterSelected(GetNextCharacter());
         }
     }
     
-    private CharacterMovement GetNextCharacter()
+    private CharacterActions GetNextCharacter()
     {
         if (_chars == null || _chars.Count == 0)
         {

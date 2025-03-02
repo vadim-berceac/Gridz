@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7817768167163048753}
   - component: {fileID: 6068923808275461288}
-  - component: {fileID: 563191570593719675}
   - component: {fileID: -1446372247783298460}
   - component: {fileID: 1086750175022482036}
   m_Layer: 0
@@ -68,19 +67,6 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
---- !u!114 &563191570593719675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1653341817605386156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 630a90a7f95ea814a9c49bafef421cf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 686169788017212363, guid: 7d0b273caadb7f04ab2f44251420c3d3, type: 3}
 --- !u!114 &-1446372247783298460
 MonoBehaviour:
   m_ObjectHideFlags: 0

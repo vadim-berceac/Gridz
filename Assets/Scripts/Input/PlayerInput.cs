@@ -17,6 +17,8 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     protected InputAction Jump { get; private set; }
     protected InputAction Sprint { get; private set; }
     protected InputAction Sneak { get; private set; }
+    protected InputAction HoldTarget { get; private set; }
+    protected InputAction DrawWeapon { get; private set; }
     
     // UI Input Actions
     public InputAction Navigate { get; private set; }
@@ -31,6 +33,8 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     public event Action OnAttack;
     public event Action OnInteract;
     public event Action OnJump;
+    public event Action OnHoldTarget;
+    public event Action OnDrawWeapon;
     public event Action<bool> OnSprint;
     public event Action<bool> OnSneak;
 
@@ -53,6 +57,8 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Jump = inputActionAsset.FindAction("Jump");
         Sprint = inputActionAsset.FindAction("Sprint");
         Sneak = inputActionAsset.FindAction("Sneak");
+        HoldTarget = inputActionAsset.FindAction("HoldTarget");
+        DrawWeapon = inputActionAsset.FindAction("DrawWeapon");
         
         Navigate = inputActionAsset.FindAction("Navigate");
         Point = inputActionAsset.FindAction("Point");
@@ -70,6 +76,8 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Jump.Enable();
         Sprint.Enable();
         Sneak.Enable();
+        HoldTarget.Enable();
+        DrawWeapon.Enable();
         
         Navigate.Enable();
         Point.Enable();
@@ -87,6 +95,8 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Jump.Disable();
         Sprint.Disable();
         Sneak.Disable();
+        HoldTarget.Disable();
+        DrawWeapon.Disable();
         
         Navigate.Disable();
         Point.Disable();
@@ -106,6 +116,8 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Attack.performed += ctx => OnAttack?.Invoke();
         Interact.performed += ctx => OnInteract?.Invoke();
         Jump.performed += ctx => OnJump?.Invoke();
+        HoldTarget.performed += ctx => OnHoldTarget?.Invoke();
+        DrawWeapon.performed += ctx => OnDrawWeapon?.Invoke();
         
         Sprint.performed += ctx => OnSprint?.Invoke(true);
         Sprint.canceled += ctx => OnSprint?.Invoke(false);

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
 
-public class CharacterMovement : GravitationObject
+public class CharacterActions : GravitationObject
 {
     [field: SerializeField] public MovementTypes.MovementType MovementType { get; private set; }
     
@@ -26,8 +26,8 @@ public class CharacterMovement : GravitationObject
     [field: SerializeField] public float JumpDuration { get; private set; } = 0.5f;
     [field: SerializeField] public float JumpHeight { get; private set; } = 2f;
     
-    public static UnityAction<CharacterMovement> OnCharacterSelected;
-    public static CharacterMovement SelectedCharacter { get; private set; }
+    public static UnityAction<CharacterActions> OnCharacterSelected;
+    public static CharacterActions SelectedCharacter { get; private set; }
     public Vector3 CorrectedDirection { get; private set; }
     public float CurrentSpeed { get; private set; }
     public bool IsJump => _isJumping;
@@ -66,9 +66,9 @@ public class CharacterMovement : GravitationObject
         SubscribeInputs();
     }
 
-    private void OnSelect(CharacterMovement characterMovement)
+    private void OnSelect(CharacterActions characterActions)
     {
-        if (characterMovement != this)
+        if (characterActions != this)
         {
             return;
         }

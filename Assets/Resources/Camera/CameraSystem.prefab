@@ -53,8 +53,8 @@ MonoBehaviour:
   topClamp: 25
   bottomClamp: 10
   rotationKoef: 0.1
-  <PlayerName>k__BackingField: Player
   <CameraTag>k__BackingField: CameraTarget
+  <SelectedCharacter>k__BackingField: {fileID: 0}
 --- !u!1 &7250071856126467287
 GameObject:
   m_ObjectHideFlags: 0

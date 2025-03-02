@@ -17,6 +17,10 @@ public static class CharacterControllerExtensions
         {
             currentFallSpeed -= gravityForce * Time.deltaTime;
             currentFallSpeed = Mathf.Max(currentFallSpeed, -maxFallSpeed);
+            if (Mathf.Abs(currentFallSpeed) < gravityForce)
+            {
+                currentFallSpeed = -gravityForce;
+            }
         }
        
         var moveVector = currentFallSpeed * Time.deltaTime * Vector3.up;

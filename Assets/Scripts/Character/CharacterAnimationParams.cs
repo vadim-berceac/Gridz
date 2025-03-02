@@ -3,7 +3,7 @@ using Unity.Burst;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public abstract class CharacterAnimationParams : CharacterMovement
+public abstract class CharacterAnimationParams : CharacterActions
 {
    public Animator Animator { get; private set; }
 
