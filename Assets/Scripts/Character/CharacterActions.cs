@@ -193,14 +193,14 @@ public class CharacterActions : GravitationObject
     [BurstCompile]
     private void Rotate()
     {
-        if (Targeting.TargetPosition == Vector3.zero || !_isTargetLock)
+        if (Targeting.TargetDirection == Vector3.zero || !_isTargetLock)
         {
             CashedTransform.RotateCombined(MovementType, _nominalMovementDirection, RotationSpeed, 
                 Time.deltaTime, _rotateByCamera, _cameraSystem.GetCameraYaw());
             return;
         }
-        CashedTransform.RotateCombined(MovementType, Targeting.TargetPosition, RotationSpeed, 
-            Time.deltaTime, false, _cameraSystem.GetCameraYaw());
+        CashedTransform.RotateTo(MovementType, Targeting.TargetDirection, RotationSpeed, 
+            Time.deltaTime);
     }
 
     [BurstCompile]

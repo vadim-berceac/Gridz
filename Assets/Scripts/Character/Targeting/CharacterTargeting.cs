@@ -6,7 +6,7 @@ public class CharacterTargeting : MonoBehaviour
 {
     [SerializeField] private float targetMaxDistance = 10f;
     public HashSet<Transform> Targets { get; private set; }
-    public Vector3 TargetPosition { get; private set; }
+    public Vector3 TargetDirection { get; private set; }
     
     private Transform _parent;
     private Transform _cashedTransform;
@@ -14,7 +14,7 @@ public class CharacterTargeting : MonoBehaviour
     private void Awake()
     {
         Targets = new HashSet<Transform>();
-        TargetPosition = Vector3.zero;
+        TargetDirection = Vector3.zero;
         _parent = transform.parent;
         _cashedTransform = transform;
     }
@@ -24,7 +24,7 @@ public class CharacterTargeting : MonoBehaviour
         Targets.RemoveWhere(t => t == null); 
         if (Targets.Count == 0)
         {
-            TargetPosition = Vector3.zero; 
+            TargetDirection = Vector3.zero; 
             return;
         }
 
@@ -44,7 +44,8 @@ public class CharacterTargeting : MonoBehaviour
             ? nearestTarget.VectorToTarget.normalized 
             : Vector3.zero;
 
-        TargetPosition = _cashedTransform.InverseTransformDirection(directionToTarget);
+        TargetDirection = directionToTarget; // Сохраняем глобальное направление
+        Debug.LogWarning("Target direction: " + directionToTarget);
     }
 
     private void AddTarget(Transform target)

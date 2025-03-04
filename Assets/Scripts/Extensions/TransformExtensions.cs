@@ -75,50 +75,23 @@ public static class TransformExtensions
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation.normalized, rotationSpeed * duration);
     }
 
-    [BurstCompile]
-    public static void Rotate(this Transform transform, MovementTypes.MovementType type, Vector3 inputDirection, 
-        float rotationSpeed, float duration, bool rotateByCamera, float cameraYaw)
+    public static void RotateTo(this Transform transform, MovementTypes.MovementType type, Vector3 direction, 
+        float rotationSpeed, float duration)
     {
         if (type == MovementTypes.MovementType.None)
         {
             return;
         }
 
-        if (rotateByCamera)
+        if (direction == Vector3.zero)
         {
-            RotateByCamera(transform, rotationSpeed, duration, cameraYaw);
-            return;
+           return;
         }
         
-        RotateByInput(transform, inputDirection, rotationSpeed, duration);
-    }
-    
-    [BurstCompile]
-    private static void RotateByInput(this Transform transform, Vector3 inputDirection, float rotationSpeed, float duration)
-    {
-        if (inputDirection == Vector3.zero )
-        {
-            return;
-        }
-        var desiredMoveDirection = transform.forward * inputDirection.y + transform.right * inputDirection.x;
-       
-        var targetDirection = inputDirection.y >= 0 ? desiredMoveDirection : -desiredMoveDirection;
-    
+        var targetDirection = direction.normalized; 
         var targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation.normalized, rotationSpeed * duration);
-    }
 
-    [BurstCompile]
-    private static void RotateByCamera(this Transform transform, float rotationSpeed, float duration, float cameraYaw)
-    {
-        var currentRotation = transform.eulerAngles;
-        var targetRotation = new Vector3(currentRotation.x, cameraYaw, currentRotation.z);
-        
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation, 
-            Quaternion.Euler(targetRotation), 
-            rotationSpeed * duration
-        );
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * duration);
     }
 
     [BurstCompile]
@@ -134,38 +107,6 @@ public static class TransformExtensions
         {
             MoveDotWeen(tr, controller, inputDirection, currentSpeed, duration);
         }
-    }
-    
-    [BurstCompile]
-    private static void MoveDotWeenOLD(this Transform tr, CharacterController controller, Vector3 inputDirection, float currentSpeed,
-        float duration)
-    {
-        tr.DOKill();
-
-        var progress = 0f;
-        var startPosition = tr.position;
-
-        var movementDirectionY = tr.forward * currentSpeed;
-        
-        var targetPositionY = inputDirection.y >= 0 
-            ? startPosition + movementDirectionY * duration 
-            : startPosition - movementDirectionY * duration;
-       
-        DOTween.To(() => progress, x => progress = x, 1f, duration)
-            .SetEase(Ease.Linear)
-            .SetUpdate(UpdateType.Normal)
-            .OnUpdate(() =>
-            {
-                var currentTarget = Vector3.Lerp(startPosition, targetPositionY, progress);
-                var moveDelta = currentTarget - tr.position;
-               
-                controller.Move(moveDelta);
-            })
-            .OnComplete(() =>
-            {
-                var finalDelta = targetPositionY - controller.transform.position;
-                controller.Move(finalDelta);
-            });
     }
     
     [BurstCompile]
