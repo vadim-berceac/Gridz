@@ -44,8 +44,7 @@ public class CharacterTargeting : MonoBehaviour
             ? nearestTarget.VectorToTarget.normalized 
             : Vector3.zero;
 
-        TargetDirection = directionToTarget; // Сохраняем глобальное направление
-        Debug.LogWarning("Target direction: " + directionToTarget);
+        TargetDirection = directionToTarget; 
     }
 
     private void AddTarget(Transform target)

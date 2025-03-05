@@ -32,7 +32,8 @@ public class CharacterActions : GravitationObject
     public static UnityAction<CharacterActions> OnCharacterSelected;
     public static CharacterActions SelectedCharacter { get; private set; }
     public Vector3 CorrectedDirection { get; private set; }
-    public float CurrentSpeed { get; private set; }
+    public float CurrentSpeedZ { get; private set; }
+    public float CurrentSpeedX { get; private set; }
     public bool IsJump => _isJumping;
     public bool IsRunning => _isRunning;
     public bool IsSneaking => _isSneaking;
@@ -124,8 +125,8 @@ public class CharacterActions : GravitationObject
         SelectCurve();
         UpdateSpeed();
         UpdateTargeting();
-        CashedTransform.Move(CharacterController, MovementType, CorrectedDirection, CurrentSpeed, Time.deltaTime, _isJumping);
-        Rotate();
+        UpdateMove();
+        UpdateRotate();
     }
 
     [BurstCompile]
@@ -146,7 +147,7 @@ public class CharacterActions : GravitationObject
             return;
         }
         _isJumping = true;
-        CharacterController.Jump(MovementType, CurrentSpeed, JumpHeight, JumpDuration,() => _isJumping = false);
+        CharacterController.Jump(MovementType, CurrentSpeedZ, JumpHeight, JumpDuration,() => _isJumping = false);
     }
     
     private void HandleSprint(bool isRunning)
@@ -181,17 +182,18 @@ public class CharacterActions : GravitationObject
 
         if (t == 0)
         {
-            CurrentSpeed = 0;
+            CurrentSpeedZ = 0;
             return;
         }
         
         var targetSpeed = _selectedMovementCurve.Evaluate(t * _selectedMovementCurve.keys[_selectedMovementCurve.length - 1].time);
 
-        CurrentSpeed = Mathf.MoveTowards(CurrentSpeed, targetSpeed, Time.deltaTime * SpeedChangeRate);
+        CurrentSpeedZ = Mathf.MoveTowards(CurrentSpeedZ, targetSpeed, Time.deltaTime * SpeedChangeRate);
+        CurrentSpeedX = CorrectedDirection.x * 2;
     }
 
     [BurstCompile]
-    private void Rotate()
+    private void UpdateRotate()
     {
         if (Targeting.TargetDirection == Vector3.zero || !_isTargetLock)
         {
@@ -201,6 +203,24 @@ public class CharacterActions : GravitationObject
         }
         CashedTransform.RotateTo(MovementType, Targeting.TargetDirection, RotationSpeed, 
             Time.deltaTime);
+    }
+
+    [BurstCompile]
+    private void UpdateMove()
+    {
+        if (Targeting.TargetDirection == Vector3.zero || !_isTargetLock)
+        {
+            CashedTransform.Move(CharacterController, MovementType, CorrectedDirection, CurrentSpeedZ, Time.deltaTime, _isJumping);
+            return;
+        }
+
+        //нестабильно
+        if (Mathf.Abs(CorrectedDirection.z) <  0.1f)
+        {
+            CashedTransform.Move(CharacterController, MovementType, CorrectedDirection, CurrentSpeedX, Time.deltaTime, _isJumping);
+            return;
+        }
+        CashedTransform.Move(CharacterController, MovementType, CorrectedDirection, CurrentSpeedZ, Time.deltaTime, _isJumping);
     }
 
     [BurstCompile]

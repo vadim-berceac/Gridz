@@ -119,7 +119,7 @@ public static class TransformExtensions
         var startPosition = tr.position;
         
         var forwardMovement = tr.forward * Mathf.Max(inputDirection.z, 0f); 
-        var backwardMovement = tr.forward * Mathf.Max(-inputDirection.z, 0f); 
+        var backwardMovement = -tr.forward * Mathf.Max(-inputDirection.z, 0f); 
         var rightMovement = tr.right * Mathf.Max(inputDirection.x, 0f); 
         var leftMovement = -tr.right * Mathf.Max(-inputDirection.x, 0f); 
 
