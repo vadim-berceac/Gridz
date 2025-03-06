@@ -75,6 +75,7 @@ public static class TransformExtensions
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation.normalized, rotationSpeed * duration);
     }
 
+    [BurstCompile]
     public static void RotateTo(this Transform transform, MovementTypes.MovementType type, Vector3 direction, 
         float rotationSpeed, float duration)
     {

@@ -3,7 +3,7 @@ using Unity.Burst;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public abstract class CharacterAnimationParams : CharacterActions
+public abstract class CharacterAnimationParams : LocoMotion
 {
    public Animator Animator { get; private set; }
 
@@ -14,6 +14,7 @@ public abstract class CharacterAnimationParams : CharacterActions
    private int _targetLockHash;
    private int _drawWeaponHash;
    private int _currentSpeedZHash;
+   private int _attackTriggerHash;
    private int _inputXHash;
    private int _inputZHash;
 
@@ -24,6 +25,18 @@ public abstract class CharacterAnimationParams : CharacterActions
       HashParams();
    }
 
+   protected override void SubscribeInputs()
+   {
+      base.SubscribeInputs();
+      CharacterInput.OnAttack += HandleAttackTrigger;
+   }
+
+   protected override void UnsubscribeInputs()
+   {
+      base.UnsubscribeInputs();
+      CharacterInput.OnAttack -= HandleAttackTrigger;
+   }
+
    protected override void Update()
    {
       base.Update();
@@ -31,7 +44,7 @@ public abstract class CharacterAnimationParams : CharacterActions
    }
 
    [BurstCompile]
-   private void HashParams()
+   protected virtual void HashParams()
    {
       _groundedHash = Animator.StringToHash("Grounded");
       _jumpHash = Animator.StringToHash("Jump");
@@ -40,12 +53,13 @@ public abstract class CharacterAnimationParams : CharacterActions
       _targetLockHash = Animator.StringToHash("TargetLock");
       _drawWeaponHash = Animator.StringToHash("DrawWeapon");
       _currentSpeedZHash = Animator.StringToHash("CurrentSpeedZ");
+      _attackTriggerHash = Animator.StringToHash("AttackTrigger");
       _inputXHash = Animator.StringToHash("InputX");
       _inputZHash = Animator.StringToHash("InputZ");
    }
 
    [BurstCompile]
-   private void UpdateParams()
+   protected virtual void UpdateParams()
    {
       Animator.SetBool(_groundedHash, IsGrounded);
       Animator.SetBool(_jumpHash, IsJump);
@@ -56,5 +70,10 @@ public abstract class CharacterAnimationParams : CharacterActions
       Animator.SetFloat(_currentSpeedZHash, CurrentSpeedZ);
       Animator.SetFloat(_inputXHash, CorrectedDirection.x);
       Animator.SetFloat(_inputZHash, CorrectedDirection.z);
+   }
+
+   private void HandleAttackTrigger()
+   {
+      Animator.SetTrigger(_attackTriggerHash);
    }
 }

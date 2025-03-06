@@ -15,7 +15,7 @@ public class CameraSystem : MonoBehaviour
     [SerializeField] private float rotationKoef = 1f;
     
     [field:Header("Player")]
-    [field:SerializeField] public CharacterActions SelectedCharacter {get; private set;}
+    [field:SerializeField] public LocoMotion SelectedCharacter {get; private set;}
     
     private PlayerInput _gameInput;
     public Vector2 LookInput {get; private set;}
@@ -29,22 +29,22 @@ public class CameraSystem : MonoBehaviour
         _gameInput = playerInput;
     }
 
-    public void Select(CharacterActions characterActions)
+    public void Select(LocoMotion locoMotion)
     {
-        if (characterActions == null)
+        if (locoMotion == null)
         {
             SelectedCharacter = null;
             SetTarget(null);
             return;
         }
-        var target = characterActions.transform.FindObjectsWithTag(TagsAndLayersConst.CameraTargetTag)[0];
+        var target = locoMotion.transform.FindObjectsWithTag(TagsAndLayersConst.CameraTargetTag)[0];
         if (target == null)
         {
             SelectedCharacter = null;
             SetTarget(null);
             return;
         }
-        SelectedCharacter = characterActions;
+        SelectedCharacter = locoMotion;
         SetTarget(target.transform);
     }
 
