@@ -133,7 +133,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   <GroundOffset>k__BackingField: {x: 0, y: -0.8, z: 0}
-  <SphereRadius>k__BackingField: 0.3
+  <SphereRadius>k__BackingField: 0.35
   <MovementType>k__BackingField: 2
   <RotationSpeed>k__BackingField: 4
   <ForwardSneakSpeedCurve>k__BackingField:
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 6968004629093848995}
   - component: {fileID: 9180061258660837354}
   - component: {fileID: 8398287543195089317}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: TargetingCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
