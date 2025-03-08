@@ -930,7 +930,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: InputX
     m_Mirror: 0
-  m_BlendParameter: CurrentSpeedZ
+  m_BlendParameter: CurrentSpeedX
   m_BlendParameterY: Blend
   m_MinThreshold: 0
   m_MaxThreshold: 7
@@ -1946,7 +1946,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: InputX
     m_Mirror: 0
-  m_BlendParameter: CurrentSpeedZ
+  m_BlendParameter: CurrentSpeedX
   m_BlendParameterY: Blend
   m_MinThreshold: 0
   m_MaxThreshold: 7
