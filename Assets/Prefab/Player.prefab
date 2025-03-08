@@ -83,7 +83,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: a682b03c8819dc148b341abcb745056b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
     m_Bits: 1
   <GroundOffset>k__BackingField: {x: 0, y: -0.8, z: 0}
   <SphereRadius>k__BackingField: 0.3
-  <MovementType>k__BackingField: 1
+  <MovementType>k__BackingField: 2
   <RotationSpeed>k__BackingField: 4
   <ForwardSneakSpeedCurve>k__BackingField:
     serializedVersion: 2
@@ -280,7 +280,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  <JumpDuration>k__BackingField: 0.5
+  <JumpDuration>k__BackingField: 0.7
   <JumpHeight>k__BackingField: 2
   <Targeting>k__BackingField: {fileID: 8398287543195089317}
 --- !u!1 &5927873971416705715

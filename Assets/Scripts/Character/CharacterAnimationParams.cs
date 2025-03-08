@@ -14,6 +14,7 @@ public abstract class CharacterAnimationParams : LocoMotion
    private int _targetLockHash;
    private int _drawWeaponHash;
    private int _currentSpeedZHash;
+   private int _currentSpeedXHash;
    private int _attackTriggerHash;
    private int _inputXHash;
    private int _inputZHash;
@@ -53,6 +54,7 @@ public abstract class CharacterAnimationParams : LocoMotion
       _targetLockHash = Animator.StringToHash("TargetLock");
       _drawWeaponHash = Animator.StringToHash("DrawWeapon");
       _currentSpeedZHash = Animator.StringToHash("CurrentSpeedZ");
+      _currentSpeedXHash = Animator.StringToHash("CurrentSpeedX");
       _attackTriggerHash = Animator.StringToHash("AttackTrigger");
       _inputXHash = Animator.StringToHash("InputX");
       _inputZHash = Animator.StringToHash("InputZ");
@@ -68,6 +70,7 @@ public abstract class CharacterAnimationParams : LocoMotion
       Animator.SetBool(_targetLockHash, IsTargetLock);
       Animator.SetBool(_drawWeaponHash, IsDrawWeapon);
       Animator.SetFloat(_currentSpeedZHash, CurrentSpeedZ);
+      Animator.SetFloat(_currentSpeedXHash, CurrentSpeedX);
       Animator.SetFloat(_inputXHash, CorrectedDirection.x);
       Animator.SetFloat(_inputZHash, CorrectedDirection.z);
    }

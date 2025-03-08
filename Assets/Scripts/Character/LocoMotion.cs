@@ -2,6 +2,7 @@ using Unity.Android.Gradle.Manifest;
 using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using Zenject;
 using Action = System.Action;
 
@@ -44,6 +45,7 @@ public class LocoMotion : GravitationObject
     
     private bool _previousUsePlayerInput;
     private Vector2 _nominalMovementDirection;
+    private MovementTypes.MovementType _currentMovementType;
     protected ICharacterInput CharacterInput {get; private set;}
     private ICharacterInput _inputByPlayer;
     private CameraSystem _cameraSystem;
@@ -88,7 +90,7 @@ public class LocoMotion : GravitationObject
         {
             SelectedCharacter.UnsubscribeInputs();
             SelectedCharacter.CharacterInput = new AICharacterInput();
-            SelectedCharacter.MovementType = MovementTypes.MovementType.None;
+            SelectedCharacter._currentMovementType = MovementTypes.MovementType.None;
             SelectedCharacter.SubscribeInputs();
             _cameraSystem.Select(null);
             _rotateByCamera = false;
@@ -97,7 +99,7 @@ public class LocoMotion : GravitationObject
         UnsubscribeInputs();
         SelectedCharacter = this;
         CharacterInput = _inputByPlayer;
-        MovementType = MovementTypes.MovementType.DotWeen;
+        _currentMovementType = MovementType;
         SubscribeInputs();
         _cameraSystem.Select(this);
         _rotateByCamera = true;
@@ -176,23 +178,19 @@ public class LocoMotion : GravitationObject
     [BurstCompile]
     private void UpdateSpeed()
     {
-        var t = Mathf.Clamp01(Mathf.Abs(CorrectedDirection.z));
+        var speedZ = Mathf.Clamp01(Mathf.Abs(CorrectedDirection.z));
+        var speedX = Mathf.Clamp01(Mathf.Abs(CorrectedDirection.x));
 
         if (_isJumping)
         {
             return;
         }
-
-        if (t == 0)
-        {
-            CurrentSpeedZ = 0;
-            return;
-        }
         
-        var targetSpeed = _selectedMovementCurve.Evaluate(t * _selectedMovementCurve.keys[_selectedMovementCurve.length - 1].time);
+        CurrentSpeedX = speedX * CurrentSpeedZ;
+        
+        var targetSpeed = _selectedMovementCurve.Evaluate(speedZ * _selectedMovementCurve.keys[_selectedMovementCurve.length - 1].time);
 
         CurrentSpeedZ = Mathf.MoveTowards(CurrentSpeedZ, targetSpeed, Time.deltaTime * SpeedChangeRate);
-        CurrentSpeedX = CorrectedDirection.x * 2;
     }
 
     [BurstCompile]
@@ -200,11 +198,11 @@ public class LocoMotion : GravitationObject
     {
         if (Targeting.TargetDirection == Vector3.zero || !_isTargetLock)
         {
-            CashedTransform.RotateCombined(MovementType, _nominalMovementDirection, RotationSpeed, 
+            CashedTransform.RotateCombined(_currentMovementType, _nominalMovementDirection, RotationSpeed, 
                 Time.deltaTime, _rotateByCamera, _cameraSystem.GetCameraYaw());
             return;
         }
-        CashedTransform.RotateTo(MovementType, Targeting.TargetDirection, RotationSpeed, 
+        CashedTransform.RotateTo(_currentMovementType, Targeting.TargetDirection, RotationSpeed, 
             Time.deltaTime);
     }
 
@@ -213,18 +211,18 @@ public class LocoMotion : GravitationObject
     {
         if (Targeting.TargetDirection == Vector3.zero || !_isTargetLock)
         {
-            CashedTransform.Move(CharacterController, MovementType, CorrectedDirection, CurrentSpeedZ, Time.deltaTime, _isJumping);
+            CashedTransform.Move(CharacterController, _currentMovementType, CorrectedDirection, CurrentSpeedZ, Time.deltaTime, _isJumping);
             return;
         }
 
         //нестабильно
         if (Mathf.Abs(CorrectedDirection.z) <  0.1f)
         {
-            CashedTransform.Move(CharacterController, MovementType, Targeting.TargetDirection, CurrentSpeedX, Time.deltaTime, _isJumping);
+            CashedTransform.Move(CharacterController, _currentMovementType, Targeting.TargetDirection, CurrentSpeedX, Time.deltaTime, _isJumping);
             return;
         }
     
-        CashedTransform.Move(CharacterController, MovementType, CorrectedDirection, CurrentSpeedZ, Time.deltaTime, _isJumping);
+        CashedTransform.Move(CharacterController, _currentMovementType, CorrectedDirection, CurrentSpeedZ, Time.deltaTime, _isJumping);
     }
 
     [BurstCompile]
