@@ -342,8 +342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f95995ed3d67bc419431f03a8e967a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SkinnedMeshRenderer1>k__BackingField: {fileID: 1716407254066806473}
-  <SkinnedMeshRenderer2>k__BackingField: {fileID: 2106145266610383287, guid: 58b2f422c8a77644c8f68f5d175b339d, type: 3}
+  <BlankRenderer>k__BackingField: {fileID: 1716407254066806473}
+  <CharacterSkinData>k__BackingField: {fileID: 11400000, guid: 1ebca2af8b5a545419b1156d4598b2cc, type: 2}
 --- !u!114 &2258311417426667345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,6 +561,10 @@ PrefabInstance:
     - target: {fileID: 4505984682202287043, guid: 81204561bf8c20a4ab010cca2dd2a991, type: 3}
       propertyPath: m_Name
       value: Default_bones
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905512990702532493, guid: 81204561bf8c20a4ab010cca2dd2a991, type: 3}
+      propertyPath: m_Name
+      value: blankSknnedMesh
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
