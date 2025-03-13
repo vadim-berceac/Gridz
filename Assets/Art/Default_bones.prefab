@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5323162407277330719, guid: 82331b99766d041489e2a799de364c54, type: 3}
       propertyPath: m_Name
-      value: skinnnedMesh
+      value: blankSkinnedMesh
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5866666021909216657, guid: 82331b99766d041489e2a799de364c54, type: 3}

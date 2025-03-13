@@ -1,23 +1,31 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SkinChanger : MonoBehaviour
 {
    [field: SerializeField] public CharacterSkinData CharacterSkinData { get; private set; }
+   [field: SerializeField] public Transform CapsuleMarker { get; private set; }
+   [field: SerializeField] public bool HideCapsule { get; private set; }
    
    private SkinnedMeshRenderer _blankRenderer;
+   private List<SkinnedMeshRenderer> _temporaryBlankRenderers;
 
    private void Awake()
    {
       InitializeRenderer();
       if (!IsValidSetup()) return;
 
+      Hide();
       SetupBaseSkin();
       ApplyAdditionalSkins();
    }
 
    private void InitializeRenderer()
    {
-      _blankRenderer = transform.GetComponentInChildren<SkinnedMeshRenderer>();
+      _blankRenderer = transform.GetComponentsInChildren<SkinnedMeshRenderer>()
+         .FirstOrDefault(renderer1 => renderer1.gameObject.name.Contains(TagsAndLayersConst.BlankSkinnedMeshName));
+      _temporaryBlankRenderers = new List<SkinnedMeshRenderer>();
    }
 
    private bool IsValidSetup()
@@ -33,6 +41,15 @@ public class SkinChanger : MonoBehaviour
       ApplySkin(CharacterSkinData.SkinData[0], _blankRenderer);
    }
 
+   private void Hide()
+   {
+      if (!HideCapsule || CapsuleMarker == null)
+      {
+         return;
+      }
+      CapsuleMarker.gameObject.SetActive(false);
+   }
+
    private void ApplyAdditionalSkins()
    {
       if (CharacterSkinData.SkinData.Count <= 1) return;
@@ -40,6 +57,7 @@ public class SkinChanger : MonoBehaviour
       for (var i = 1; i < CharacterSkinData.SkinData.Count; i++)
       {
          var newRendererObject = Instantiate(_blankRenderer, _blankRenderer.transform.parent);
+         _temporaryBlankRenderers.Add(newRendererObject);
          ApplySkin(CharacterSkinData.SkinData[i], newRendererObject);
       }
    }
