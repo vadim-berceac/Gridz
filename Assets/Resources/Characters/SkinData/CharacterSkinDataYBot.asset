@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9706e891c14276144a996a53dfb7ca29, type: 3}
+  m_Name: CharacterSkinDataYBot
+  m_EditorClassIdentifier: 
+  <SkinName>k__BackingField: YBot
+  <SkinData>k__BackingField:
+  - <SkinnedMeshRenderer>k__BackingField: {fileID: -7813590141776298306, guid: 80068d826bd7b4b4a9c665170e5fb84b, type: 3}
+    <SkinMaterial>k__BackingField: {fileID: 2100000, guid: 53bdafcdfd3c78e48b971f37544f9b42, type: 2}
+  - <SkinnedMeshRenderer>k__BackingField: {fileID: 5822821947120931875, guid: 80068d826bd7b4b4a9c665170e5fb84b, type: 3}
+    <SkinMaterial>k__BackingField: {fileID: 2100000, guid: 8e69717bb77247c40930fb21470aad7c, type: 2}
