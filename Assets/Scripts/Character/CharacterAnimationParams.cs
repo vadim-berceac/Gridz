@@ -71,8 +71,8 @@ public abstract class CharacterAnimationParams : LocoMotion
       Animator.SetBool(_drawWeaponHash, IsDrawWeapon);
       Animator.SetFloat(_currentSpeedZHash, CurrentSpeedZ);
       Animator.SetFloat(_currentSpeedXHash, CurrentSpeedX, 0.5f, Time.deltaTime);
-      Animator.SetFloat(_inputXHash, CorrectedDirection.x);
-      Animator.SetFloat(_inputZHash, CorrectedDirection.z);
+      Animator.SetFloat(_inputXHash, CorrectedDirection.x, 0.2f, Time.deltaTime);
+      Animator.SetFloat(_inputZHash, CorrectedDirection.z, 0.2f, Time.deltaTime);
    }
 
    private void HandleAttackTrigger()
