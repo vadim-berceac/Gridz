@@ -5,8 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public abstract class CharacterAnimationParams : LocoMotion
 {
+   [field: SerializeField] public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.Default;
    public Animator Animator { get; private set; }
 
+   private int _animationTypeHash;
    private int _groundedHash;
    private int _jumpHash;
    private int _runningHash;
@@ -47,6 +49,7 @@ public abstract class CharacterAnimationParams : LocoMotion
    [BurstCompile]
    protected virtual void HashParams()
    {
+      _animationTypeHash = Animator.StringToHash("AnimationType");
       _groundedHash = Animator.StringToHash("Grounded");
       _jumpHash = Animator.StringToHash("Jump");
       _runningHash = Animator.StringToHash("Run");
@@ -63,6 +66,7 @@ public abstract class CharacterAnimationParams : LocoMotion
    [BurstCompile]
    protected virtual void UpdateParams()
    {
+      Animator.SetFloat(_animationTypeHash, (int) AnimationType);
       Animator.SetBool(_groundedHash, IsGrounded);
       Animator.SetBool(_jumpHash, IsJump);
       Animator.SetBool(_runningHash, IsRunning);

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CharacterSkinDataYBot
   m_EditorClassIdentifier: 
   <SkinName>k__BackingField: YBot
+  <SizeMode>k__BackingField: 1.05
   <SkinData>k__BackingField:
   - <SkinnedMeshRenderer>k__BackingField: {fileID: -7813590141776298306, guid: 80068d826bd7b4b4a9c665170e5fb84b, type: 3}
     <SkinMaterial>k__BackingField: {fileID: 2100000, guid: 53bdafcdfd3c78e48b971f37544f9b42, type: 2}

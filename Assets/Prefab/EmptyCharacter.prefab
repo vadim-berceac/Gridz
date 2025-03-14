@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 6968004629093848995}
   - component: {fileID: 9180061258660837354}
   - component: {fileID: 8398287543195089317}
-  m_Layer: 13
+  m_Layer: 31
   m_Name: TargetingCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

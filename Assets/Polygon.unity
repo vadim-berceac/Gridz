@@ -479,6 +479,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 527339777544466241, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: <AnimationType>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2199576843291160208, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: <CharacterSkinData>k__BackingField
       value: 
@@ -1403,6 +1407,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 527339777544466241, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: <AnimationType>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2199576843291160208, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: <CharacterSkinData>k__BackingField
       value: 
@@ -2272,6 +2280,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2004640940}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &5690489026493372091
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7926834445009811899, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
+      propertyPath: m_Name
+      value: TrainingSword_View
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -29.861172
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.535
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.6173666
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
 --- !u!1001 &6755064081798705092
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2280,6 +2345,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 527339777544466241, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: <AnimationType>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2199576843291160208, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: <CharacterSkinData>k__BackingField
       value: 
@@ -2395,6 +2464,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 8773273062594819746}
   - {fileID: 478609758}
   - {fileID: 410087041}
   - {fileID: 832575519}
@@ -2402,5 +2472,5 @@ SceneRoots:
   - {fileID: 962827223}
   - {fileID: 6755064081798705092}
   - {fileID: 193169802}
+  - {fileID: 5690489026493372091}
   - {fileID: 987140213}
-  - {fileID: 8773273062594819746}

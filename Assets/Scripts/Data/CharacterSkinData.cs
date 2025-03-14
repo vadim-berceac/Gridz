@@ -6,6 +6,8 @@ using UnityEngine;
 public class CharacterSkinData : ScriptableObject
 {
     [field: SerializeField] public string SkinName { get; private set; }
+
+    [field: SerializeField] [field: Range(0.5f, 1.5f)] public float SizeMode { get; private set; } = 1f;
     
     [field: SerializeField] public List<SkinData> SkinData { get; private set; }
 }

@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SkinChanger : MonoBehaviour
+public class CharacterSkinModule : MonoBehaviour
 {
+   public BonesCollector BonesCollector { get; private set; }
    [field: SerializeField] public CharacterSkinData CharacterSkinData { get; private set; }
    [field: SerializeField] public Transform CapsuleMarker { get; private set; }
    [field: SerializeField] public bool HideCapsule { get; private set; }
@@ -13,12 +14,18 @@ public class SkinChanger : MonoBehaviour
 
    private void Awake()
    {
+      InitializeBonesCollector();
       InitializeRenderer();
       if (!IsValidSetup()) return;
 
       Hide();
       SetupBaseSkin();
       ApplyAdditionalSkins();
+   }
+
+   private void InitializeBonesCollector()
+   {
+      BonesCollector = new BonesCollector(transform);
    }
 
    private void InitializeRenderer()
@@ -38,6 +45,7 @@ public class SkinChanger : MonoBehaviour
    private void SetupBaseSkin()
    {
       gameObject.name = CharacterSkinData.SkinName;
+      gameObject.transform.localScale = new Vector3(CharacterSkinData.SizeMode, CharacterSkinData.SizeMode, CharacterSkinData.SizeMode);
       ApplySkin(CharacterSkinData.SkinData[0], _blankRenderer);
    }
 
