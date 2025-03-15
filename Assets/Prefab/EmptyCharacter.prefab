@@ -299,6 +299,9 @@ MonoBehaviour:
   <JumpDuration>k__BackingField: 0.7
   <JumpHeight>k__BackingField: 2
   <Targeting>k__BackingField: {fileID: 8398287543195089317}
+  <AnimationType>k__BackingField: 1
+  <Skin>k__BackingField: {fileID: 2199576843291160208}
+  <Weapon>k__BackingField: {fileID: 0}
 --- !u!1 &5927873971416705715
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,29 +8,35 @@ public class BonesCollector
     
     public BonesCollector(Transform parent)
     {
-        foreach (var bone in CharacterBones.BonesNames)
+        var boneCount = CharacterBones.BoneNames.Length;
+       
+        _bones.Capacity = Math.Max(_bones.Capacity, boneCount);
+
+        for (var i = 0; i < boneCount; i++)
         {
-            var boneTrans = parent.FindChildRecursive(bone.Value);
+            var boneName = CharacterBones.BoneNames[i];
+            var boneTrans = parent.FindChildRecursive(boneName);
 
             if (boneTrans == null)
             {
                 continue;
             }
-            Debug.Log(boneTrans.name);
-            _bones.Add(new BoneTransform(boneTrans, bone.Key));
+            var boneType = (CharacterBones.Type)i;
+            _bones.Add(new BoneTransform(boneTrans, boneType));
         }
     }
 
     public BoneTransform GetBoneTransform(CharacterBones.Type boneType)
     {
+        var result = new BoneTransform();
         foreach (var bone in _bones)
         {
             if (bone.BonesType == boneType)
             {
-                return bone;
+                result = bone;
             }
         }
-        return null;
+        return result;
     }
     
     public Transform GetTransform(CharacterBones.Type boneType)

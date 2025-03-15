@@ -14,7 +14,7 @@ public static class SkinnedMeshRendererExtension
             var bone = oldSkin.transform.root.FindChildRecursive(boneName);
             if (bone == null)
             {
-                Debug.LogWarning($"Bone '{boneName}' not found in hierarchy of {oldSkin.transform.root.name}");
+                //Debug.LogWarning($"Bone '{boneName}' not found in hierarchy of {oldSkin.transform.root.name}");
                 continue;
             }
             newBones[i] = bone;

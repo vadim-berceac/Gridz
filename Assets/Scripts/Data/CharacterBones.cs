@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using UnityEngine;
+using System.Runtime.CompilerServices;
 
 public struct CharacterBones
 {
@@ -24,37 +23,32 @@ public struct CharacterBones
         LeftHand,
         RightHand,
     }
-
-    public static readonly Dictionary<Type, string> BonesNames = new()
+    
+    public static readonly string[] BoneNames = new string[]
     {
-        { Type.Hips, "Hips"},
-        { Type.Head, "Head"},
-        { Type.Neck , "Neck"},
-        { Type.Spine2 , "Spine2"},
-        { Type.Spine1 , "Spine1"},
-        { Type.Spine0 , "Spine"},
-        { Type.LeftUpperArm, "LeftArm"},
-        { Type.RightUpperArm, "RightArm"},
-        { Type.LeftUpperLeg , "LeftUpLeg"},
-        { Type.RightUpperLeg , "RightUpLeg"},
-        { Type.LeftLowerArm , "LeftForeArm"},
-        { Type.RightLowerArm , "RightForeArm"},
-        { Type.LeftLowerLeg , "LeftLeg"},
-        { Type.RightLowerLeg , "RightLeg"},
-        { Type.LeftFoot, "LeftFoot"},
-        { Type.RightFoot, "RightFoot"},
-        { Type.LeftHand, "LeftHand"},
-        { Type.RightHand , "RightHand"},
+        "Hips",        
+        "Head",       
+        "Neck",        
+        "Spine2",      
+        "Spine1",      
+        "Spine",       
+        "LeftArm",     
+        "RightArm",   
+        "LeftUpLeg",  
+        "RightUpLeg",  
+        "LeftForeArm", 
+        "RightForeArm",
+        "LeftLeg",    
+        "RightLeg",    
+        "LeftFoot",    
+        "RightFoot",   
+        "LeftHand",    
+        "RightHand"    
     };
-}
-
-public class BoneTransform
-{
-    public CharacterBones.Type BonesType { get; private set; }
-    public Transform Transform { get; private set; }
-    public BoneTransform(Transform transform, CharacterBones.Type boneType)
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string GetBoneName(Type boneType)
     {
-        Transform = transform;
-        BonesType = boneType;
+        return BoneNames[(int)boneType];
     }
 }

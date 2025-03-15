@@ -170,7 +170,7 @@ public class LocoMotion : GravitationObject
         _isTargetLock = isTargetLocked;
     }
 
-    private void HandleDrawWeapon(bool isDrawWeapon)
+    protected virtual void HandleDrawWeapon(bool isDrawWeapon)
     {
         _isDrawWeapon = isDrawWeapon;
     }
