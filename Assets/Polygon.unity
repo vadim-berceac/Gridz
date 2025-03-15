@@ -479,6 +479,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 527339777544466241, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: <Weapon>k__BackingField
+      value: 
+      objectReference: {fileID: 5690489026493372093}
     - target: {fileID: 2199576843291160208, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: <CharacterSkinData>k__BackingField
       value: 
@@ -2352,10 +2356,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 527339777544466241, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
-      propertyPath: <Weapon>k__BackingField
-      value: 
-      objectReference: {fileID: 5690489026493372093}
     - target: {fileID: 2199576843291160208, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: <Weapon>k__BackingField
       value: 

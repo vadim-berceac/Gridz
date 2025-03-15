@@ -18,18 +18,20 @@ public class CharacterActions : CharacterAnimationParams
     }
 
     [BurstCompile]
-    protected override void HandleDrawWeapon(bool isDrawWeapon)
+    protected override async void HandleDrawWeapon(bool isDrawWeapon)
     {
         base.HandleDrawWeapon(isDrawWeapon);
-      
+    
         if (!isDrawWeapon)
         {
-            SetAnimationType(AnimationTypes.Type.Default);
             if (!Weapon)
             {
+                SetAnimationType(AnimationTypes.Type.Default);
                 return;
             }
-            _ = EquipAsync(0);
+        
+            await EquipToSlotAsync(0);
+            SetAnimationType(AnimationTypes.Type.Default);
             return;
         }
 
@@ -38,12 +40,13 @@ public class CharacterActions : CharacterAnimationParams
             SetAnimationType(AnimationTypes.Type.Unarmed);
             return;
         }
-        _ = EquipAsync(1);
+        
         SetAnimationType(Weapon.AnimationType);
+        await EquipToSlotAsync(1);
     }
     
     [BurstCompile]
-    private async Task EquipAsync(int slotIndex)
+    private async Task EquipToSlotAsync(int slotIndex)
     {
         while (true)
         {

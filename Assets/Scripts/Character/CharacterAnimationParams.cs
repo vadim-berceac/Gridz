@@ -79,7 +79,7 @@ public abstract class CharacterAnimationParams : LocoMotion
    [BurstCompile]
    protected virtual void UpdateParams()
    {
-      Animator.SetFloat(_animationTypeHash, (int) AnimationType);
+      Animator.SetFloat(_animationTypeHash, (int) AnimationType, 0.1f, Time.deltaTime);
       Animator.SetBool(_groundedHash, IsGrounded);
       Animator.SetBool(_jumpHash, IsJump);
       Animator.SetBool(_runningHash, IsRunning);
