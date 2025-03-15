@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Zenject;
 using Action = System.Action;
 
+[RequireComponent(typeof(CharacterSkinModule))]
 public class LocoMotion : GravitationObject
 {
     [field: SerializeField] public MovementTypes.MovementType MovementType { get; private set; }
@@ -33,6 +34,8 @@ public class LocoMotion : GravitationObject
     [field: SerializeField] public CharacterTargeting Targeting{ get; private set; }
     
     public static UnityAction<LocoMotion> OnCharacterSelected;
+    
+    public CharacterSkinModule Skin { get; private set; }
     public static LocoMotion SelectedCharacter { get; private set; }
     public Vector3 CorrectedDirection { get; private set; }
     public float CurrentSpeedZ { get; private set; }
@@ -70,7 +73,7 @@ public class LocoMotion : GravitationObject
     protected override void Initialize()
     {
         base.Initialize();
-        
+        Skin = GetComponent<CharacterSkinModule>();
         CharacterInput = new AICharacterInput();
         
         CorrectedDirection = CashedTransform.position;
