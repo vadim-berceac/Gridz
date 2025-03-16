@@ -44,8 +44,10 @@ GameObject:
   - component: {fileID: 5487662251822900080}
   - component: {fileID: 420042207409785341}
   - component: {fileID: 7105497252630676905}
+  - component: {fileID: 8688598080372717116}
   - component: {fileID: 2199576843291160208}
   - component: {fileID: 527339777544466241}
+  - component: {fileID: 2138904896500683432}
   m_Layer: 13
   m_Name: EmptyCharacter
   m_TagString: Untagged
@@ -118,6 +120,19 @@ CharacterController:
   m_SkinWidth: 0.03
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &8688598080372717116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4373059052394708103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e08472451f5c5ba47976b625e10dbe92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PrimaryWeapon>k__BackingField: {fileID: 0}
 --- !u!114 &2199576843291160208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,7 +315,19 @@ MonoBehaviour:
   <JumpHeight>k__BackingField: 2
   <Targeting>k__BackingField: {fileID: 8398287543195089317}
   <AnimationType>k__BackingField: 1
-  <Weapon>k__BackingField: {fileID: 0}
+--- !u!114 &2138904896500683432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4373059052394708103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e08472451f5c5ba47976b625e10dbe92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PrimaryWeapon>k__BackingField: {fileID: 0}
 --- !u!1 &5927873971416705715
 GameObject:
   m_ObjectHideFlags: 0

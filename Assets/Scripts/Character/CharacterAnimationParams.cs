@@ -50,7 +50,7 @@ public abstract class CharacterAnimationParams : LocoMotion
    {
       AnimationType = animationType;
    }
-
+   
    protected override void Update()
    {
       base.Update();

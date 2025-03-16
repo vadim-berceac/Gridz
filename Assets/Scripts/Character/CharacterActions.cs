@@ -2,29 +2,36 @@ using System.Threading.Tasks;
 using Unity.Burst;
 using UnityEngine;
 
+[RequireComponent(typeof(EquipmentSystem))]
 public class CharacterActions : CharacterAnimationParams
 {
-    [field: Header("Test Weapon")]
-    [field: SerializeField] public Weapon Weapon { get; private set; }
+    private EquipmentSystem _equipmentSystem;
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+        _equipmentSystem = GetComponent<EquipmentSystem>();
+    }
     
     private void Start()
     {
-        if (!Weapon)
+        if (!_equipmentSystem.PrimaryWeapon)
         {
             return;
         }
-        Weapon.Pickup();
-        Weapon.Equip(Skin.BonesCollector, 0);
+        _equipmentSystem.PrimaryWeapon.Pickup();
+        _equipmentSystem.PrimaryWeapon.Equip(Skin.BonesCollector, 0);
     }
 
     [BurstCompile]
     protected override async void HandleDrawWeapon(bool isDrawWeapon)
     {
+        //переключение типов анимации слишком резкое из-за await
         base.HandleDrawWeapon(isDrawWeapon);
     
         if (!isDrawWeapon)
         {
-            if (!Weapon)
+            if (!_equipmentSystem.PrimaryWeapon)
             {
                 SetAnimationType(AnimationTypes.Type.Default);
                 return;
@@ -35,13 +42,13 @@ public class CharacterActions : CharacterAnimationParams
             return;
         }
 
-        if (!Weapon)
+        if (!_equipmentSystem.PrimaryWeapon)
         {
             SetAnimationType(AnimationTypes.Type.Unarmed);
             return;
         }
         
-        SetAnimationType(Weapon.AnimationType);
+        SetAnimationType(_equipmentSystem.PrimaryWeapon.AnimationType);
         await EquipToSlotAsync(1);
     }
     
@@ -61,7 +68,7 @@ public class CharacterActions : CharacterAnimationParams
         {
             if (SwitchBoneValue == 0f)
             {
-                Weapon.Equip(Skin.BonesCollector, slotIndex);
+                _equipmentSystem.PrimaryWeapon.Equip(Skin.BonesCollector, slotIndex);
                 break;
             }
             await Task.Yield();
