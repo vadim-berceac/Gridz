@@ -31,7 +31,10 @@ public class LocoMotion : GravitationObject
     [field: SerializeField] public float JumpHeight { get; private set; } = 2f;
     
     [field:Header("Targeting Settings")]
-    [field: SerializeField] public CharacterTargeting Targeting{ get; private set; }
+    [field: SerializeField] public CharacterTargeting Targeting { get; private set; }
+    
+    [field:Header("Inventory")]
+    [field: SerializeField] public EquipmentSystem EquipmentSystem { get; private set; }
     
     public static UnityAction<LocoMotion> OnCharacterSelected;
     

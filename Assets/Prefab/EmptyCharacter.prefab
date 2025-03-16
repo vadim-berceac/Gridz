@@ -132,7 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08472451f5c5ba47976b625e10dbe92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <PrimaryWeapon>k__BackingField: {fileID: 0}
+  <PrimaryWeaponData>k__BackingField: {fileID: 0}
+  <PrimaryArmorData>k__BackingField: {fileID: 0}
 --- !u!114 &2199576843291160208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,6 +315,7 @@ MonoBehaviour:
   <JumpDuration>k__BackingField: 0.7
   <JumpHeight>k__BackingField: 2
   <Targeting>k__BackingField: {fileID: 8398287543195089317}
+  <EquipmentSystem>k__BackingField: {fileID: 8688598080372717116}
   <AnimationType>k__BackingField: 1
 --- !u!114 &2138904896500683432
 MonoBehaviour:
@@ -327,7 +329,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08472451f5c5ba47976b625e10dbe92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <PrimaryWeapon>k__BackingField: {fileID: 0}
+  <PrimaryWeaponData>k__BackingField: {fileID: 0}
+  <PrimaryArmorData>k__BackingField: {fileID: 0}
 --- !u!1 &5927873971416705715
 GameObject:
   m_ObjectHideFlags: 0

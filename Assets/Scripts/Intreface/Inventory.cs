@@ -66,7 +66,18 @@ public class Inventory : MonoBehaviour
 
     private void Refresh()
     {
-        Debug.Log("обновляем инвернтарь при открытии");
+        if (_cameraSystem.SelectedCharacter.EquipmentSystem == null )
+        {
+            return;
+        }
+
+        if (_cameraSystem.SelectedCharacter.EquipmentSystem.PrimaryWeaponData == null)
+        {
+            _cells[0].Icon.sprite = null;
+            return;
+            
+        }
+        _cells[0].Icon.sprite = _cameraSystem.SelectedCharacter.EquipmentSystem.PrimaryWeaponData.Icon;
     }
 
     private void OnDisable()
