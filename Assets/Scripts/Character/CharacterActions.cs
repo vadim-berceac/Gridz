@@ -15,12 +15,12 @@ public class CharacterActions : CharacterAnimationParams
     
     private void Start()
     {
-        if (!_equipmentSystem.PrimaryWeapon)
+        if (!_equipmentSystem.PrimaryWeaponModelHolder)
         {
             return;
         }
-        _equipmentSystem.PrimaryWeapon.Pickup();
-        _equipmentSystem.PrimaryWeapon.Equip(Skin.BonesCollector, 0);
+        _equipmentSystem.PrimaryWeaponModelHolder.Pickup();
+        _equipmentSystem.PrimaryWeaponModelHolder.Equip(Skin.BonesCollector, 0);
     }
 
     [BurstCompile]
@@ -31,7 +31,7 @@ public class CharacterActions : CharacterAnimationParams
     
         if (!isDrawWeapon)
         {
-            if (!_equipmentSystem.PrimaryWeapon)
+            if (!_equipmentSystem.PrimaryWeaponModelHolder)
             {
                 SetAnimationType(AnimationTypes.Type.Default);
                 return;
@@ -42,14 +42,14 @@ public class CharacterActions : CharacterAnimationParams
             return;
         }
 
-        if (!_equipmentSystem.PrimaryWeapon)
+        if (!_equipmentSystem.PrimaryWeaponModelHolder)
         {
             SetAnimationType(AnimationTypes.Type.Unarmed);
             return;
         }
         
-        SetAnimationType(_equipmentSystem.PrimaryWeapon.AnimationType);
-        await EquipToSlotAsync(1);
+        SetAnimationType(_equipmentSystem.PrimaryWeaponModelHolder.AnimationType);
+        _ = EquipToSlotAsync(1);
     }
     
     [BurstCompile]
@@ -68,7 +68,7 @@ public class CharacterActions : CharacterAnimationParams
         {
             if (SwitchBoneValue == 0f)
             {
-                _equipmentSystem.PrimaryWeapon.Equip(Skin.BonesCollector, slotIndex);
+                _equipmentSystem.PrimaryWeaponModelHolder.Equip(Skin.BonesCollector, slotIndex);
                 break;
             }
             await Task.Yield();

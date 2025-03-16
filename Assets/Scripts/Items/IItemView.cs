@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public interface IItem
+public interface IItemView
 {
     public List<BoneTransformSlot> BoneTransformSlots { get; }
     

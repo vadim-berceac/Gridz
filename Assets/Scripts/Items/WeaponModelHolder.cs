@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour, IItem
+public class WeaponModelHolder : MonoBehaviour, IItemView
 {
     [field: SerializeField] public List<BoneTransformSlot> BoneTransformSlots { get; private set; }
     [field: SerializeField] public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.None;
