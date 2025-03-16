@@ -19,8 +19,8 @@ public class CharacterActions : CharacterAnimationParams
         {
             return;
         }
-        _equipmentSystem.CreateWeaponInstance();
-        _equipmentSystem.Equip(Skin.BonesCollector, 0);
+        _equipmentSystem.CreateItemsInstance();
+        _equipmentSystem.PrimaryWeaponData.Equip(Skin.BonesCollector, 0, _equipmentSystem.ViewInstance);
     }
 
     [BurstCompile]
@@ -68,7 +68,7 @@ public class CharacterActions : CharacterAnimationParams
         {
             if (SwitchBoneValue == 0f)
             {
-                _equipmentSystem.Equip(Skin.BonesCollector, slotIndex);
+                _equipmentSystem.PrimaryWeaponData.Equip(Skin.BonesCollector, slotIndex, _equipmentSystem.ViewInstance);
                 break;
             }
             await Task.Yield();
