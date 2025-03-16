@@ -482,7 +482,7 @@ PrefabInstance:
     - target: {fileID: 527339777544466241, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: <Weapon>k__BackingField
       value: 
-      objectReference: {fileID: 5690489026493372093}
+      objectReference: {fileID: 0}
     - target: {fileID: 2199576843291160208, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: <CharacterSkinData>k__BackingField
       value: 
@@ -538,7 +538,11 @@ PrefabInstance:
     - target: {fileID: 8688598080372717116, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: <PrimaryWeapon>k__BackingField
       value: 
-      objectReference: {fileID: 5690489026493372093}
+      objectReference: {fileID: 0}
+    - target: {fileID: 8688598080372717116, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: <PrimaryWeaponData>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: dd3708fcfd43c2b4eb0dd230a626f1e7, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1467,6 +1471,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8688598080372717116, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: <PrimaryWeaponData>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: dd3708fcfd43c2b4eb0dd230a626f1e7, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2284,74 +2292,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2004640940}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &5690489026493372091
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7926834445009811899, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
-      propertyPath: m_Name
-      value: TrainingSword_View
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -29.861172
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.535
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.6173666
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339592821350100798, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
---- !u!114 &5690489026493372093 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 981532035177592990, guid: c6c31db8aa32a4944a6e1d95859f210e, type: 3}
-  m_PrefabInstance: {fileID: 5690489026493372091}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 556473a7f4ff0a44981bc4d737835077, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6755064081798705092
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2363,7 +2303,7 @@ PrefabInstance:
     - target: {fileID: 2199576843291160208, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: <Weapon>k__BackingField
       value: 
-      objectReference: {fileID: 5690489026493372093}
+      objectReference: {fileID: 0}
     - target: {fileID: 2199576843291160208, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: <CharacterSkinData>k__BackingField
       value: 
@@ -2411,6 +2351,10 @@ PrefabInstance:
     - target: {fileID: 5487662251822900080, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8688598080372717116, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: <PrimaryWeaponModelHolder>k__BackingField
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2488,4 +2432,3 @@ SceneRoots:
   - {fileID: 6755064081798705092}
   - {fileID: 193169802}
   - {fileID: 987140213}
-  - {fileID: 5690489026493372091}

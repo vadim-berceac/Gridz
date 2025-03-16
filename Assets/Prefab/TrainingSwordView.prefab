@@ -268,8 +268,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8339592821350100798}
   - component: {fileID: 7211786274501867256}
-  - component: {fileID: 4802363620342705243}
-  - component: {fileID: 981532035177592990}
   m_Layer: 0
   m_Name: TrainingSwordView
   m_TagString: Untagged
@@ -285,8 +283,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7926834445009811899}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.861172, y: 1.535, z: -3.6173666}
+  m_LocalRotation: {x: -0.9727626, y: 0.005093513, z: 0.0012134853, w: 0.2317446}
+  m_LocalPosition: {x: -0.2, y: 0.02, z: 0.081}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -317,56 +315,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.02, y: 1, z: 0.1}
   m_Center: {x: 0, y: 0.32, z: 0}
---- !u!54 &4802363620342705243
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7926834445009811899}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &981532035177592990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7926834445009811899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 556473a7f4ff0a44981bc4d737835077, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <BoneTransformSlots>k__BackingField:
-  - <BonesType>k__BackingField: 0
-    <Position>k__BackingField: {x: -0.2, y: 0.02, z: 0.081}
-    <Rotation>k__BackingField: {x: 333.2, y: 180, z: 180.6}
-    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
-  - <BonesType>k__BackingField: 17
-    <Position>k__BackingField: {x: 0.066, y: 0.084, z: 0.028}
-    <Rotation>k__BackingField: {x: 286.8, y: 46.85, z: 35.8}
-    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
-  <AnimationType>k__BackingField: 3
-  <WeaponRigidbody>k__BackingField: {fileID: 4802363620342705243}
 --- !u!1 &9125135799609538267
 GameObject:
   m_ObjectHideFlags: 0
