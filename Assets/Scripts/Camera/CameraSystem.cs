@@ -1,3 +1,4 @@
+using System;
 using Unity.Burst;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class CameraSystem : MonoBehaviour
     
     [field:Header("Player")]
     [field:SerializeField] public LocoMotion SelectedCharacter {get; private set;}
+    public event Action<LocoMotion> SelectedCharacterChanged;
     
     private PlayerInput _gameInput;
     public Vector2 LookInput {get; private set;}
@@ -34,6 +36,7 @@ public class CameraSystem : MonoBehaviour
         if (locoMotion == null)
         {
             SelectedCharacter = null;
+            SelectedCharacterChanged?.Invoke(null);
             SetTarget(null);
             return;
         }
@@ -41,10 +44,12 @@ public class CameraSystem : MonoBehaviour
         if (target == null)
         {
             SelectedCharacter = null;
+            SelectedCharacterChanged?.Invoke(null);
             SetTarget(null);
             return;
         }
         SelectedCharacter = locoMotion;
+        SelectedCharacterChanged?.Invoke(locoMotion);
         SetTarget(target.transform);
     }
 

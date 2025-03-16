@@ -26,6 +26,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     public InputAction Click { get; private set; }
     public InputAction RightClick { get; private set; }
     public InputAction ScrollWheel { get; private set; }
+    public InputAction OpenInventory { get; private set; }
     
     private Vector2 _moveDirection;
     private Vector2 _lookDirection;
@@ -55,7 +56,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
 
     private void FindActions()
     {
-        InputActionMapGame = inputActionAsset.FindActionMap("Game");
+        InputActionMapGame = inputActionAsset.FindActionMap("Player");
         InputActionMapUI = inputActionAsset.FindActionMap("UI");
         
         Move = inputActionAsset.FindAction("Move");
@@ -73,6 +74,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Click = inputActionAsset.FindAction("Click");
         RightClick = inputActionAsset.FindAction("RightClick");
         ScrollWheel = inputActionAsset.FindAction("ScrollWheel");
+        OpenInventory = inputActionAsset.FindAction("OpenInventory");
     }
 
     private void EnableActions()
@@ -92,6 +94,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Click.Enable();
         RightClick.Enable();
         ScrollWheel.Enable();
+        OpenInventory.Enable();
     }
 
     private void DisableActions()
@@ -111,6 +114,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Click.Disable();
         RightClick.Disable();
         ScrollWheel.Disable();
+        OpenInventory.Disable();
     }
 
     private void SubscribeToActions()
