@@ -9,6 +9,12 @@ public class WeaponData : ScriptableObject, IItemData, IWearable, IChangeAnimati
     [field: SerializeField] public Transform View  { get; private set; }
     [field: SerializeField] public List<BoneTransformSlot> BoneTransformSlots { get; private set; }
     [field: SerializeField] public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.None;
+
+    [BurstCompile]
+    public Transform CreateInstance()
+    {
+        return Instantiate(View);
+    }
     
     [BurstCompile]
     public void Equip(BonesCollector bonesCollector, int slotIndex, Transform objectInstance)
