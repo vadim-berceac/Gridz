@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85283f18ad89aed4ea679ec6c790dd2d, type: 3}
+  m_Name: 2_UnarmedSet
+  m_EditorClassIdentifier: 
+  <Type>k__BackingField: 2
+  clips:
+  - {fileID: 11400000, guid: 1fe5a0ace3663db49959b78e696f1aec, type: 2}
+  - {fileID: 11400000, guid: baef8c4f95a8ce84daefeeb3449064be, type: 2}
+  - {fileID: 11400000, guid: a16fbbb3fe43ff748ba80911e5126539, type: 2}
+  - {fileID: 11400000, guid: 6cdb51a64b6185643befb1dbd7b5a924, type: 2}
+  - {fileID: 11400000, guid: 66b83bc9d25544849994fc63ea023b02, type: 2}
+  - {fileID: 11400000, guid: 6d75aeba1f08b46469f6f6d164a83176, type: 2}

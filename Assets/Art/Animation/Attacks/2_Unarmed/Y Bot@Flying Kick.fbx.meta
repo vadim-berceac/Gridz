@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: dba2f55ec05505d43b272de0a5603ab9
+guid: 2b71066746ccce74fa008ba0954d2a18
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -31,13 +31,13 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Hook
+      name: Flying Kick
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 135
+      lastFrame: 90
       wrapMode: 0
-      orientationOffsetY: -30
+      orientationOffsetY: -10
       level: 0
       cycleOffset: 0
       loop: 0
@@ -46,11 +46,11 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
+      loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves:
@@ -60,15 +60,15 @@ ModelImporter:
           curve:
           - serializedVersion: 3
             time: 0
-            value: 0
-            inSlope: -3.0314465
-            outSlope: -3.0314465
+            value: 1
+            inSlope: -4.61244
+            outSlope: -4.61244
             tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0.33333334
           - serializedVersion: 3
-            time: 0.32987553
+            time: 0.43360996
             value: -1
             inSlope: 0
             outSlope: 0
@@ -77,17 +77,8 @@ ModelImporter:
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 0.65975106
+            time: 0.6244813
             value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 0.7614108
-            value: -1
             inSlope: 0
             outSlope: 0
             tangentMode: 0
@@ -97,14 +88,39 @@ ModelImporter:
           - serializedVersion: 3
             time: 1
             value: 0
-            inSlope: 4.191304
-            outSlope: 4.191304
+            inSlope: -2.6629834
+            outSlope: -2.6629834
             tangentMode: 34
             weightedMode: 0
             inWeight: 0.33333334
             outWeight: 0
           preInfinity: 2
           postInfinity: 2
+          rotationOrder: 4
+      - name: OneShotPlayed
+        curve:
+          serializedVersion: 2
+          curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          preInfinity: 3
+          postInfinity: 3
           rotationOrder: 4
       - name: AttackCurve
         curve:
@@ -115,46 +131,21 @@ ModelImporter:
             value: 1
             inSlope: 0
             outSlope: 0
-            tangentMode: 5
+            tangentMode: 0
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 0.17561984
-            value: 1
-            inSlope: -0
-            outSlope: 0
-            tangentMode: 5
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 0.35950413
+            time: 0.09917355
             value: 1
             inSlope: 0
-            outSlope: -3.1225805
-            tangentMode: 65
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: -1
-            inSlope: -3.1225805
             outSlope: 0
-            tangentMode: 69
+            tangentMode: 0
             weightedMode: 0
             inWeight: 0
             outWeight: 0
-          preInfinity: 3
-          postInfinity: 3
-          rotationOrder: 4
-      - name: CurrentClipPlaying
-        curve:
-          serializedVersion: 2
-          curve:
           - serializedVersion: 3
-            time: 0
+            time: 0.4359504
             value: 1
             inSlope: 0
             outSlope: 0
@@ -164,7 +155,7 @@ ModelImporter:
             outWeight: 0
           - serializedVersion: 3
             time: 1
-            value: 1
+            value: -1
             inSlope: 0
             outSlope: 0
             tangentMode: 0
