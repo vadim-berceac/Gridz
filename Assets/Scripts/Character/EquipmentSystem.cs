@@ -21,8 +21,18 @@ public class EquipmentSystem : MonoBehaviour
     
     public Transform PrimaryArmorInstance  {get; private set; }
 
-    public void Awake()
+    private void Awake()
     {
         PrimaryWeaponInstance = PrimaryWeaponData?.CreateInstance();
+    }
+
+    public AnimationTypes.Type GetAnimationType()
+    {
+        if (PrimaryWeaponData == null)
+        {
+            return AnimationTypes.Type.Unarmed;
+        }
+
+        return PrimaryWeaponData.AnimationType;
     }
 }

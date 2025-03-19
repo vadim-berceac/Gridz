@@ -118,6 +118,7 @@ public class LocoMotion : GravitationObject
         CharacterInput.OnSprint += HandleSprint;
         CharacterInput.OnHoldTarget += HandleTargetLock;
         CharacterInput.OnDrawWeapon += HandleDrawWeapon;
+        CharacterInput.OnAttack += HandleAttack;
     }
 
     protected virtual void UnsubscribeInputs()
@@ -127,6 +128,7 @@ public class LocoMotion : GravitationObject
         CharacterInput.OnSprint -= HandleSprint;
         CharacterInput.OnHoldTarget -= HandleTargetLock;
         CharacterInput.OnDrawWeapon -= HandleDrawWeapon;
+        CharacterInput.OnAttack -= HandleAttack;
     }
 
     protected override void Update()
@@ -179,6 +181,11 @@ public class LocoMotion : GravitationObject
     protected virtual void HandleDrawWeapon(bool isDrawWeapon)
     {
         _isDrawWeapon = isDrawWeapon;
+    }
+
+    protected virtual void HandleAttack()
+    {
+        Debug.LogWarning($"{name} атакует");
     }
     
     [BurstCompile]

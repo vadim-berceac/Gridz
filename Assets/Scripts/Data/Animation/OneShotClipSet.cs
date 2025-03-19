@@ -9,7 +9,7 @@ public class OneShotClipSet : ScriptableObject
 
     public OneShotClip GetOneShotClip()
     {
-        if (clips.Count < 0)
+        if (clips.Count < 1)
         {
             return null;
         }

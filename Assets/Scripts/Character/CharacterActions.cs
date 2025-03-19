@@ -1,11 +1,19 @@
 using System.Threading.Tasks;
 using Unity.Burst;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(EquipmentSystem))]
 public class CharacterActions : CharacterAnimationParams
 {
     private EquipmentSystem _equipmentSystem;
+    private OneShotClipSetsContainer _oneShotClipSetsContainer;
+
+    [Inject]
+    private void Construct(OneShotClipSetsContainer container)
+    {
+        _oneShotClipSetsContainer = container;
+    }
 
     protected override void Initialize()
     {
@@ -23,9 +31,19 @@ public class CharacterActions : CharacterAnimationParams
     }
 
     [BurstCompile]
+    protected override void HandleAttack()
+    {
+        //дописать
+        base.HandleAttack();
+        var testanim = _oneShotClipSetsContainer.GetOneShotClip(_equipmentSystem.GetAnimationType());
+        Debug.LogWarning(testanim?.name);
+    }
+
+    [BurstCompile]
     protected override async void HandleDrawWeapon(bool isDrawWeapon)
     {
         //переключение типов анимации слишком резкое из-за await
+        //переписать с учетом _equipmentSystem.GetAnimationType()
         base.HandleDrawWeapon(isDrawWeapon);
     
         if (!isDrawWeapon)
@@ -47,7 +65,7 @@ public class CharacterActions : CharacterAnimationParams
             return;
         }
         
-        SetAnimationType(_equipmentSystem.PrimaryWeaponData.AnimationType);
+        SetAnimationType(_equipmentSystem.GetAnimationType());
         _ = EquipToSlotAsync(1);
     }
     
