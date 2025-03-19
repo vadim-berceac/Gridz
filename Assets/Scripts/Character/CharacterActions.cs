@@ -33,10 +33,15 @@ public class CharacterActions : CharacterAnimationParams
     [BurstCompile]
     protected override void HandleAttack()
     {
-        //дописать
+        //почему-то создается очередь - не должна
+        if (!IsDrawWeapon || SwitchBoneValue != 0 || OneShotPlayedValue > 0)
+        {
+            return;
+        }
         base.HandleAttack();
-        var testanim = _oneShotClipSetsContainer.GetOneShotClip(_equipmentSystem.GetAnimationType());
-        Debug.LogWarning(testanim?.name);
+        var oneShot = _oneShotClipSetsContainer.GetOneShotClip(_equipmentSystem.GetAnimationType());
+        Animator.SetNewClipToState(oneShot.Clip, OneShotClipState);
+        Animator.SetFloat("AnimationSpeed", oneShot.Speed);
     }
 
     [BurstCompile]

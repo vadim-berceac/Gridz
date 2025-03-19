@@ -37,6 +37,10 @@ public static class AnimatorExtensions
     [BurstCompile]
     public static void SetNewClipToState(this Animator animator, AnimationClip clip, AnimatorState state)
     {
+        if (clip == null)
+        {
+            return;
+        }
         var overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController); 
 
         overrideController[state.motion.name] = clip;

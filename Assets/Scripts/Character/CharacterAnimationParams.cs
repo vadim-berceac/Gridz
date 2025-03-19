@@ -1,4 +1,5 @@
 using Unity.Burst;
+using UnityEditor.Animations;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -7,9 +8,12 @@ public abstract class CharacterAnimationParams : LocoMotion
    [field:Header("Animation")]
    [field: SerializeField] public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.Default;
    public Animator Animator { get; private set; }
-  
-   protected float SwitchBoneValue;
+   public AnimatorState OneShotClipState { get; private set; }
 
+   protected float OneShotPlayedValue;
+   protected float SwitchBoneValue;
+   
+   private int _oneShotPlayedHash;
    private int _animationTypeHash;
    private int _switchBoneCurveHash;
    private int _groundedHash;
@@ -29,6 +33,7 @@ public abstract class CharacterAnimationParams : LocoMotion
    {
       base.Initialize();
       Animator = GetComponent<Animator>();
+      OneShotClipState = Animator.GetAnimatorState(1, "OneShotClip");
       HashParams();
    }
 
@@ -74,6 +79,7 @@ public abstract class CharacterAnimationParams : LocoMotion
       _drawTriggerHash = Animator.StringToHash("DrawTrigger");
       _inputXHash = Animator.StringToHash("InputX");
       _inputZHash = Animator.StringToHash("InputZ");
+      _oneShotPlayedHash = Animator.StringToHash("OneShotPlayed");
    }
 
    [BurstCompile]
@@ -91,6 +97,7 @@ public abstract class CharacterAnimationParams : LocoMotion
       Animator.SetFloat(_inputXHash, CorrectedDirection.x, 0.2f, Time.deltaTime);
       Animator.SetFloat(_inputZHash, CorrectedDirection.z, 0.2f, Time.deltaTime);
       SwitchBoneValue = Animator.GetFloat(_switchBoneCurveHash);
+      OneShotPlayedValue = Animator.GetFloat(_oneShotPlayedHash);
    }
 
    private void HandleAttackTrigger()
