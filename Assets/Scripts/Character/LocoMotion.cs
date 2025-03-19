@@ -63,7 +63,6 @@ public class LocoMotion : GravitationObject
     private bool _isSneaking;
     private bool _isTargetLock;
     private bool _isDrawWeapon;
-    private bool _isAttack;
     private const float SpeedChangeRate = 4f;
 
     [Inject]

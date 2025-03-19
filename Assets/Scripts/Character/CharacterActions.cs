@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Unity.Burst;
+using UnityEditor.Animations;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +9,7 @@ public class CharacterActions : CharacterAnimationParams
 {
     private EquipmentSystem _equipmentSystem;
     private OneShotClipSetsContainer _oneShotClipSetsContainer;
+    private AnimatorOverrideController _overrideController;
 
     [Inject]
     private void Construct(OneShotClipSetsContainer container)
@@ -19,6 +21,8 @@ public class CharacterActions : CharacterAnimationParams
     {
         base.Initialize();
         _equipmentSystem = GetComponent<EquipmentSystem>();
+        _overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
+        Animator.runtimeAnimatorController = _overrideController;
     }
     
     private void Start()
@@ -33,22 +37,25 @@ public class CharacterActions : CharacterAnimationParams
     [BurstCompile]
     protected override void HandleAttack()
     {
-        //почему-то создается очередь - не должна
         if (!IsDrawWeapon || SwitchBoneValue != 0 || OneShotPlayedValue > 0)
         {
             return;
         }
-        base.HandleAttack();
+
         var oneShot = _oneShotClipSetsContainer.GetOneShotClip(_equipmentSystem.GetAnimationType());
-        Animator.SetNewClipToState(oneShot.Clip, OneShotClipState);
+        if (oneShot == null)
+        {
+            Debug.LogWarning("No OneShot Clip Set");
+            return;
+        }
+        
+        SetNewClipToState(oneShot.Clip, OneShotClipState);
         Animator.SetFloat("AnimationSpeed", oneShot.Speed);
     }
 
     [BurstCompile]
     protected override async void HandleDrawWeapon(bool isDrawWeapon)
     {
-        //переключение типов анимации слишком резкое из-за await
-        //переписать с учетом _equipmentSystem.GetAnimationType()
         base.HandleDrawWeapon(isDrawWeapon);
     
         if (!isDrawWeapon)
@@ -61,12 +68,6 @@ public class CharacterActions : CharacterAnimationParams
         
             await EquipToSlotAsync(0);
             SetAnimationType(AnimationTypes.Type.Default);
-            return;
-        }
-
-        if (!_equipmentSystem.PrimaryWeaponData)
-        {
-            SetAnimationType(AnimationTypes.Type.Unarmed);
             return;
         }
         
@@ -97,10 +98,13 @@ public class CharacterActions : CharacterAnimationParams
         }
     }
     
-    //текущий OneShotClip
-    protected override void HashParams()
+    [BurstCompile]
+    private void SetNewClipToState(AnimationClip clip, AnimatorState state)
     {
-        base.HashParams();
-        //находим хеш OneShotClip
+        if (clip == null)
+        {
+            return;
+        }
+        _overrideController[state.motion.name] = clip;
     }
 }

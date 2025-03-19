@@ -102,11 +102,19 @@ public abstract class CharacterAnimationParams : LocoMotion
 
    private void HandleAttackTrigger()
    {
+      if (OneShotPlayedValue > 0)
+      {
+         return;
+      }
       Animator.SetTrigger(_oneShotTriggerHash);
    }
 
    private void HandleDrawTrigger(bool sda)
    {
+      if (OneShotPlayedValue > 0)
+      {
+         return;
+      }
       Animator.SetTrigger(_drawTriggerHash);
    }
 }
