@@ -18,6 +18,8 @@ public class Inventory : MonoBehaviour
         _playerInput = playerInput;
         _cameraSystem = cameraSystem;
     }
+    
+    //нужно реализовать отображение стака вещей в одной ячейке (счет не в itemData - потому что то ScriptableObject и общий для всех предметов)
 
     private void Awake()
     {
