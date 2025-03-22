@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 21300000, guid: bf275b1241c0fa04e83b0288eaecab84, type: 3}
   <View>k__BackingField: {fileID: 8339592821350100798, guid: dbf8c11e6a5bbdd4585584f26d9decdb, type: 3}
+  <Damage>k__BackingField: 33
+  <DamageDelay>k__BackingField: 0.6
   <BoneTransformSlots>k__BackingField:
   - <BonesType>k__BackingField: 0
     <Position>k__BackingField: {x: -0.2, y: 0.02, z: 0.081}

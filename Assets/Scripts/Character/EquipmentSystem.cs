@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EquipmentSystem : MonoBehaviour
@@ -23,7 +24,11 @@ public class EquipmentSystem : MonoBehaviour
 
     private void Awake()
     {
-        PrimaryWeaponInstance = PrimaryWeaponData?.CreateInstance();
+        if (PrimaryWeaponData == null)
+        {
+            return;
+        }
+        PrimaryWeaponInstance = CreateWeaponInstance(PrimaryWeaponData);
     }
 
     public AnimationTypes.Type GetAnimationType()
@@ -34,5 +39,13 @@ public class EquipmentSystem : MonoBehaviour
         }
 
         return PrimaryWeaponData.AnimationType;
+    }
+
+    private static Transform CreateWeaponInstance(WeaponData weaponData)
+    {
+        var result = weaponData.CreateInstance();
+        var weaponDamageCollider = result.AddComponent<WeaponColliderDamage>();
+        weaponDamageCollider.Init(weaponData.Damage, weaponData.DamageDelay, weaponData.AnimationType);
+        return result;
     }
 }

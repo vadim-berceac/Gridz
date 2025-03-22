@@ -7,6 +7,8 @@ public class WeaponData : ScriptableObject, IItemData, IWearable, IChangeAnimati
 {
     [field: SerializeField] public Sprite Icon { get; private set; }
     [field: SerializeField] public Transform View  { get; private set; }
+    [field: SerializeField] public float Damage { get; private set; }
+    [field: SerializeField] public float DamageDelay { get; private set; }
     [field: SerializeField] public List<BoneTransformSlot> BoneTransformSlots { get; private set; }
     [field: SerializeField] public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.None;
 

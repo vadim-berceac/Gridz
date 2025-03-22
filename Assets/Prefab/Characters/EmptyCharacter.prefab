@@ -43,7 +43,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5487662251822900080}
   - component: {fileID: 420042207409785341}
+  - component: {fileID: 4218026636482552046}
   - component: {fileID: 7105497252630676905}
+  - component: {fileID: 4374174592053158896}
   - component: {fileID: 8688598080372717116}
   - component: {fileID: 2199576843291160208}
   - component: {fileID: 527339777544466241}
@@ -94,6 +96,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!136 &4218026636482552046
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4373059052394708103}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!143 &7105497252630676905
 CharacterController:
   m_ObjectHideFlags: 0
@@ -119,6 +144,19 @@ CharacterController:
   m_SkinWidth: 0.03
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &4374174592053158896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4373059052394708103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db7ca59728810864ab0c9097887dbad8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MaxHealth>k__BackingField: 100
 --- !u!114 &8688598080372717116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +204,6 @@ MonoBehaviour:
     m_Bits: 1
   <GroundOffset>k__BackingField: {x: 0, y: -0.8, z: 0}
   <SphereRadius>k__BackingField: 0.35
-  <MovementType>k__BackingField: 2
   <RotationSpeed>k__BackingField: 4
   <ForwardSneakSpeedCurve>k__BackingField:
     serializedVersion: 2
@@ -316,7 +353,6 @@ MonoBehaviour:
   <JumpHeight>k__BackingField: 2
   <Targeting>k__BackingField: {fileID: 8398287543195089317}
   <EquipmentSystem>k__BackingField: {fileID: 8688598080372717116}
-  <AnimationType>k__BackingField: 1
 --- !u!1 &5927873971416705715
 GameObject:
   m_ObjectHideFlags: 0
