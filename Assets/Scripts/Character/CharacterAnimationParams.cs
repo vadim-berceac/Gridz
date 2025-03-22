@@ -101,7 +101,7 @@ public abstract class CharacterAnimationParams : LocoMotion
 
    private void HandleAttackTrigger()
    {
-      if (OneShotPlayedValue > 0)
+      if (OneShotPlayedValue > 0 || !IsDrawWeapon)
       {
          return;
       }
