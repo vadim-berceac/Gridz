@@ -3,10 +3,9 @@ using Unity.Burst;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponData", menuName = "Scriptable Objects/WeaponData")]
-public class WeaponData : ScriptableObject, IItemData, IWearable, IChangeAnimation
+public class WeaponData : ItemData, IWearable, IChangeAnimation
 {
-    [field: SerializeField] public Sprite Icon { get; private set; }
-    [field: SerializeField] public Transform View  { get; private set; }
+    [field: SerializeField] public Transform ModelView  { get; private set; }
     [field: SerializeField] public float Damage { get; private set; }
     [field: SerializeField] public float DamageDelay { get; private set; }
     [field: SerializeField] public List<BoneTransformSlot> BoneTransformSlots { get; private set; }
@@ -15,7 +14,7 @@ public class WeaponData : ScriptableObject, IItemData, IWearable, IChangeAnimati
     [BurstCompile]
     public Transform CreateInstance()
     {
-        return Instantiate(View);
+        return Instantiate(ModelView);
     }
     
     [BurstCompile]
@@ -35,13 +34,13 @@ public class WeaponData : ScriptableObject, IItemData, IWearable, IChangeAnimati
     }
 
     [BurstCompile]
-    public void Drop(IItemData droppedItem)
+    public override void Drop(IItemData droppedItem)
     {
         
     }
 
     [BurstCompile]
-    public void Take(IItemData takedItem)
+    public override void Take(IItemData takedItem)
     {
         
     }

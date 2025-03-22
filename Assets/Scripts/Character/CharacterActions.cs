@@ -1,7 +1,9 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Unity.Burst;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using Zenject;
 
 [RequireComponent(typeof(EquipmentSystem))]
@@ -34,6 +36,26 @@ public class CharacterActions : CharacterAnimationParams
             return;
         }
         EquipmentSystem.PrimaryWeaponData.Equip(Skin.BonesCollector, 0, EquipmentSystem.PrimaryWeaponInstance);
+    }
+
+    [BurstCompile]
+    protected override void HandleInteract()
+    {
+        base.HandleInteract();
+
+        if (ItemTargeting.Targets.Count < 1)
+        {
+            Debug.LogWarning("нечего подбирать");
+            return;
+        }
+
+        var list = ItemTargeting.Targets.ToList();
+        
+        var target = list[0].GetComponent<PickupObject>().ItemData;
+
+        Debug.LogWarning($"подбираю {target.name}");
+        
+        Destroy(list[0].gameObject); 
     }
 
     [BurstCompile]

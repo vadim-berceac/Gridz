@@ -29,7 +29,8 @@ public class LocoMotion : GravitationObject
     [field: SerializeField] public float JumpHeight { get; private set; } = 2f;
     
     [field:Header("Targeting Settings")]
-    [field: SerializeField] public CharacterTargeting Targeting { get; private set; }
+    [field: SerializeField] public CharacterTargeting EnemyTargeting { get; private set; }
+    [field: SerializeField] public ItemTargeting ItemTargeting { get; private set; }
     
     [field:Header("Inventory")]
     [field: SerializeField] public EquipmentSystem EquipmentSystem { get; private set; }
@@ -117,6 +118,7 @@ public class LocoMotion : GravitationObject
         CharacterInput.OnHoldTarget += HandleTargetLock;
         CharacterInput.OnDrawWeapon += HandleDrawWeapon;
         CharacterInput.OnAttack += HandleAttack;
+        CharacterInput.OnInteract += HandleInteract;
     }
 
     protected virtual void UnsubscribeInputs()
@@ -127,6 +129,7 @@ public class LocoMotion : GravitationObject
         CharacterInput.OnHoldTarget -= HandleTargetLock;
         CharacterInput.OnDrawWeapon -= HandleDrawWeapon;
         CharacterInput.OnAttack -= HandleAttack;
+        CharacterInput.OnInteract -= HandleInteract;
     }
 
     protected override void Update()
@@ -185,6 +188,11 @@ public class LocoMotion : GravitationObject
     {
         Debug.LogWarning($"{name} атакует");
     }
+
+    protected virtual void HandleInteract()
+    {
+        Debug.LogWarning($"{name} попытка поднять предмет");
+    }
     
     [BurstCompile]
     private void UpdateSpeed()
@@ -207,20 +215,20 @@ public class LocoMotion : GravitationObject
     [BurstCompile]
     private void UpdateRotate()
     {
-        if (Targeting.TargetDirection == Vector3.zero || !_isTargetLock)
+        if (EnemyTargeting.TargetDirection == Vector3.zero || !_isTargetLock)
         {
             CashedTransform.RotateCombined(_currentMovementType, _nominalMovementDirection, RotationSpeed, 
                 Time.deltaTime, _rotateByCamera, _cameraSystem.GetCameraYaw());
             return;
         }
-        CashedTransform.RotateTo(_currentMovementType, Targeting.TargetDirection, RotationSpeed, 
+        CashedTransform.RotateTo(_currentMovementType, EnemyTargeting.TargetDirection, RotationSpeed, 
             Time.deltaTime);
     }
 
     [BurstCompile]
     private void UpdateMove()
     {
-        if (Targeting.TargetDirection == Vector3.zero || !_isTargetLock)
+        if (EnemyTargeting.TargetDirection == Vector3.zero || !_isTargetLock)
         {
             CashedTransform.Move(CharacterController, _currentMovementType, CorrectedDirection, CurrentSpeedZ, Time.deltaTime, _isJumping);
             return;
@@ -229,7 +237,7 @@ public class LocoMotion : GravitationObject
         //нестабильно
         if (Mathf.Abs(CorrectedDirection.z) <  0.1f)
         {
-            CashedTransform.Move(CharacterController, _currentMovementType, Targeting.TargetDirection, CurrentSpeedX, Time.deltaTime, _isJumping);
+            CashedTransform.Move(CharacterController, _currentMovementType, EnemyTargeting.TargetDirection, CurrentSpeedX, Time.deltaTime, _isJumping);
             return;
         }
     
@@ -244,12 +252,12 @@ public class LocoMotion : GravitationObject
             return;
         }
 
-        if (Targeting.Targets.Count < 1)
+        if (EnemyTargeting.Targets.Count < 1)
         {
             CharacterInput.ResetHoldTarget();
             return;
         }
-        Targeting.UpdateTarget();
+        EnemyTargeting.UpdateTarget();
     }
 
     [BurstCompile]

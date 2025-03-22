@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IWearable
 {
-    public Transform View { get; }
+    public Transform ModelView { get; }
     public List<BoneTransformSlot> BoneTransformSlots { get; }
     public Transform CreateInstance();
 

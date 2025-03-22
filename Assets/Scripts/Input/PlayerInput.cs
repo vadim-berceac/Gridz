@@ -126,7 +126,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Look.canceled += ctx => _lookDirection = Vector2.zero;
         
         Attack.performed += ctx => OnAttack?.Invoke();
-        Interact.performed += ctx => OnInteract?.Invoke();
+        Interact.started += ctx => OnInteract?.Invoke();
         Jump.performed += ctx => OnJump?.Invoke();
 
         HoldTarget.performed += ctx =>
