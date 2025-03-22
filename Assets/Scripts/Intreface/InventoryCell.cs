@@ -24,4 +24,14 @@ public class InventoryCell : MonoBehaviour
       Icon.sprite = item.Icon;
       Text.SetText("1");
    }
+
+   public void OnClick()
+   {
+      if (_item == null)
+      {
+         return;
+      }
+      
+      _item.Use();
+   }
 }

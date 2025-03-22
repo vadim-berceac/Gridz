@@ -14,4 +14,9 @@ public class ItemData : ScriptableObject, IItemData
     {
         
     }
+
+    public virtual void Use()
+    {
+        
+    }
 }

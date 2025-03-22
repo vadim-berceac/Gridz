@@ -31,11 +31,11 @@ public class CharacterActions : CharacterAnimationParams
     
     private void Start()
     {
-        if (!EquipmentSystem.PrimaryWeaponData)
+        if (!EquipmentSystem.WeaponData[0])
         {
             return;
         }
-        EquipmentSystem.PrimaryWeaponData.Equip(Skin.BonesCollector, 0, EquipmentSystem.PrimaryWeaponInstance);
+        EquipmentSystem.WeaponData[0].Equip(Skin.BonesCollector, 0, EquipmentSystem.PrimaryWeaponInstance);
     }
 
     [BurstCompile]
@@ -56,8 +56,12 @@ public class CharacterActions : CharacterAnimationParams
         EquipmentSystem.InventoryBag.Add(target);
 
         Debug.LogWarning($"подбираю {target.name}");
+
+        var toRemove = list[0].gameObject;
         
-        Destroy(list[0].gameObject); 
+        ItemTargeting.Targets.Remove(toRemove.transform);
+        
+        Destroy(toRemove); 
     }
 
     [BurstCompile]
@@ -89,7 +93,7 @@ public class CharacterActions : CharacterAnimationParams
     
         if (!isDrawWeapon)
         {
-            if (!EquipmentSystem.PrimaryWeaponData)
+            if (!EquipmentSystem.WeaponData[0])
             {
                 SetAnimationType(AnimationTypes.Type.Default);
                 return;
@@ -120,7 +124,7 @@ public class CharacterActions : CharacterAnimationParams
         {
             if (SwitchBoneValue == 0f)
             {
-                EquipmentSystem.PrimaryWeaponData.Equip(Skin.BonesCollector, slotIndex, EquipmentSystem.PrimaryWeaponInstance);
+                EquipmentSystem.WeaponData[0].Equip(Skin.BonesCollector, slotIndex, EquipmentSystem.PrimaryWeaponInstance);
                 break;
             }
             await Task.Yield();

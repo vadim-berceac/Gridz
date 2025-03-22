@@ -18,6 +18,12 @@ public class WeaponData : ItemData, IWearable, IChangeAnimation
     }
     
     [BurstCompile]
+    public override void Use()
+    {
+        Debug.LogWarning("Логика назначения в оружейный слот");
+    }
+
+    [BurstCompile]
     public void Equip(BonesCollector bonesCollector, int slotIndex, Transform objectInstance)
     {
         if (BoneTransformSlots.Count <= slotIndex)

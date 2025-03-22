@@ -8,4 +8,5 @@ public interface IItemData
     public void Drop(IItemData data);
     
     public void Take(IItemData data);
+    public void Use();
 }
