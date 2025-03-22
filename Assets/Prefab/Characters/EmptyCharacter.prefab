@@ -47,7 +47,6 @@ GameObject:
   - component: {fileID: 8688598080372717116}
   - component: {fileID: 2199576843291160208}
   - component: {fileID: 527339777544466241}
-  - component: {fileID: 2138904896500683432}
   m_Layer: 13
   m_Name: EmptyCharacter
   m_TagString: Untagged
@@ -133,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PrimaryWeaponData>k__BackingField: {fileID: 0}
+  <SecondaryWeaponData>k__BackingField: {fileID: 0}
   <PrimaryArmorData>k__BackingField: {fileID: 0}
 --- !u!114 &2199576843291160208
 MonoBehaviour:
@@ -317,20 +317,6 @@ MonoBehaviour:
   <Targeting>k__BackingField: {fileID: 8398287543195089317}
   <EquipmentSystem>k__BackingField: {fileID: 8688598080372717116}
   <AnimationType>k__BackingField: 1
---- !u!114 &2138904896500683432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4373059052394708103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e08472451f5c5ba47976b625e10dbe92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <PrimaryWeaponData>k__BackingField: {fileID: 0}
-  <PrimaryArmorData>k__BackingField: {fileID: 0}
 --- !u!1 &5927873971416705715
 GameObject:
   m_ObjectHideFlags: 0

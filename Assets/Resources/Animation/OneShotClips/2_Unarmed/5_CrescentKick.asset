@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 5_CrescentKick
   m_EditorClassIdentifier: 
   <Clip>k__BackingField: {fileID: -203655887218126122, guid: efe6e2863227707469d377b4eefcef4e, type: 3}
-  <Speed>k__BackingField: 1
+  <Speed>k__BackingField: 1.5

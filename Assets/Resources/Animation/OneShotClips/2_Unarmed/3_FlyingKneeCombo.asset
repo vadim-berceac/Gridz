@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 3_FlyingKneeCombo
   m_EditorClassIdentifier: 
   <Clip>k__BackingField: {fileID: -203655887218126122, guid: 414364ebc86760f47b1e75474aa950ca, type: 3}
-  <Speed>k__BackingField: 1
+  <Speed>k__BackingField: 1.3

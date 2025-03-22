@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 2_FlyingKick
   m_EditorClassIdentifier: 
   <Clip>k__BackingField: {fileID: -203655887218126122, guid: 2b71066746ccce74fa008ba0954d2a18, type: 3}
-  <Speed>k__BackingField: 1
+  <Speed>k__BackingField: 1.3

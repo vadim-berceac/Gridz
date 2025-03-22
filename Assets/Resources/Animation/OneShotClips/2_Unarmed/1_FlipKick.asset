@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 1_FlipKick
   m_EditorClassIdentifier: 
   <Clip>k__BackingField: {fileID: -203655887218126122, guid: 8308262e5e00f594db208c3e87bb4476, type: 3}
-  <Speed>k__BackingField: 1
+  <Speed>k__BackingField: 1.5

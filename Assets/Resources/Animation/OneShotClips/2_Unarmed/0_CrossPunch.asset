@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 0_CrossPunch
   m_EditorClassIdentifier: 
   <Clip>k__BackingField: {fileID: -203655887218126122, guid: 72b52418a7eb4834986d39748375ee5f, type: 3}
-  <Speed>k__BackingField: 1
+  <Speed>k__BackingField: 1.5

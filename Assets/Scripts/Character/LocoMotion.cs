@@ -9,8 +9,6 @@ using Action = System.Action;
 [RequireComponent(typeof(CharacterSkinModule))]
 public class LocoMotion : GravitationObject
 {
-    [field: SerializeField] public MovementTypes.MovementType MovementType { get; private set; }
-    
     [field:Header("Rotation Settings")]
     [field: SerializeField] public float RotationSpeed { get; private set; } = 2f;
     
@@ -94,7 +92,8 @@ public class LocoMotion : GravitationObject
         if (SelectedCharacter != null)
         {
             SelectedCharacter.UnsubscribeInputs();
-            SelectedCharacter.CharacterInput = new AICharacterInput();
+            var newInput =  new AICharacterInput();
+            SelectedCharacter.CharacterInput = newInput;
             SelectedCharacter._currentMovementType = MovementTypes.MovementType.None;
             SelectedCharacter.SubscribeInputs();
             _cameraSystem.Select(null);
@@ -104,7 +103,7 @@ public class LocoMotion : GravitationObject
         UnsubscribeInputs();
         SelectedCharacter = this;
         CharacterInput = _inputByPlayer;
-        _currentMovementType = MovementType;
+        _currentMovementType = MovementTypes.MovementType.RootMotion;
         SubscribeInputs();
         _cameraSystem.Select(this);
         _rotateByCamera = true;
@@ -159,7 +158,7 @@ public class LocoMotion : GravitationObject
             return;
         }
         _isJumping = true;
-        CharacterController.Jump(MovementType, CurrentSpeedZ, JumpHeight, JumpDuration,() => _isJumping = false);
+        CharacterController.Jump(_currentMovementType, CurrentSpeedZ, JumpHeight, JumpDuration,() => _isJumping = false);
     }
     
     private void HandleSprint(bool isRunning)

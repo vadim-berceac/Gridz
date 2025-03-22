@@ -7,9 +7,11 @@ using Zenject;
 [RequireComponent(typeof(EquipmentSystem))]
 public class CharacterActions : CharacterAnimationParams
 {
-    private EquipmentSystem _equipmentSystem;
     private OneShotClipSetsContainer _oneShotClipSetsContainer;
     private AnimatorOverrideController _overrideController;
+    private OneShotClip _blankAttack;
+
+    private int _animationSpeedHash;
 
     [Inject]
     private void Construct(OneShotClipSetsContainer container)
@@ -20,18 +22,18 @@ public class CharacterActions : CharacterAnimationParams
     protected override void Initialize()
     {
         base.Initialize();
-        _equipmentSystem = GetComponent<EquipmentSystem>();
         _overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
         Animator.runtimeAnimatorController = _overrideController;
+        _animationSpeedHash = Animator.StringToHash("AnimationSpeed");
     }
     
     private void Start()
     {
-        if (!_equipmentSystem.PrimaryWeaponData)
+        if (!EquipmentSystem.PrimaryWeaponData)
         {
             return;
         }
-        _equipmentSystem.PrimaryWeaponData.Equip(Skin.BonesCollector, 0, _equipmentSystem.PrimaryWeaponInstance);
+        EquipmentSystem.PrimaryWeaponData.Equip(Skin.BonesCollector, 0, EquipmentSystem.PrimaryWeaponInstance);
     }
 
     [BurstCompile]
@@ -42,15 +44,18 @@ public class CharacterActions : CharacterAnimationParams
             return;
         }
 
-        var oneShot = _oneShotClipSetsContainer.GetOneShotClip(_equipmentSystem.GetAnimationType());
-        if (oneShot == null)
+        _blankAttack = null;
+
+        _blankAttack = _oneShotClipSetsContainer.GetOneShotClip(EquipmentSystem.GetAnimationType());
+        
+        if (_blankAttack == null)
         {
             Debug.LogWarning("No OneShot Clip Set");
             return;
         }
         
-        SetNewClipToState(oneShot.Clip, OneShotClipState);
-        Animator.SetFloat("AnimationSpeed", oneShot.Speed);
+        SetNewClipToState(_blankAttack.Clip, OneShotClipState);
+        Animator.SetFloat(_animationSpeedHash, _blankAttack.Speed);
     }
 
     [BurstCompile]
@@ -60,7 +65,7 @@ public class CharacterActions : CharacterAnimationParams
     
         if (!isDrawWeapon)
         {
-            if (!_equipmentSystem.PrimaryWeaponData)
+            if (!EquipmentSystem.PrimaryWeaponData)
             {
                 SetAnimationType(AnimationTypes.Type.Default);
                 return;
@@ -71,7 +76,7 @@ public class CharacterActions : CharacterAnimationParams
             return;
         }
         
-        SetAnimationType(_equipmentSystem.GetAnimationType());
+        SetAnimationType(EquipmentSystem.GetAnimationType());
         _ = EquipToSlotAsync(1);
     }
     
@@ -91,7 +96,7 @@ public class CharacterActions : CharacterAnimationParams
         {
             if (SwitchBoneValue == 0f)
             {
-                _equipmentSystem.PrimaryWeaponData.Equip(Skin.BonesCollector, slotIndex, _equipmentSystem.PrimaryWeaponInstance);
+                EquipmentSystem.PrimaryWeaponData.Equip(Skin.BonesCollector, slotIndex, EquipmentSystem.PrimaryWeaponInstance);
                 break;
             }
             await Task.Yield();

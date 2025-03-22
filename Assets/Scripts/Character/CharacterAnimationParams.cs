@@ -5,8 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public abstract class CharacterAnimationParams : LocoMotion
 {
-   [field:Header("Animation")]
-   [field: SerializeField] public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.Default;
+   public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.Default;
    public Animator Animator { get; private set; }
    public AnimatorState OneShotClipState { get; private set; }
 
