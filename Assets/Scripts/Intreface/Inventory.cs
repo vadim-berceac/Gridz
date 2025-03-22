@@ -72,14 +72,16 @@ public class Inventory : MonoBehaviour
         {
             return;
         }
-
-        if (_cameraSystem.SelectedCharacter.EquipmentSystem.PrimaryWeaponData == null)
+        
+        foreach (var cell in _cells)
         {
-            _cells[0].Icon.sprite = null;
-            return;
-            
+            cell.SetItem(null);
         }
-        _cells[0].Icon.sprite = _cameraSystem.SelectedCharacter.EquipmentSystem.PrimaryWeaponData.Icon;
+        
+        for (var i = 0; i < _cameraSystem.SelectedCharacter.EquipmentSystem.InventoryBag.Count; i++)
+        {
+            _cells[i].SetItem(_cameraSystem.SelectedCharacter.EquipmentSystem.InventoryBag[i]);
+        }
     }
 
     private void OnDisable()

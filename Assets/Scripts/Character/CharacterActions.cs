@@ -52,6 +52,8 @@ public class CharacterActions : CharacterAnimationParams
         var list = ItemTargeting.Targets.ToList();
         
         var target = list[0].GetComponent<PickupObject>().ItemData;
+        
+        EquipmentSystem.InventoryBag.Add(target);
 
         Debug.LogWarning($"подбираю {target.name}");
         
