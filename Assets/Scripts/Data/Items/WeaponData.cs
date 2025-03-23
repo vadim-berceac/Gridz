@@ -16,13 +16,7 @@ public class WeaponData : ItemData, IWearable, IChangeAnimation
     {
         return Instantiate(ModelView);
     }
-    
-    [BurstCompile]
-    public override void Use()
-    {
-        Debug.LogWarning("Логика назначения в оружейный слот");
-    }
-
+   
     [BurstCompile]
     public void Equip(BonesCollector bonesCollector, int slotIndex, Transform objectInstance)
     {

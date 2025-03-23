@@ -28,15 +28,6 @@ public class CharacterActions : CharacterAnimationParams
         Animator.runtimeAnimatorController = _overrideController;
         _animationSpeedHash = Animator.StringToHash("AnimationSpeed");
     }
-    
-    private void Start()
-    {
-        if (!EquipmentSystem.WeaponData[0])
-        {
-            return;
-        }
-        EquipmentSystem.WeaponData[0].Equip(Skin.BonesCollector, 0, EquipmentSystem.PrimaryWeaponInstance);
-    }
 
     [BurstCompile]
     protected override void HandleInteract()
@@ -74,7 +65,7 @@ public class CharacterActions : CharacterAnimationParams
 
         _blankAttack = null;
 
-        _blankAttack = _oneShotClipSetsContainer.GetOneShotClip(EquipmentSystem.GetAnimationType());
+        _blankAttack = _oneShotClipSetsContainer.GetOneShotClip(EquipmentSystem.GetAnimationType(0));
         
         if (_blankAttack == null)
         {
@@ -99,17 +90,17 @@ public class CharacterActions : CharacterAnimationParams
                 return;
             }
         
-            await EquipToSlotAsync(0);
+            await SwitchSlotAsync(0,0);
             SetAnimationType(AnimationTypes.Type.Default);
             return;
         }
         
-        SetAnimationType(EquipmentSystem.GetAnimationType());
-        _ = EquipToSlotAsync(1);
+        SetAnimationType(EquipmentSystem.GetAnimationType(0));
+        _ = SwitchSlotAsync(0,1);
     }
     
     [BurstCompile]
-    private async Task EquipToSlotAsync(int slotIndex)
+    private async Task SwitchSlotAsync(int weaponIndex, int slotIndex)
     {
         while (true)
         {
@@ -124,7 +115,7 @@ public class CharacterActions : CharacterAnimationParams
         {
             if (SwitchBoneValue == 0f)
             {
-                EquipmentSystem.WeaponData[0].Equip(Skin.BonesCollector, slotIndex, EquipmentSystem.PrimaryWeaponInstance);
+                EquipmentSystem.WeaponData[weaponIndex].Equip(Skin.BonesCollector, slotIndex, EquipmentSystem.WeaponInstances[weaponIndex]);
                 break;
             }
             await Task.Yield();

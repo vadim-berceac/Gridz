@@ -224,6 +224,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <MaxHealth>k__BackingField: 100
+  <Animator>k__BackingField: {fileID: 420042207409785341}
+  <AnimatorHitTriggerName>k__BackingField: HitTrigger
 --- !u!114 &8688598080372717116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,8 +238,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08472451f5c5ba47976b625e10dbe92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <PrimaryWeaponData>k__BackingField: {fileID: 0}
-  <SecondaryWeaponData>k__BackingField: {fileID: 0}
+  <WeaponData>k__BackingField:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   <PrimaryArmorData>k__BackingField: {fileID: 0}
 --- !u!114 &2199576843291160208
 MonoBehaviour:

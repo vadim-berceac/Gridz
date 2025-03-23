@@ -75,12 +75,12 @@ public class Inventory : MonoBehaviour
         
         foreach (var cell in _cells)
         {
-            cell.SetItem(null);
+            cell.SetItem(null, _cameraSystem.SelectedCharacter.EquipmentSystem);
         }
         
         for (var i = 0; i < _cameraSystem.SelectedCharacter.EquipmentSystem.InventoryBag.Count; i++)
         {
-            _cells[i].SetItem(_cameraSystem.SelectedCharacter.EquipmentSystem.InventoryBag[i]);
+            _cells[i].SetItem(_cameraSystem.SelectedCharacter.EquipmentSystem.InventoryBag[i], _cameraSystem.SelectedCharacter.EquipmentSystem);
         }
     }
 

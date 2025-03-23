@@ -1,43 +1,58 @@
 using System.Collections.Generic;
+using ModestTree;
+using Unity.Burst;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterSkinModule))]
 public class EquipmentSystem : MonoBehaviour
 {
     [field: Header("Weapon")]
     [field: SerializeField] public WeaponData[] WeaponData { get; private set; } = new WeaponData [3];
+    public Transform[] WeaponInstances { get; private set; } = new Transform[3];
 
     [field: Header("Test Armor")]
     [field: SerializeField] public CharacterSkinData PrimaryArmorData { get; private set; }
     
+    private CharacterSkinModule _characterSkinModule;
     public List<IItemData> InventoryBag { get; private set; } = new List<IItemData>();
-    
-    // события вызываемые при назначении в PrimaryWeaponData и SecondaryWeaponData
-    // создание Instance - завязать на них
-    
-    public Transform PrimaryWeaponInstance  {get; private set; }
-    public Transform SecondaryWeaponInstance  {get; private set; }
-    public Transform PrimaryArmorInstance  {get; private set; }
 
+    [BurstCompile]
     private void Awake()
     {
-        if (WeaponData[0] == null)
+        _characterSkinModule = GetComponent<CharacterSkinModule>();
+
+        foreach (var data in WeaponData)
         {
-            return;
+            if (data != null)
+            {
+                CreateWeaponInstance(WeaponData.IndexOf(data));
+            }
         }
-        PrimaryWeaponInstance = CreateWeaponInstance(WeaponData[0]);
     }
 
-    public AnimationTypes.Type GetAnimationType()
+    [BurstCompile]
+    public AnimationTypes.Type GetAnimationType(int indexOfWeapon)
     {
-        if (WeaponData[0] == null)
+        if (WeaponData == null || 
+            indexOfWeapon < 0 || 
+            indexOfWeapon >= WeaponData.Length || 
+            WeaponData[indexOfWeapon] == null)
         {
             return AnimationTypes.Type.Unarmed;
         }
 
-        return WeaponData[0].AnimationType;
+        return WeaponData[indexOfWeapon].AnimationType;
     }
 
+    [BurstCompile]
+    public void CreateWeaponInstance(int index)
+    {
+        WeaponInstances[index] = CreateWeaponInstance((WeaponData[index]));
+        WeaponData[index].Equip(_characterSkinModule.BonesCollector, 0, WeaponInstances[index]);
+    }
+
+    [BurstCompile]
     private static Transform CreateWeaponInstance(WeaponData weaponData)
     {
         var result = weaponData.CreateInstance();
