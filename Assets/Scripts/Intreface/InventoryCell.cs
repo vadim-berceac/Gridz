@@ -9,18 +9,18 @@ public class InventoryCell : MonoBehaviour
    [field: SerializeField] public Button Button { get; private set; }
    [field: SerializeField] public TMP_Text Text { get; private set; }
    
-   private IItemData _item;
+   public IItemData Item { get; private set; }
    private EquipmentSystem _equipmentSystem;
+   private Inventory _inventory;
 
-   public void SetItem(IItemData item, EquipmentSystem equipmentSystem)
+   public void SetItem(IItemData item, EquipmentSystem equipmentSystem, Inventory inventory)
    {
-      _item = item;
+      Item = item;
+      _inventory = inventory;
       
       if (item == null)
       {
-         Icon.sprite = null;
-         Text.SetText("");
-         _equipmentSystem = null;
+         Clear();
          return;
       }
       
@@ -29,26 +29,41 @@ public class InventoryCell : MonoBehaviour
       _equipmentSystem = equipmentSystem;
    }
 
-   public void OnClick()
+   public virtual void OnBagCellClick()
    {
-      if (_item == null)
+      if (Item == null)
       {
          return;
       }
 
-      if (_item is WeaponData)
+      if (Item is WeaponData)
       {
          if (FindIndexOfEmpty(out var result))
          {
-            _equipmentSystem.WeaponData[result] = _item as WeaponData;
+            _equipmentSystem.WeaponData[result] = Item as WeaponData;
             _equipmentSystem.CreateWeaponInstance(result);
+            _inventory.WeaponTableCells[result].SetItem(Item, _equipmentSystem, _inventory);
+            Clear();
          }
       }
+   }
+
+   public virtual void OnWeaponTableCellClick()
+   {
+      
    }
 
    private bool FindIndexOfEmpty(out int index)
    {
       index = _equipmentSystem.WeaponData.IndexOf(null);
       return index != -1;
+   }
+
+   private void Clear()
+   {
+      Icon.sprite = null;
+      Item = null;
+      _equipmentSystem = null;
+      Text.SetText("");
    }
 }

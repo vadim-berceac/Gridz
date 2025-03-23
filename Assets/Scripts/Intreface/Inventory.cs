@@ -1,13 +1,19 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class Inventory : MonoBehaviour
 {
     [field: SerializeField] public GameObject InventoryWindow { get; set; }
+    [field: SerializeField] private Transform bagTransform;
+    [field: SerializeField] private Transform weaponTable;
+    
     public bool IsOpen { get; set; }
     
-    private InventoryCell[] _cells;
+    public InventoryCell[] BagCells { get; set; }
+    public InventoryCell[] WeaponTableCells { get; set; }
     
     private PlayerInput _playerInput;
     private CameraSystem _cameraSystem;
@@ -30,7 +36,8 @@ public class Inventory : MonoBehaviour
     {
         _playerInput.OpenInventory.performed += OnInventoryOpen;
         _cameraSystem.SelectedCharacterChanged += ReloadInventory;
-        _cells = transform.GetComponentsInChildren<InventoryCell>(includeInactive: true);
+        BagCells = bagTransform.GetComponentsInChildren<InventoryCell>(includeInactive: true);
+        WeaponTableCells = weaponTable.GetComponentsInChildren<InventoryCell>(includeInactive: true);
     }
 
     private void OnInventoryOpen(InputAction.CallbackContext ctx)
@@ -66,21 +73,36 @@ public class Inventory : MonoBehaviour
         Refresh();
     }
 
-    private void Refresh()
+    public void Refresh()
     {
-        if (_cameraSystem.SelectedCharacter.EquipmentSystem == null )
+        if (_cameraSystem.SelectedCharacter.EquipmentSystem == null)
         {
             return;
         }
-        
-        foreach (var cell in _cells)
+       
+        foreach (var cell in BagCells)
         {
-            cell.SetItem(null, _cameraSystem.SelectedCharacter.EquipmentSystem);
+            cell.SetItem(null, _cameraSystem.SelectedCharacter.EquipmentSystem, this);
         }
-        
+      
         for (var i = 0; i < _cameraSystem.SelectedCharacter.EquipmentSystem.InventoryBag.Count; i++)
         {
-            _cells[i].SetItem(_cameraSystem.SelectedCharacter.EquipmentSystem.InventoryBag[i], _cameraSystem.SelectedCharacter.EquipmentSystem);
+            var currentItem = _cameraSystem.SelectedCharacter.EquipmentSystem.InventoryBag[i];
+            var isInWeaponTable = false;
+           
+            foreach (var weaponCell in WeaponTableCells)
+            {
+                if (weaponCell.Item == currentItem)
+                {
+                    isInWeaponTable = true;
+                    break; 
+                }
+            }
+
+            if (!isInWeaponTable && i < BagCells.Length) 
+            {
+                BagCells[i].SetItem(currentItem, _cameraSystem.SelectedCharacter.EquipmentSystem, this);
+            }
         }
     }
 
