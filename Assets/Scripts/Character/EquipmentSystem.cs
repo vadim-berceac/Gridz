@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using ModestTree;
 using Unity.Burst;
 using Unity.VisualScripting;
@@ -15,7 +16,7 @@ public class EquipmentSystem : MonoBehaviour
     [field: SerializeField] public CharacterSkinData PrimaryArmorData { get; private set; }
     
     private CharacterSkinModule _characterSkinModule;
-    public List<IItemData> InventoryBag { get; private set; } = new List<IItemData>();
+    public List<IItemData> InventoryBag { get; private set; } = Enumerable.Repeat<IItemData>(null, 25).ToList();
 
     [BurstCompile]
     private void Awake()
@@ -50,6 +51,13 @@ public class EquipmentSystem : MonoBehaviour
     {
         WeaponInstances[index] = CreateWeaponInstance((WeaponData[index]));
         WeaponData[index].Equip(_characterSkinModule.BonesCollector, 0, WeaponInstances[index]);
+    }
+
+    [BurstCompile]
+    public void DestroyWeaponInstance(int index)
+    {
+        Destroy(WeaponInstances[index].gameObject);
+        WeaponInstances[index] = null;
     }
 
     [BurstCompile]

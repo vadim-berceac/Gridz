@@ -44,7 +44,9 @@ public class CharacterActions : CharacterAnimationParams
         
         var target = list[0].GetComponent<PickupObject>().ItemData;
         
-        EquipmentSystem.InventoryBag.Add(target);
+        InventoryCell.FindIndexOfEmpty(EquipmentSystem.InventoryBag, out var index);
+        
+        EquipmentSystem.InventoryBag[index] = target;
 
         Debug.LogWarning($"подбираю {target.name}");
 

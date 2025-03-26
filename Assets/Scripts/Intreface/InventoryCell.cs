@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using ModestTree;
 using TMPro;
+using Unity.Burst;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +16,7 @@ public class InventoryCell : MonoBehaviour
    private EquipmentSystem _equipmentSystem;
    private Inventory _inventory;
 
+   [BurstCompile]
    public void SetItem(IItemData item, EquipmentSystem equipmentSystem, Inventory inventory)
    {
       Item = item;
@@ -29,6 +33,7 @@ public class InventoryCell : MonoBehaviour
       _equipmentSystem = equipmentSystem;
    }
 
+   [BurstCompile]
    public virtual void OnBagCellClick()
    {
       if (Item == null)
@@ -38,27 +43,44 @@ public class InventoryCell : MonoBehaviour
 
       if (Item is WeaponData)
       {
-         if (FindIndexOfEmpty(out var result))
+         if (FindIndexOfEmpty(_equipmentSystem.WeaponData, out var result))
          {
             _equipmentSystem.WeaponData[result] = Item as WeaponData;
             _equipmentSystem.CreateWeaponInstance(result);
             _inventory.WeaponTableCells[result].SetItem(Item, _equipmentSystem, _inventory);
+            _equipmentSystem.InventoryBag[_equipmentSystem.InventoryBag.IndexOf(Item)] = null;
             Clear();
          }
       }
    }
 
+   [BurstCompile]
    public virtual void OnWeaponTableCellClick()
    {
+      if (Item == null)
+      {
+         return;
+      }
       
+      if (FindIndexOfEmpty(_equipmentSystem.InventoryBag, out var result))
+      {
+         _equipmentSystem.InventoryBag[result] = Item;
+         _equipmentSystem.DestroyWeaponInstance(_equipmentSystem.WeaponData.IndexOf(Item));
+         _inventory.BagCells[result].SetItem(Item, _equipmentSystem, _inventory);
+         _equipmentSystem.WeaponData[_equipmentSystem.WeaponData.IndexOf(Item)] = null;
+         Clear();
+      }
+      Debug.LogWarning(result);
    }
 
-   private bool FindIndexOfEmpty(out int index)
+   [BurstCompile]
+   public static bool FindIndexOfEmpty<T>(IEnumerable<T> collection, out int index)
    {
-      index = _equipmentSystem.WeaponData.IndexOf(null);
+      index = collection.ToList().IndexOf(default(T));
       return index != -1;
    }
 
+   [BurstCompile]
    private void Clear()
    {
       Icon.sprite = null;
