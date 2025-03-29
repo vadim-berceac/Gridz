@@ -51,7 +51,7 @@ public class Inventory : MonoBehaviour
         OpenClose(!IsOpen);
     }
 
-    private void OpenClose(bool value)
+    public void OpenClose(bool value)
     {
         IsOpen = value;
         InventoryWindow.SetActive(value);

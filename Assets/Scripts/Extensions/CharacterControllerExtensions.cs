@@ -9,18 +9,19 @@ public static class CharacterControllerExtensions
     public static void ApplyGravitation(this CharacterController controller, ref float currentFallSpeed,
         bool isGrounded, float maxFallSpeed, float gravityForce)
     {
-        if (isGrounded && currentFallSpeed < 0)
+        if (isGrounded)
         {
-            currentFallSpeed = -2f;
+            if (currentFallSpeed < 0f)
+            {
+                currentFallSpeed = -2f;
+            }
         }
         else
         {
-            currentFallSpeed -= gravityForce * Time.fixedDeltaTime;
-            currentFallSpeed = Mathf.Max(currentFallSpeed, -maxFallSpeed);
+            var gravityDelta = gravityForce * Time.fixedDeltaTime;
+            currentFallSpeed = Mathf.Max(currentFallSpeed - gravityDelta, -maxFallSpeed);
         }
-       
-        var moveVector = currentFallSpeed * 0.1f * Vector3.up;
-      
+        var moveVector = currentFallSpeed * Time.fixedDeltaTime * Vector3.up;
         controller.Move(moveVector);
     }
     

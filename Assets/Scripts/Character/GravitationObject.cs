@@ -29,12 +29,13 @@ public class GravitationObject : MonoBehaviour
 
    protected virtual void Update()
    {
-      UpdateGravity();
+    
    }
    
    protected virtual void FixedUpdate()
    {
       UpdateGrounded();
+      UpdateGravity();
    }
 
    private void UpdateGravity()
