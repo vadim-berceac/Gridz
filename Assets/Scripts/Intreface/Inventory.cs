@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,8 +13,8 @@ public class Inventory : MonoBehaviour
     
     public bool IsOpen { get; set; }
     
-    public InventoryCell[] BagCells { get; set; }
-    public InventoryCell[] WeaponTableCells { get; set; }
+    public InventoryCell[] BagCells { get; private set; }
+    public InventoryCell[] WeaponTableCells { get; private set; }
     
     private PlayerInput _playerInput;
     private CameraSystem _cameraSystem;
@@ -73,36 +74,43 @@ public class Inventory : MonoBehaviour
         Refresh();
     }
 
-    public void Refresh()
+    private void Refresh()
     {
-        if (_cameraSystem.SelectedCharacter.EquipmentSystem == null)
+        if (_cameraSystem?.SelectedCharacter?.EquipmentSystem == null)
         {
             return;
         }
-       
-        foreach (var cell in BagCells)
-        {
-            cell.SetItem(null, _cameraSystem.SelectedCharacter.EquipmentSystem, this);
-        }
-      
-        for (var i = 0; i < _cameraSystem.SelectedCharacter.EquipmentSystem.InventoryBag.Count; i++)
-        {
-            var currentItem = _cameraSystem.SelectedCharacter.EquipmentSystem.InventoryBag[i];
-            var isInWeaponTable = false;
-           
-            foreach (var weaponCell in WeaponTableCells)
-            {
-                if (weaponCell.Item == currentItem)
-                {
-                    isInWeaponTable = true;
-                    break; 
-                }
-            }
 
-            if (!isInWeaponTable && i < BagCells.Length) 
+        var equipmentSystem = _cameraSystem.SelectedCharacter.EquipmentSystem;
+        
+        ClearCells(BagCells);
+        ClearCells(WeaponTableCells);
+        
+        FillCells(BagCells, equipmentSystem.InventoryBag, equipmentSystem);
+        
+        FillCells(WeaponTableCells, equipmentSystem.WeaponData, equipmentSystem);
+    }
+
+    private static void ClearCells(IEnumerable<InventoryCell> cells)
+    {
+        foreach (var cell in cells)
+        {
+            cell.Clear();
+        }
+    }
+
+    private void FillCells(InventoryCell[] cells, IEnumerable<IItemData> items, EquipmentSystem equipmentSystem)
+    {
+        var cellIndex = 0;
+
+        foreach (var item in items)
+        {
+            if (cellIndex >= cells.Length) break; 
+            if (cells[cellIndex].Item == null)
             {
-                BagCells[i].SetItem(currentItem, _cameraSystem.SelectedCharacter.EquipmentSystem, this);
+                cells[cellIndex].SetItem(item, equipmentSystem, this);
             }
+            cellIndex++;
         }
     }
 

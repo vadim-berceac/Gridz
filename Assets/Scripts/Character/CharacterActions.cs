@@ -27,6 +27,12 @@ public class CharacterActions : CharacterAnimationParams
         _overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
         Animator.runtimeAnimatorController = _overrideController;
         _animationSpeedHash = Animator.StringToHash("AnimationSpeed");
+        EquipmentSystem.OnAnimationChanged += OnAnimationReseted;
+    }
+
+    private void OnAnimationReseted()
+    {
+        SetAnimationType(AnimationTypes.Type.Default); 
     }
 
     [BurstCompile]
@@ -132,5 +138,10 @@ public class CharacterActions : CharacterAnimationParams
             return;
         }
         _overrideController[state.motion.name] = clip;
+    }
+
+    private void OnDisable()
+    {
+        EquipmentSystem.OnAnimationChanged -= OnAnimationReseted;
     }
 }

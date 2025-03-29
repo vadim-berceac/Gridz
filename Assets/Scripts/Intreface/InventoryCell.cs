@@ -31,10 +31,11 @@ public class InventoryCell : MonoBehaviour
       Icon.sprite = item.Icon;
       Text.SetText("1");
       _equipmentSystem = equipmentSystem;
+      Button.interactable = true;
    }
 
    [BurstCompile]
-   public virtual void OnBagCellClick()
+   public void OnBagCellClick()
    {
       if (Item == null)
       {
@@ -55,7 +56,7 @@ public class InventoryCell : MonoBehaviour
    }
 
    [BurstCompile]
-   public virtual void OnWeaponTableCellClick()
+   public void OnWeaponTableCellClick()
    {
       if (Item == null)
       {
@@ -81,11 +82,13 @@ public class InventoryCell : MonoBehaviour
    }
 
    [BurstCompile]
-   private void Clear()
+   public void Clear()
    {
       Icon.sprite = null;
       Item = null;
       _equipmentSystem = null;
+      _inventory = null;
+      Button.interactable = false;
       Text.SetText("");
    }
 }

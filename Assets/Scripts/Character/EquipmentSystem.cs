@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ModestTree;
@@ -17,6 +18,8 @@ public class EquipmentSystem : MonoBehaviour
     
     private CharacterSkinModule _characterSkinModule;
     public List<IItemData> InventoryBag { get; private set; } = Enumerable.Repeat<IItemData>(null, 25).ToList();
+
+    public event Action OnAnimationChanged;
 
     [BurstCompile]
     private void Awake()
@@ -47,21 +50,22 @@ public class EquipmentSystem : MonoBehaviour
     }
 
     [BurstCompile]
-    public void CreateWeaponInstance(int index)
-    {
-        WeaponInstances[index] = CreateWeaponInstance((WeaponData[index]));
-        WeaponData[index].Equip(_characterSkinModule.BonesCollector, 0, WeaponInstances[index]);
-    }
-
-    [BurstCompile]
     public void DestroyWeaponInstance(int index)
     {
         Destroy(WeaponInstances[index].gameObject);
         WeaponInstances[index] = null;
+        OnAnimationChanged?.Invoke();
     }
 
     [BurstCompile]
-    private static Transform CreateWeaponInstance(WeaponData weaponData)
+    public void CreateWeaponInstance(int index)
+    {
+        WeaponInstances[index] = SetWeaponData((WeaponData[index]));
+        WeaponData[index].Equip(_characterSkinModule.BonesCollector, 0, WeaponInstances[index]);
+    }
+    
+    [BurstCompile]
+    private static Transform SetWeaponData(WeaponData weaponData)
     {
         var result = weaponData.CreateInstance();
         var weaponDamageCollider = result.AddComponent<WeaponColliderDamage>();
