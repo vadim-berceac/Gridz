@@ -6,6 +6,7 @@ public class WeaponColliderDamage : MonoBehaviour
     private AnimationTypes.Type _animationType;
     private float _damageDelay = 0.3f;
     private Collider _triggerCollider;
+    public bool Enabled { get; private set; }
 
     public void Init(float damage, float damageDelay, AnimationTypes.Type animationType)
     {
@@ -13,10 +14,20 @@ public class WeaponColliderDamage : MonoBehaviour
         _damageDelay = damageDelay;
         _animationType = animationType;
         _triggerCollider = GetComponent<Collider>();
+        Enabled = true;
+    }
+
+    public void Enable(bool value)
+    {
+        Enabled = value;
     }
     
     private void OnTriggerEnter(Collider other)
     {
+        if (!Enabled)
+        {
+            return;
+        }
         if (!_triggerCollider.enabled)
             return;
 

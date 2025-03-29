@@ -13,14 +13,13 @@ public class CameraSystem : MonoBehaviour
     [Header("Follow Camera Settings")]
     [SerializeField] private float topClamp = 70.0f;
     [SerializeField] private float bottomClamp = -30.0f;
-    [SerializeField] private float rotationKoef = 1f;
-    
-    [field:Header("Player")]
-    [field:SerializeField] public LocoMotion SelectedCharacter {get; private set;}
-    public event Action<LocoMotion> SelectedCharacterChanged;
+    [SerializeField] private float rotationCoefficient = 1f;
+
+    private static LocoMotion _selectedCharacter;
+    public static event Action<LocoMotion> SelectedCharacterChanged;
     
     private PlayerInput _gameInput;
-    public Vector2 LookInput {get; private set;}
+    private Vector2 _lookInput;
     private const float Threshold = 0.01f;
     private float _targetYaw;
     private float _targetPitch;
@@ -31,11 +30,16 @@ public class CameraSystem : MonoBehaviour
         _gameInput = playerInput;
     }
 
+    public static LocoMotion GetSelectedCharacter()
+    {
+        return _selectedCharacter;
+    }
+
     public void Select(LocoMotion locoMotion)
     {
         if (locoMotion == null)
         {
-            SelectedCharacter = null;
+            _selectedCharacter = null;
             SelectedCharacterChanged?.Invoke(null);
             SetTarget(null);
             return;
@@ -43,12 +47,12 @@ public class CameraSystem : MonoBehaviour
         var target = locoMotion.transform.FindObjectsWithTag(TagsAndLayersConst.CameraTargetTag)[0];
         if (target == null)
         {
-            SelectedCharacter = null;
+            _selectedCharacter = null;
             SelectedCharacterChanged?.Invoke(null);
             SetTarget(null);
             return;
         }
-        SelectedCharacter = locoMotion;
+        _selectedCharacter = locoMotion;
         SelectedCharacterChanged?.Invoke(locoMotion);
         SetTarget(target.transform);
     }
@@ -73,7 +77,7 @@ public class CameraSystem : MonoBehaviour
     [BurstCompile]
     private void UpdateLookInput()
     {
-        LookInput = _gameInput.GetLookDirection();
+        _lookInput = _gameInput.GetLookDirection();
     }
 
     [BurstCompile]
@@ -86,10 +90,10 @@ public class CameraSystem : MonoBehaviour
             return;
         }
         
-        if (LookInput.sqrMagnitude >= Threshold)
+        if (_lookInput.sqrMagnitude >= Threshold)
         {
-            _targetYaw += LookInput.x * rotationKoef;
-            _targetPitch += LookInput.y * rotationKoef;
+            _targetYaw += _lookInput.x * rotationCoefficient;
+            _targetPitch += _lookInput.y * rotationCoefficient;
         }
         _targetYaw = _targetYaw.ClampAngle(float.MinValue, float.MaxValue);
         _targetPitch = _targetPitch.ClampAngle(bottomClamp, topClamp);

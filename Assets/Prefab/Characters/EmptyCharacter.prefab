@@ -226,6 +226,7 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <Animator>k__BackingField: {fileID: 420042207409785341}
   <AnimatorHitTriggerName>k__BackingField: HitTrigger
+  <DeathParamName>k__BackingField: Dead
 --- !u!114 &8688598080372717116
 MonoBehaviour:
   m_ObjectHideFlags: 0

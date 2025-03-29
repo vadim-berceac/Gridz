@@ -6,6 +6,7 @@ public class HealthModule : MonoBehaviour, IDamageable
     [field: SerializeField] public float MaxHealth { get; private set; }
     [field: SerializeField] public Animator Animator { get; private set; }
     [field: SerializeField] public string AnimatorHitTriggerName { get; private set; }
+    [field: SerializeField] public string DeathParamName { get; private set; }
     public float CurrentHealth { get; private set; }
     public float NormalizedHealth { get; private set; }
     
@@ -37,12 +38,13 @@ public class HealthModule : MonoBehaviour, IDamageable
         if (damage > 0)
         {
             OnDamage?.Invoke(hitType);
-            Animator.SetTrigger(AnimatorHitTriggerName);
+            Animator.SetTrigger(AnimatorHitTriggerName); // перенести ко всем триггерам
         }
 
         if (CurrentHealth <= 0)
         {
             OnDeath?.Invoke(hitType);
+            Animator.SetTrigger(DeathParamName); // перенести ко всем параметрам
         }
     }
 }

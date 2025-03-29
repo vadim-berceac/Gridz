@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Zenject;
 
 public class Inventory : MonoBehaviour
 {
     [field: SerializeField] public GameObject InventoryWindow { get; set; }
+    [field: SerializeField] public Text DescriptionText { get; private set; }
     [field: SerializeField] private Transform bagTransform;
     [field: SerializeField] private Transform weaponTable;
     
@@ -17,13 +17,11 @@ public class Inventory : MonoBehaviour
     public InventoryCell[] WeaponTableCells { get; private set; }
     
     private PlayerInput _playerInput;
-    private CameraSystem _cameraSystem;
 
     [Inject]
-    private void Construct(PlayerInput playerInput, CameraSystem cameraSystem)
+    private void Construct(PlayerInput playerInput)
     {
         _playerInput = playerInput;
-        _cameraSystem = cameraSystem;
     }
     
     //нужно реализовать отображение стака вещей в одной ячейке (счет не в itemData - потому что то ScriptableObject и общий для всех предметов)
@@ -36,14 +34,14 @@ public class Inventory : MonoBehaviour
     private void Init()
     {
         _playerInput.OpenInventory.performed += OnInventoryOpen;
-        _cameraSystem.SelectedCharacterChanged += ReloadInventory;
+        CameraSystem.SelectedCharacterChanged += ReloadInventory;
         BagCells = bagTransform.GetComponentsInChildren<InventoryCell>(includeInactive: true);
         WeaponTableCells = weaponTable.GetComponentsInChildren<InventoryCell>(includeInactive: true);
     }
 
     private void OnInventoryOpen(InputAction.CallbackContext ctx)
     {
-        if (_cameraSystem.SelectedCharacter == null)
+        if (CameraSystem.GetSelectedCharacter() == null)
         {
             OpenClose(false);
             return;
@@ -66,7 +64,7 @@ public class Inventory : MonoBehaviour
 
     private void ReloadInventory(LocoMotion locoMotion)
     {
-        if (!IsOpen || _cameraSystem.SelectedCharacter == null)
+        if (!IsOpen || CameraSystem.GetSelectedCharacter() == null)
         {
             return;
         }
@@ -76,12 +74,14 @@ public class Inventory : MonoBehaviour
 
     private void Refresh()
     {
-        if (_cameraSystem?.SelectedCharacter?.EquipmentSystem == null)
+        if ( CameraSystem.GetSelectedCharacter()?.EquipmentSystem == null)
         {
             return;
         }
 
-        var equipmentSystem = _cameraSystem.SelectedCharacter.EquipmentSystem;
+        DescriptionText.text = "";
+
+        var equipmentSystem = CameraSystem.GetSelectedCharacter().EquipmentSystem;
         
         ClearCells(BagCells);
         ClearCells(WeaponTableCells);
@@ -117,6 +117,6 @@ public class Inventory : MonoBehaviour
     private void OnDisable()
     {
         _playerInput.OpenInventory.performed -= OnInventoryOpen;
-        _cameraSystem.SelectedCharacterChanged -= ReloadInventory;
+        CameraSystem.SelectedCharacterChanged -= ReloadInventory;
     }
 }

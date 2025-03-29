@@ -52,9 +52,7 @@ MonoBehaviour:
   <FollowCamera>k__BackingField: {fileID: 2505805451457320803}
   topClamp: 25
   bottomClamp: 10
-  rotationKoef: 0.1
-  <CameraTag>k__BackingField: CameraTarget
-  <SelectedCharacter>k__BackingField: {fileID: 0}
+  rotationCoefficient: 0.1
 --- !u!1 &7250071856126467287
 GameObject:
   m_ObjectHideFlags: 0

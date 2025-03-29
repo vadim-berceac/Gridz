@@ -75,6 +75,16 @@ public class InventoryCell : MonoBehaviour
    }
 
    [BurstCompile]
+   public void GetDescription()
+   {
+      if (Button.interactable == false)
+      {
+         return;
+      }
+      _inventory.DescriptionText.text = Item.Description;
+   }
+
+   [BurstCompile]
    public static bool FindIndexOfEmpty<T>(IEnumerable<T> collection, out int index)
    {
       index = collection.ToList().IndexOf(default(T));

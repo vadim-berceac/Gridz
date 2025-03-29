@@ -968,6 +968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <InventoryWindow>k__BackingField: {fileID: 306576753456468839}
+  <DescriptionText>k__BackingField: {fileID: 6733900023559640383}
   bagTransform: {fileID: 6693139637437992735}
   weaponTable: {fileID: 1409133395494919750}
 --- !u!1 &7559740931367012488
@@ -1219,7 +1220,7 @@ GameObject:
   m_Component:
   - component: {fileID: 823847964204499228}
   - component: {fileID: 7785448875821323}
-  - component: {fileID: 7931246006257864839}
+  - component: {fileID: 6733900023559640383}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -1254,7 +1255,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8491057291111354842}
   m_CullTransparentMesh: 1
---- !u!114 &7931246006257864839
+--- !u!114 &6733900023559640383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1275,11 +1276,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_Font: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+    m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -1287,15 +1288,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'sddeafe
-
-    efwefwrf
-
-    efwrgwr
-
-    efwefwrfw
-
-    efwewef'
+  m_Text: Description TEST
 --- !u!1 &8680130335773601961
 GameObject:
   m_ObjectHideFlags: 0

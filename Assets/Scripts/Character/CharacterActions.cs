@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Unity.Burst;
 using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using Zenject;
 
 [RequireComponent(typeof(EquipmentSystem))]
