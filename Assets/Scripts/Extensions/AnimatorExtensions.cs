@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Linq;
 using Unity.Burst;
-using UnityEditor.Animations;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor.Animations;
+#endif
 
 public static class AnimatorExtensions
 {

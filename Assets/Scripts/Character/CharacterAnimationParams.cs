@@ -1,12 +1,13 @@
 using Unity.Burst;
-using UnityEditor.Animations;
 using UnityEngine;
+using UnityEditor.Animations;
 
 [RequireComponent(typeof(Animator))]
 public abstract class CharacterAnimationParams : LocoMotion
 {
    public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.Default;
    public Animator Animator { get; private set; }
+  
    public AnimatorState OneShotClipState { get; private set; }
 
    protected float OneShotPlayedValue;

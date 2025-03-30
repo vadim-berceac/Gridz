@@ -1,10 +1,7 @@
-using Unity.Android.Gradle.Manifest;
 using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 using Zenject;
-using Action = System.Action;
 
 [RequireComponent(typeof(CharacterSkinModule))]
 public class LocoMotion : GravitationObject

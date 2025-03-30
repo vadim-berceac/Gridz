@@ -1,9 +1,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Unity.Burst;
-using UnityEditor.Animations;
 using UnityEngine;
 using Zenject;
+using UnityEditor.Animations;
 
 [RequireComponent(typeof(EquipmentSystem))]
 public class CharacterActions : CharacterAnimationParams
