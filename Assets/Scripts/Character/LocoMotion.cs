@@ -118,7 +118,7 @@ public class LocoMotion : GravitationObject
         CharacterInput.OnHoldTarget += HandleTargetLock;
         CharacterInput.OnDrawWeapon += HandleDrawWeapon;
         CharacterInput.OnAttack += HandleAttack;
-        CharacterInput.OnInteract += HandleInteract;
+        CharacterInput.OnInteract += Take;
         CharacterInput.OnWeaponSelect0 += SelectWeapon0;
         CharacterInput.OnWeaponSelect1 += SelectWeapon1;
         CharacterInput.OnWeaponSelect2 += SelectWeapon2;
@@ -132,7 +132,7 @@ public class LocoMotion : GravitationObject
         CharacterInput.OnHoldTarget -= HandleTargetLock;
         CharacterInput.OnDrawWeapon -= HandleDrawWeapon;
         CharacterInput.OnAttack -= HandleAttack;
-        CharacterInput.OnInteract -= HandleInteract;
+        CharacterInput.OnInteract -= Take;
         CharacterInput.OnWeaponSelect0 -= SelectWeapon0;
         CharacterInput.OnWeaponSelect1 -= SelectWeapon1;
         CharacterInput.OnWeaponSelect2 -= SelectWeapon2;
@@ -195,7 +195,7 @@ public class LocoMotion : GravitationObject
         Debug.LogWarning($"{name} атакует");
     }
 
-    protected virtual void HandleInteract()
+    protected virtual void Take()
     {
         Debug.LogWarning($"{name} попытка поднять предмет");
     }

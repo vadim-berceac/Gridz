@@ -21,8 +21,8 @@ MonoBehaviour:
   <DamageDelay>k__BackingField: 0.6
   <BoneTransformSlots>k__BackingField:
   - <BonesType>k__BackingField: 0
-    <Position>k__BackingField: {x: -0.2, y: 0.02, z: 0.081}
-    <Rotation>k__BackingField: {x: 333.2, y: 180, z: 180.6}
+    <Position>k__BackingField: {x: 0.236, y: -0.536, z: -0.037}
+    <Rotation>k__BackingField: {x: -180.076, y: -157.825, z: 183.825}
     <Scale>k__BackingField: {x: 1, y: 1, z: 1}
   - <BonesType>k__BackingField: 17
     <Position>k__BackingField: {x: 0.089, y: 0.052, z: 0.021}

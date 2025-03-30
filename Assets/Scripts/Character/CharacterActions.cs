@@ -11,6 +11,7 @@ public class CharacterActions : CharacterAnimationParams
     private OneShotClipSetsContainer _oneShotClipSetsContainer;
     private AnimatorOverrideController _overrideController;
     private OneShotClip _blankAttack;
+    private int _selectedWeaponIndex = 0;
 
     private int _animationSpeedHash;
 
@@ -35,9 +36,9 @@ public class CharacterActions : CharacterAnimationParams
     }
 
     [BurstCompile]
-    protected override void HandleInteract()
+    protected override void Take()
     {
-        base.HandleInteract();
+        base.Take();
 
         if (ItemTargeting.Targets.Count < 1)
         {
@@ -72,7 +73,7 @@ public class CharacterActions : CharacterAnimationParams
 
         _blankAttack = null;
 
-        _blankAttack = _oneShotClipSetsContainer.GetOneShotClip(EquipmentSystem.GetAnimationType(0));
+        _blankAttack = _oneShotClipSetsContainer.GetOneShotClip(EquipmentSystem.GetAnimationType(_selectedWeaponIndex));
         
         if (_blankAttack == null)
         {
@@ -88,22 +89,30 @@ public class CharacterActions : CharacterAnimationParams
     protected override async void HandleDrawWeapon(bool isDrawWeapon)
     {
         base.HandleDrawWeapon(isDrawWeapon);
-    
+
+        var hasWeapon = EquipmentSystem.WeaponData[_selectedWeaponIndex] != null;
+
         if (!isDrawWeapon)
         {
-            if (!EquipmentSystem.WeaponData[0])
+            if (!hasWeapon)
             {
                 SetAnimationType(AnimationTypes.Type.Default);
                 return;
             }
-        
-            await SwitchSlotAsync(0,0);
+
+            await SwitchSlotAsync(_selectedWeaponIndex, 0);
             SetAnimationType(AnimationTypes.Type.Default);
             return;
         }
-        
-        SetAnimationType(EquipmentSystem.GetAnimationType(0));
-        _ = SwitchSlotAsync(0,1);
+
+        SetAnimationType(hasWeapon 
+            ? EquipmentSystem.GetAnimationType(0) 
+            : AnimationTypes.Type.Unarmed);
+
+        if (hasWeapon)
+        {
+            _ = SwitchSlotAsync(_selectedWeaponIndex, 1);
+        }
     }
     
     [BurstCompile]
@@ -137,6 +146,21 @@ public class CharacterActions : CharacterAnimationParams
             return;
         }
         _overrideController[state.motion.name] = clip;
+    }
+    
+    protected override void SelectWeapon0()
+    {
+        _selectedWeaponIndex = 0;
+    }
+
+    protected override void SelectWeapon1()
+    {
+        _selectedWeaponIndex = 1;
+    }
+
+    protected override void SelectWeapon2()
+    {
+        _selectedWeaponIndex = 2;
     }
 
     private void OnDisable()
