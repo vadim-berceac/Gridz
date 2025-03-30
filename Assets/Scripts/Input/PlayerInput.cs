@@ -19,6 +19,9 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     protected InputAction Sneak { get; private set; }
     protected InputAction HoldTarget { get; private set; }
     protected InputAction DrawWeapon { get; private set; }
+    protected InputAction WeaponSelect0 { get; private set; }
+    protected InputAction WeaponSelect1 { get; private set; }
+    protected InputAction WeaponSelect2 { get; private set; }
     
     // UI Input Actions
     public InputAction Navigate { get; private set; }
@@ -36,6 +39,9 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     public event Action OnAttack;
     public event Action OnInteract;
     public event Action OnJump;
+    public event Action OnWeaponSelect0;
+    public event Action OnWeaponSelect1;
+    public event Action OnWeaponSelect2;
     public event Action<bool> OnHoldTarget;
     public event Action<bool> OnDrawWeapon;
     public event Action<bool> OnSprint;
@@ -68,6 +74,9 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Sneak = inputActionAsset.FindAction("Sneak");
         HoldTarget = inputActionAsset.FindAction("HoldTarget");
         DrawWeapon = inputActionAsset.FindAction("DrawWeapon");
+        WeaponSelect0 = inputActionAsset.FindAction("WeaponSelect0");
+        WeaponSelect1 = inputActionAsset.FindAction("WeaponSelect1");
+        WeaponSelect2 = inputActionAsset.FindAction("WeaponSelect2");
         
         Navigate = inputActionAsset.FindAction("Navigate");
         Point = inputActionAsset.FindAction("Point");
@@ -88,6 +97,9 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Sneak.Enable();
         HoldTarget.Enable();
         DrawWeapon.Enable();
+        WeaponSelect0.Enable();
+        WeaponSelect1.Enable();
+        WeaponSelect2.Enable();
         
         Navigate.Enable();
         Point.Enable();
@@ -108,6 +120,9 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Sneak.Disable();
         HoldTarget.Disable();
         DrawWeapon.Disable();
+        WeaponSelect0.Disable();
+        WeaponSelect1.Disable();
+        WeaponSelect2.Disable();
         
         Navigate.Disable();
         Point.Disable();
@@ -128,6 +143,9 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Attack.performed += ctx => OnAttack?.Invoke();
         Interact.started += ctx => OnInteract?.Invoke();
         Jump.performed += ctx => OnJump?.Invoke();
+        WeaponSelect0.performed += ctx => OnWeaponSelect0?.Invoke();
+        WeaponSelect1.performed += ctx => OnWeaponSelect1?.Invoke();
+        WeaponSelect2.performed += ctx => OnWeaponSelect2?.Invoke();
 
         HoldTarget.performed += ctx =>
         {

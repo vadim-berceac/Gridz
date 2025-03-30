@@ -119,6 +119,9 @@ public class LocoMotion : GravitationObject
         CharacterInput.OnDrawWeapon += HandleDrawWeapon;
         CharacterInput.OnAttack += HandleAttack;
         CharacterInput.OnInteract += HandleInteract;
+        CharacterInput.OnWeaponSelect0 += SelectWeapon0;
+        CharacterInput.OnWeaponSelect1 += SelectWeapon1;
+        CharacterInput.OnWeaponSelect2 += SelectWeapon2;
     }
 
     protected virtual void UnsubscribeInputs()
@@ -130,6 +133,9 @@ public class LocoMotion : GravitationObject
         CharacterInput.OnDrawWeapon -= HandleDrawWeapon;
         CharacterInput.OnAttack -= HandleAttack;
         CharacterInput.OnInteract -= HandleInteract;
+        CharacterInput.OnWeaponSelect0 -= SelectWeapon0;
+        CharacterInput.OnWeaponSelect1 -= SelectWeapon1;
+        CharacterInput.OnWeaponSelect2 -= SelectWeapon2;
     }
 
     protected override void Update()
@@ -192,6 +198,21 @@ public class LocoMotion : GravitationObject
     protected virtual void HandleInteract()
     {
         Debug.LogWarning($"{name} попытка поднять предмет");
+    }
+    
+    protected virtual void SelectWeapon0()
+    {
+        Debug.LogWarning("Select weapon 0");
+    }
+
+    protected virtual void SelectWeapon1()
+    {
+        Debug.LogWarning("Select weapon 1");
+    }
+
+    protected virtual void SelectWeapon2()
+    {
+        Debug.LogWarning("Select weapon 2");
     }
     
     [BurstCompile]
