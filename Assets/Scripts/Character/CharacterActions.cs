@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Unity.Burst;
 using UnityEngine;
 using Zenject;
-using UnityEditor.Animations;
 
 [RequireComponent(typeof(EquipmentSystem))]
 public class CharacterActions : CharacterAnimationParams
@@ -14,6 +13,7 @@ public class CharacterActions : CharacterAnimationParams
     private int _selectedWeaponIndex = 0;
 
     private int _animationSpeedHash;
+    private const string OneShotClioName = "Blank";
 
     [Inject]
     private void Construct(OneShotClipSetsContainer container)
@@ -24,7 +24,8 @@ public class CharacterActions : CharacterAnimationParams
     protected override void Initialize()
     {
         base.Initialize();
-        _overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
+        var baseController = Animator.runtimeAnimatorController;
+        _overrideController = new AnimatorOverrideController(baseController);
         Animator.runtimeAnimatorController = _overrideController;
         _animationSpeedHash = Animator.StringToHash("AnimationSpeed");
         EquipmentSystem.OnAnimationChanged += OnAnimationReseted;
@@ -81,8 +82,9 @@ public class CharacterActions : CharacterAnimationParams
             return;
         }
         
-        SetNewClipToState(_blankAttack.Clip, OneShotClipState);
+        SetNewClipToState(_blankAttack.Clip, OneShotClioName);
         Animator.SetFloat(_animationSpeedHash, _blankAttack.Speed);
+        Animator.SetTrigger("OneShotTrigger");
     }
 
     [BurstCompile]
@@ -139,13 +141,14 @@ public class CharacterActions : CharacterAnimationParams
     }
     
     [BurstCompile]
-    private void SetNewClipToState(AnimationClip clip, AnimatorState state)
+    private void SetNewClipToState(AnimationClip clip, string clipName)
     {
-        if (clip == null)
+        if (clip == null || string.IsNullOrEmpty(clipName))
         {
             return;
         }
-        _overrideController[state.motion.name] = clip;
+        _overrideController[clipName] = clip;
+        Animator.runtimeAnimatorController = _overrideController;
     }
     
     protected override void SelectWeapon0()
