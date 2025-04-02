@@ -18,4 +18,6 @@ public interface ICharacterInput
     public event Action<bool> OnSneak;
 
     public void ResetHoldTarget();
+
+    public void ForciblyDrawWeapon(bool value);
 }

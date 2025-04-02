@@ -170,7 +170,13 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     {
         DisableActions();
     }
-    
+
+    public void ForciblyDrawWeapon(bool value)
+    {
+        _isWeaponDrawn = value;
+        OnDrawWeapon?.Invoke(value);
+    }
+
     public Vector2 GetMoveDirection() => _moveDirection;
     public Vector2 GetLookDirection() => _lookDirection;
 }

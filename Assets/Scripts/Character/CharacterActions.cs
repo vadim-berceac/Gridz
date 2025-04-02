@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Unity.Burst;
@@ -116,7 +117,7 @@ public class CharacterActions : CharacterAnimationParams
             _ = SwitchSlotAsync(_selectedWeaponIndex, 1);
         }
     }
-    
+
     [BurstCompile]
     private async Task SwitchSlotAsync(int weaponIndex, int slotIndex)
     {
@@ -153,17 +154,33 @@ public class CharacterActions : CharacterAnimationParams
     
     protected override void SelectWeapon0()
     {
-        _selectedWeaponIndex = 0;
+        _ = SwitchWeaponAndSlot(0);
     }
 
     protected override void SelectWeapon1()
     {
-        _selectedWeaponIndex = 1;
+        _ = SwitchWeaponAndSlot(1);
     }
 
     protected override void SelectWeapon2()
     {
-        _selectedWeaponIndex = 2;
+       _ = SwitchWeaponAndSlot(3);
+    }
+
+    private async Task SwitchWeaponAndSlot(int index)
+    {
+        if (_selectedWeaponIndex == index)
+        {
+            return;
+        }
+       
+        if (IsDrawWeapon)
+        {
+            CharacterInput.ForciblyDrawWeapon(false);
+            await Task.Run(() => HandleDrawWeapon(false));
+        }
+        
+        _selectedWeaponIndex = index;
     }
 
     private void OnDisable()

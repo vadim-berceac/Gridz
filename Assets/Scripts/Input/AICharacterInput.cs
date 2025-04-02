@@ -51,4 +51,10 @@ public class AICharacterInput: ICharacterInput
         // SetMoveDirection(someDirection);
         // if (shouldAttack) TriggerAttack();
     }
+    
+    public void ForciblyDrawWeapon(bool value)
+    {
+        //_isWeaponDrawn = value;
+        OnDrawWeapon?.Invoke(value);
+    }
 }
