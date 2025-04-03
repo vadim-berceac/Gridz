@@ -7,7 +7,7 @@ public abstract class CharacterAnimationParams : LocoMotion
     public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.Default;
     public Animator Animator { get; private set; }
 
-    protected float OneShotPlayedValue;
+    public float OneShotPlayedValue { get; private set; }
     protected float SwitchBoneValue;
    
     private int _oneShotPlayedHash;

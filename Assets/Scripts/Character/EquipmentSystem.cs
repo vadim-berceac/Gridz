@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterSkinModule))]
+[RequireComponent(typeof(CharacterAnimationParams))]
 public class EquipmentSystem : MonoBehaviour
 {
     [field: Header("Weapon")]
@@ -17,6 +18,7 @@ public class EquipmentSystem : MonoBehaviour
     [field: SerializeField] public CharacterSkinData PrimaryArmorData { get; private set; }
     
     private CharacterSkinModule _characterSkinModule;
+    private CharacterAnimationParams _characterAnimationParams;
     public List<IItemData> InventoryBag { get; private set; } = Enumerable.Repeat<IItemData>(null, 25).ToList();
 
     public event Action OnAnimationChanged;
@@ -25,6 +27,7 @@ public class EquipmentSystem : MonoBehaviour
     private void Awake()
     {
         _characterSkinModule = GetComponent<CharacterSkinModule>();
+        _characterAnimationParams = GetComponent<CharacterAnimationParams>();
 
         foreach (var data in WeaponData)
         {
@@ -60,16 +63,16 @@ public class EquipmentSystem : MonoBehaviour
     [BurstCompile]
     public void CreateWeaponInstance(int index)
     {
-        WeaponInstances[index] = SetWeaponData((WeaponData[index]));
+        WeaponInstances[index] = SetWeaponData((WeaponData[index]), _characterAnimationParams);
         WeaponData[index].Equip(_characterSkinModule.BonesCollector, 0, WeaponInstances[index]);
     }
     
     [BurstCompile]
-    private static Transform SetWeaponData(WeaponData weaponData)
+    private static Transform SetWeaponData(WeaponData weaponData, CharacterAnimationParams animationParams)
     {
         var result = weaponData.CreateInstance();
         var weaponDamageCollider = result.AddComponent<WeaponColliderDamage>();
-        weaponDamageCollider.Init(weaponData.Damage, weaponData.DamageDelay, weaponData.AnimationType);
+        weaponDamageCollider.Init(weaponData.Damage, weaponData.DamageDelay, animationParams);
         return result;
     }
 }
