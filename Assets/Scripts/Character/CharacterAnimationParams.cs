@@ -14,6 +14,8 @@ public abstract class CharacterAnimationParams : LocoMotion
     private int _animationTypeHash;
     private int _switchBoneCurveHash;
     private int _groundedHash;
+    private int _deadHash;
+    private int _hitTriggerHash;
     private int _jumpHash;
     private int _runningHash;
     private int _sneakingHash;
@@ -64,6 +66,8 @@ public abstract class CharacterAnimationParams : LocoMotion
         _animationTypeHash = Animator.StringToHash("AnimationType");
         _switchBoneCurveHash = Animator.StringToHash("SwitchBoneCurve");
         _groundedHash = Animator.StringToHash("Grounded");
+        _deadHash = Animator.StringToHash("Dead");
+        _hitTriggerHash = Animator.StringToHash("HitTrigger");
         _jumpHash = Animator.StringToHash("Jump");
         _runningHash = Animator.StringToHash("Run");
         _sneakingHash = Animator.StringToHash("Sneak");
@@ -103,6 +107,18 @@ public abstract class CharacterAnimationParams : LocoMotion
             return;
         }
         Animator.SetTrigger(_oneShotTriggerHash);
+    }
+
+    protected override void HandleDamage(AnimationTypes.Type animationType, float value)
+    {
+        base.HandleDamage(animationType, value);
+        Animator.SetTrigger(_hitTriggerHash);
+    }
+
+    protected override void HandleDeath(AnimationTypes.Type animationType, bool value)
+    {
+        base.HandleDeath(animationType, value);
+        Animator.SetTrigger(_deadHash);
     }
 
     private void HandleDrawTrigger(bool sda)

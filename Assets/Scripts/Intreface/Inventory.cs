@@ -56,10 +56,10 @@ public class Inventory : MonoBehaviour
         if (value)
         {
             Refresh();
-            _playerInput.InputActionMapGame.Disable();
+            _playerInput.InputActionMapCharacter.Disable();
             return;
         }
-        _playerInput.InputActionMapGame.Enable();
+        _playerInput.InputActionMapCharacter.Enable();
     }
 
     private void ReloadInventory(LocoMotion locoMotion)

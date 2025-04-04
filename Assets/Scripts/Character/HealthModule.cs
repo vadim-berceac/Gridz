@@ -4,14 +4,11 @@ using UnityEngine;
 public class HealthModule : MonoBehaviour, IDamageable
 {
     [field: SerializeField] public float MaxHealth { get; private set; }
-    [field: SerializeField] public Animator Animator { get; private set; }
-    [field: SerializeField] public string AnimatorHitTriggerName { get; private set; }
-    [field: SerializeField] public string DeathParamName { get; private set; }
     public float CurrentHealth { get; private set; }
     public float NormalizedHealth { get; private set; }
     
-    public event Action<AnimationTypes.Type> OnDamage;
-    public event Action<AnimationTypes.Type> OnDeath;
+    public event Action<AnimationTypes.Type, float> OnDamage;
+    public event Action<AnimationTypes.Type, bool> OnDeath;
 
     private void Awake()
     {
@@ -28,23 +25,11 @@ public class HealthModule : MonoBehaviour, IDamageable
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, MaxHealth);
         NormalizedHealth = CurrentHealth / MaxHealth;
         
-        Debug.LogWarning($"{name} получил урон {damage} от {hitType}, осталось {CurrentHealth}");
-        
-        if (!Animator || AnimatorHitTriggerName == null)
-        {
-            return;
-        }
-       
-        if (damage > 0)
-        {
-            OnDamage?.Invoke(hitType);
-            Animator.SetTrigger(AnimatorHitTriggerName); // перенести ко всем триггерам
-        }
+        OnDamage?.Invoke(hitType, damage);
 
         if (CurrentHealth <= 0)
         {
-            OnDeath?.Invoke(hitType);
-            Animator.SetTrigger(DeathParamName); // перенести ко всем параметрам
+            OnDeath?.Invoke(hitType, true);
         }
     }
 }

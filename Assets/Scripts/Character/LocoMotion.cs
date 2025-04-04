@@ -4,6 +4,7 @@ using UnityEngine.Events;
 using Zenject;
 
 [RequireComponent(typeof(CharacterSkinModule))]
+[RequireComponent(typeof(HealthModule))]
 public class LocoMotion : GravitationObject
 {
     [field:Header("Rotation Settings")]
@@ -35,6 +36,7 @@ public class LocoMotion : GravitationObject
     public static UnityAction<LocoMotion> OnCharacterSelected;
     
     public CharacterSkinModule Skin { get; private set; }
+    public HealthModule Health { get; private set; }
     public static LocoMotion SelectedCharacter { get; private set; }
     public Vector3 CorrectedDirection { get; private set; }
     public float CurrentSpeedZ { get; private set; }
@@ -44,6 +46,7 @@ public class LocoMotion : GravitationObject
     public bool IsSneaking => _isSneaking;
     public bool IsTargetLock => _isTargetLock;
     public bool IsDrawWeapon => _isDrawWeapon;
+    public bool IsDead {get;private set;}
     
     private bool _previousUsePlayerInput;
     private Vector2 _nominalMovementDirection;
@@ -72,11 +75,14 @@ public class LocoMotion : GravitationObject
     {
         base.Initialize();
         Skin = GetComponent<CharacterSkinModule>();
+        Health = GetComponent<HealthModule>();
         CharacterInput = new AICharacterInput();
         
         CorrectedDirection = CashedTransform.position;
         _surfaceSlider = new SurfaceSlider();
         OnCharacterSelected += OnSelect;
+        Health.OnDamage += HandleDamage;
+        Health.OnDeath += HandleDeath;
         SubscribeInputs();
     }
 
@@ -166,6 +172,25 @@ public class LocoMotion : GravitationObject
         _isJumping = true;
         CharacterController.Jump(_currentMovementType, CurrentSpeedZ, JumpHeight, JumpDuration,() => _isJumping = false);
     }
+
+    protected virtual void HandleDamage(AnimationTypes.Type animationType, float value)
+    {
+        if (value <= 0)
+        {
+            return;
+        }
+        Debug.LogWarning($"{name} получил урон {value} от {animationType}, осталось {Health.CurrentHealth}/{Health.MaxHealth}");
+    }
+
+    protected virtual void HandleDeath(AnimationTypes.Type animationType, bool value)
+    {
+        IsDead = value;
+        if (IsDead)
+        {
+            CharacterInput.EnableCharacterInput(false);
+        }
+        Debug.LogWarning($"{name} убит {value} от {animationType}");
+    }
     
     private void HandleSprint(bool isRunning)
     {
@@ -215,6 +240,12 @@ public class LocoMotion : GravitationObject
     [BurstCompile]
     private void UpdateSpeed()
     {
+        if (IsDead)
+        {
+            CurrentSpeedX = 0;
+            CurrentSpeedZ = 0;
+            return;
+        }
         var speedZ = Mathf.Clamp01(Mathf.Abs(CorrectedDirection.z));
         var speedX = Mathf.Clamp01(Mathf.Abs(CorrectedDirection.x));
 
@@ -233,6 +264,10 @@ public class LocoMotion : GravitationObject
     [BurstCompile]
     private void UpdateRotate()
     {
+        if (IsDead)
+        {
+            return;
+        }
         if (EnemyTargeting.TargetDirection == Vector3.zero || !_isTargetLock)
         {
             CashedTransform.RotateCombined(_currentMovementType, _nominalMovementDirection, RotationSpeed, 
@@ -246,6 +281,11 @@ public class LocoMotion : GravitationObject
     [BurstCompile]
     private void UpdateMove()
     {
+        if (IsDead)
+        {
+            return;
+        }
+        
         if (EnemyTargeting.TargetDirection == Vector3.zero || !_isTargetLock)
         {
             CashedTransform.Move(CharacterController, _currentMovementType, CorrectedDirection, CurrentSpeedZ, Time.deltaTime, _isJumping);
@@ -265,6 +305,10 @@ public class LocoMotion : GravitationObject
     [BurstCompile]
     private void UpdateTargeting()
     {
+        if (IsDead)
+        {
+            return;
+        }
         if (!_isTargetLock)
         {
             return;
@@ -281,6 +325,10 @@ public class LocoMotion : GravitationObject
     [BurstCompile]
     private void UpdateInput()
     {
+        if (IsDead)
+        {
+            return;
+        }
         _nominalMovementDirection = CharacterInput.GetMoveDirection();
         
         CorrectedDirection = _surfaceSlider.UpdateDirection(CashedTransform, _nominalMovementDirection);
@@ -289,6 +337,10 @@ public class LocoMotion : GravitationObject
     [BurstCompile]
     private void OnCollisionEnter(Collision collision)
     {
+        if (IsDead)
+        {
+            return;
+        }
         _surfaceSlider.SetNormal(collision);
     }
 
@@ -296,5 +348,7 @@ public class LocoMotion : GravitationObject
     {
         UnsubscribeInputs();
         OnCharacterSelected -= OnSelect;
+        Health.OnDamage -= HandleDamage;
+        Health.OnDeath -= HandleDeath;
     }
 }

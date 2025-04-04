@@ -6,7 +6,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
 {
     [SerializeField] private InputActionAsset inputActionAsset;
 
-    public InputActionMap InputActionMapGame { get; private set; }
+    public InputActionMap InputActionMapCharacter { get; private set; }
     public InputActionMap InputActionMapUI { get; private set; }
     
     // Player Input Actions
@@ -62,7 +62,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
 
     private void FindActions()
     {
-        InputActionMapGame = inputActionAsset.FindActionMap("Player");
+        InputActionMapCharacter = inputActionAsset.FindActionMap("Player");
         InputActionMapUI = inputActionAsset.FindActionMap("UI");
         
         Move = inputActionAsset.FindAction("Move");
@@ -130,6 +130,16 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         RightClick.Disable();
         ScrollWheel.Disable();
         OpenInventory.Disable();
+    }
+
+    public void EnableCharacterInput(bool value)
+    {
+        if (value)
+        {
+            InputActionMapCharacter.Enable();
+            return;
+        }
+        InputActionMapCharacter.Disable();
     }
 
     private void SubscribeToActions()

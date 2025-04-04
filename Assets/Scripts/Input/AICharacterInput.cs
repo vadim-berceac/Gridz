@@ -44,6 +44,14 @@ public class AICharacterInput: ICharacterInput
         
     }
     
+    public void EnableCharacterInput(bool value)
+    {
+        if (value)
+        {
+            //отклчаем подписку на события управления
+        }
+    }
+    
     // Пример использования в AI
     private void ToUpdate()
     {

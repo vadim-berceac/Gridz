@@ -20,4 +20,6 @@ public interface ICharacterInput
     public void ResetHoldTarget();
 
     public void ForciblyDrawWeapon(bool value);
+
+    public void EnableCharacterInput(bool value);
 }
