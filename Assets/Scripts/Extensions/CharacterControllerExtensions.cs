@@ -13,7 +13,7 @@ public static class CharacterControllerExtensions
         {
             if (currentFallSpeed < 0f)
             {
-                currentFallSpeed = -2f;
+                currentFallSpeed = -2f; 
             }
         }
         else
@@ -21,8 +21,16 @@ public static class CharacterControllerExtensions
             var gravityDelta = gravityForce * Time.fixedDeltaTime;
             currentFallSpeed = Mathf.Max(currentFallSpeed - gravityDelta, -maxFallSpeed);
         }
+
         var moveVector = currentFallSpeed * Time.fixedDeltaTime * Vector3.up;
-        controller.Move(moveVector);
+        var previousPosition = controller.transform.position; 
+        controller.Move(moveVector); 
+        var newPosition = controller.transform.position;
+        
+        if (!isGrounded && moveVector.y < 0f && Mathf.Approximately(newPosition.y, previousPosition.y))
+        {
+            currentFallSpeed = -2f;
+        }
     }
     
     [BurstCompile]
