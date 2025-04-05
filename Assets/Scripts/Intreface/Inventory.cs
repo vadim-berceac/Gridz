@@ -62,7 +62,7 @@ public class Inventory : MonoBehaviour
         _playerInput.InputActionMapCharacter.Enable();
     }
 
-    private void ReloadInventory(LocoMotionLayer locoMotionLayer)
+    private void ReloadInventory(CharacterInputLayer characterInputLayer)
     {
         if (!IsOpen || CameraSystem.GetSelectedCharacter() == null)
         {
