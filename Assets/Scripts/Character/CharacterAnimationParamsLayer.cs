@@ -2,7 +2,7 @@ using Unity.Burst;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public abstract class CharacterAnimationParams : LocoMotion
+public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
 {
     public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.Default;
     public Animator Animator { get; private set; }

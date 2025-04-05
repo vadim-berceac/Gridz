@@ -5,7 +5,7 @@ using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(EquipmentSystem))]
-public class CharacterActions : CharacterAnimationParams
+public class CharacterActionsLayer : CharacterAnimationParamsLayer
 {
     private OneShotClipSetsContainer _oneShotClipSetsContainer;
     private AnimatorOverrideController _overrideController;

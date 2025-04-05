@@ -5,14 +5,14 @@ public class WeaponColliderDamage : MonoBehaviour
     private float _damage;
     private float _damageDelay = 0.3f;
     private Collider _triggerCollider;
-    private CharacterAnimationParams _animationParams;
+    private CharacterAnimationParamsLayer _animationParamsLayer;
     public bool Enabled { get; private set; }
 
-    public void Init(float damage, float damageDelay, CharacterAnimationParams animationParams)
+    public void Init(float damage, float damageDelay, CharacterAnimationParamsLayer animationParamsLayer)
     {
         _damage = damage;
         _damageDelay = damageDelay;
-        _animationParams = animationParams;
+        _animationParamsLayer = animationParamsLayer;
         _triggerCollider = GetComponent<Collider>();
         Enabled = true;
     }
@@ -29,7 +29,7 @@ public class WeaponColliderDamage : MonoBehaviour
             return;
         }
 
-        if (!_triggerCollider.enabled || _animationParams.OneShotPlayedValue < 1)
+        if (!_triggerCollider.enabled || _animationParamsLayer.OneShotPlayedValue < 1)
         {
             return;
         }
@@ -41,7 +41,7 @@ public class WeaponColliderDamage : MonoBehaviour
 
         if (other.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage(_damage, _animationParams.AnimationType);
+            damageable.TakeDamage(_damage, _animationParamsLayer.AnimationType);
             _triggerCollider.enabled = false; 
             Invoke(nameof(ResetCollider), _damageDelay); 
         }

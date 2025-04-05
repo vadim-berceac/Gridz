@@ -2,7 +2,7 @@ using Unity.Burst;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class GravitationObject : MonoBehaviour
+public class GravitationLayer : MonoBehaviour
 {
    [field: Header("Grounding")]
    [field: SerializeField] public LayerMask GroundLayerMask { get; private set; }

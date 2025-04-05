@@ -17,7 +17,7 @@ public class CharacterTargeting : AbstractTargeting
     }
 
     [BurstCompile]
-    public void UpdateTarget()
+    private void UpdateTarget()
     {
         Targets.RemoveWhere(t => t == null); 
         if (Targets.Count == 0)
@@ -43,5 +43,25 @@ public class CharacterTargeting : AbstractTargeting
             : Vector3.zero;
 
         TargetDirection = directionToTarget; 
+    }
+    
+    [BurstCompile]
+    public void Target(bool isDead, bool isTargetLock, ICharacterInput input)
+    {
+        if (isDead)
+        {
+            return;
+        }
+        if (!isTargetLock)
+        {
+            return;
+        }
+
+        if (Targets.Count < 1)
+        {
+            input.ResetHoldTarget();
+            return;
+        }
+        UpdateTarget();
     }
 }

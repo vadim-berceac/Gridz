@@ -46,7 +46,26 @@ public static class TransformExtensions
     }
     
     [BurstCompile]
-    public static void RotateCombined(this Transform transform, MovementTypes.MovementType type, Vector3 inputDirection, 
+    public static void Rotate(this Transform transform, bool isDead, bool isTargetLock, CharacterTargeting enemyTargeting, 
+        MovementTypes.MovementType currentMovementType, bool rotateByCamera, CameraSystem cameraSystem, 
+        Vector2 nominalMovementDirection, float rotationSpeed)
+    {
+        if (isDead)
+        {
+            return;
+        }
+        if (enemyTargeting.TargetDirection == Vector3.zero || !isTargetLock)
+        {
+            transform.RotateCombined(currentMovementType, nominalMovementDirection, rotationSpeed, 
+                Time.deltaTime, rotateByCamera, cameraSystem.GetCameraYaw());
+            return;
+        }
+        transform.RotateTo(currentMovementType, enemyTargeting.TargetDirection, rotationSpeed, 
+            Time.deltaTime);
+    }
+    
+    [BurstCompile]
+    private static void RotateCombined(this Transform transform, MovementTypes.MovementType type, Vector3 inputDirection, 
         float rotationSpeed, float duration, bool rotateByCamera, float cameraYaw)
     {
         if (type == MovementTypes.MovementType.None)
@@ -94,9 +113,35 @@ public static class TransformExtensions
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * duration);
     }
+    
+    [BurstCompile]
+    public static void Move(this Transform transform, bool isDead, bool isTargetLock, bool isJumping,
+        CharacterTargeting enemyTargeting, CharacterController characterController, MovementTypes.MovementType currentMovementType,
+        Vector3 correctedDirection, float currentSpeedZ, float currentSpeedX)
+    {
+        if (isDead)
+        {
+            return;
+        }
+        
+        if (enemyTargeting.TargetDirection == Vector3.zero || !isTargetLock)
+        {
+            transform.Move(characterController, currentMovementType, correctedDirection, currentSpeedZ, Time.deltaTime, isJumping);
+            return;
+        }
+
+        //нестабильно
+        if (Mathf.Abs(correctedDirection.z) <  0.1f)
+        {
+            transform.Move(characterController, currentMovementType, enemyTargeting.TargetDirection, currentSpeedX, Time.deltaTime, isJumping);
+            return;
+        }
+    
+        transform.Move(characterController, currentMovementType, correctedDirection, currentSpeedZ, Time.deltaTime, isJumping);
+    }
 
     [BurstCompile]
-    public static void Move(this Transform tr, CharacterController controller, MovementTypes.MovementType movementType,
+    private static void Move(this Transform tr, CharacterController controller, MovementTypes.MovementType movementType,
         Vector3 inputDirection, float currentSpeed, float duration, bool isJumping)
     {
         if (currentSpeed == 0 || !controller.enabled || isJumping)

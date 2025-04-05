@@ -5,7 +5,7 @@ using Zenject;
 
 [RequireComponent(typeof(CharacterSkinModule))]
 [RequireComponent(typeof(HealthModule))]
-public class LocoMotion : GravitationObject
+public class LocoMotionLayer : GravitationLayer
 {
     [field:Header("Rotation Settings")]
     [field: SerializeField] public float RotationSpeed { get; private set; } = 2f;
@@ -33,14 +33,10 @@ public class LocoMotion : GravitationObject
     [field:Header("Inventory")]
     [field: SerializeField] public EquipmentSystem EquipmentSystem { get; private set; }
     
-    public static UnityAction<LocoMotion> OnCharacterSelected;
-    
+    public static UnityAction<LocoMotionLayer> OnCharacterSelected;
     public CharacterSkinModule Skin { get; private set; }
     public HealthModule Health { get; private set; }
-    public static LocoMotion SelectedCharacter { get; private set; }
-    public Vector3 CorrectedDirection { get; private set; }
-    public float CurrentSpeedZ { get; private set; }
-    public float CurrentSpeedX { get; private set; }
+    public static LocoMotionLayer SelectedCharacter { get; private set; }
     public bool IsJump => _isJumping;
     public bool IsRunning => _isRunning;
     public bool IsSneaking => _isSneaking;
@@ -48,6 +44,9 @@ public class LocoMotion : GravitationObject
     public bool IsDrawWeapon => _isDrawWeapon;
     public bool IsDead {get;private set;}
     
+    protected Vector3 CorrectedDirection;
+    protected float CurrentSpeedZ;
+    protected float CurrentSpeedX;
     private bool _previousUsePlayerInput;
     private Vector2 _nominalMovementDirection;
     private MovementTypes.MovementType _currentMovementType;
@@ -86,9 +85,9 @@ public class LocoMotion : GravitationObject
         SubscribeInputs();
     }
 
-    private void OnSelect(LocoMotion locoMotion)
+    private void OnSelect(LocoMotionLayer locoMotionLayer)
     {
-        if (locoMotion != this)
+        if (locoMotionLayer != this)
         {
             return;
         }
@@ -144,22 +143,15 @@ public class LocoMotion : GravitationObject
     protected override void Update()
     {
         base.Update();
-        UpdateInput();
-        SelectCurve();
-        UpdateSpeed();
-        UpdateTargeting();
-        UpdateMove();
-        UpdateRotate();
-    }
-
-    [BurstCompile]
-    private void SelectCurve()
-    {
-        var isForward = CorrectedDirection.z > 0;
-
-        _selectedMovementCurve = isForward
-            ? (_isSneaking ? ForwardSneakSpeedCurve : _isRunning ? ForwardRunSpeedCurve : ForwardWalkSpeedCurve)
-            : (_isSneaking ? BackWardSneakSpeedCurve : _isRunning ? BackWardRunSpeedCurve : BackWardWalkSpeedCurve);
+        CharacterInput.Correct(IsDead,_surfaceSlider, CashedTransform, ref _nominalMovementDirection, ref CorrectedDirection);
+        Speed.MoveCurve(CorrectedDirection.z, _isSneaking, _isRunning, ForwardSneakSpeedCurve, ForwardWalkSpeedCurve, ForwardRunSpeedCurve,
+            BackWardSneakSpeedCurve, BackWardWalkSpeedCurve, BackWardRunSpeedCurve, ref _selectedMovementCurve);
+        Speed.Update(IsDead, _isJumping, SpeedChangeRate, CorrectedDirection, _selectedMovementCurve, ref CurrentSpeedX, ref CurrentSpeedZ);
+        EnemyTargeting.Target(IsDead, _isTargetLock, CharacterInput);
+        CashedTransform.Move(IsDead, _isTargetLock, _isJumping, EnemyTargeting, CharacterController, _currentMovementType,
+            CorrectedDirection, CurrentSpeedZ, CurrentSpeedX);
+        CashedTransform.Rotate(IsDead, _isTargetLock, EnemyTargeting, _currentMovementType, _rotateByCamera, _cameraSystem,
+            _nominalMovementDirection, RotationSpeed);
     }
 
     [BurstCompile]
@@ -235,103 +227,6 @@ public class LocoMotion : GravitationObject
     protected virtual void SelectWeapon2()
     {
         Debug.LogWarning("Select weapon 2");
-    }
-    
-    [BurstCompile]
-    private void UpdateSpeed()
-    {
-        if (IsDead)
-        {
-            CurrentSpeedX = 0;
-            CurrentSpeedZ = 0;
-            return;
-        }
-        var speedZ = Mathf.Clamp01(Mathf.Abs(CorrectedDirection.z));
-        var speedX = Mathf.Clamp01(Mathf.Abs(CorrectedDirection.x));
-
-        if (_isJumping)
-        {
-            return;
-        }
-        
-        CurrentSpeedX = speedX * CurrentSpeedZ;
-        
-        var targetSpeed = _selectedMovementCurve.Evaluate(speedZ * _selectedMovementCurve.keys[_selectedMovementCurve.length - 1].time);
-
-        CurrentSpeedZ = Mathf.MoveTowards(CurrentSpeedZ, targetSpeed, Time.deltaTime * SpeedChangeRate);
-    }
-
-    [BurstCompile]
-    private void UpdateRotate()
-    {
-        if (IsDead)
-        {
-            return;
-        }
-        if (EnemyTargeting.TargetDirection == Vector3.zero || !_isTargetLock)
-        {
-            CashedTransform.RotateCombined(_currentMovementType, _nominalMovementDirection, RotationSpeed, 
-                Time.deltaTime, _rotateByCamera, _cameraSystem.GetCameraYaw());
-            return;
-        }
-        CashedTransform.RotateTo(_currentMovementType, EnemyTargeting.TargetDirection, RotationSpeed, 
-            Time.deltaTime);
-    }
-
-    [BurstCompile]
-    private void UpdateMove()
-    {
-        if (IsDead)
-        {
-            return;
-        }
-        
-        if (EnemyTargeting.TargetDirection == Vector3.zero || !_isTargetLock)
-        {
-            CashedTransform.Move(CharacterController, _currentMovementType, CorrectedDirection, CurrentSpeedZ, Time.deltaTime, _isJumping);
-            return;
-        }
-
-        //нестабильно
-        if (Mathf.Abs(CorrectedDirection.z) <  0.1f)
-        {
-            CashedTransform.Move(CharacterController, _currentMovementType, EnemyTargeting.TargetDirection, CurrentSpeedX, Time.deltaTime, _isJumping);
-            return;
-        }
-    
-        CashedTransform.Move(CharacterController, _currentMovementType, CorrectedDirection, CurrentSpeedZ, Time.deltaTime, _isJumping);
-    }
-
-    [BurstCompile]
-    private void UpdateTargeting()
-    {
-        if (IsDead)
-        {
-            return;
-        }
-        if (!_isTargetLock)
-        {
-            return;
-        }
-
-        if (EnemyTargeting.Targets.Count < 1)
-        {
-            CharacterInput.ResetHoldTarget();
-            return;
-        }
-        EnemyTargeting.UpdateTarget();
-    }
-
-    [BurstCompile]
-    private void UpdateInput()
-    {
-        if (IsDead)
-        {
-            return;
-        }
-        _nominalMovementDirection = CharacterInput.GetMoveDirection();
-        
-        CorrectedDirection = _surfaceSlider.UpdateDirection(CashedTransform, _nominalMovementDirection);
     }
     
     [BurstCompile]

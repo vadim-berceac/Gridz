@@ -15,8 +15,8 @@ public class CameraSystem : MonoBehaviour
     [SerializeField] private float bottomClamp = -30.0f;
     [SerializeField] private float rotationCoefficient = 1f;
 
-    private static LocoMotion _selectedCharacter;
-    public static event Action<LocoMotion> SelectedCharacterChanged;
+    private static LocoMotionLayer _selectedCharacter;
+    public static event Action<LocoMotionLayer> SelectedCharacterChanged;
     
     private PlayerInput _gameInput;
     private Vector2 _lookInput;
@@ -30,21 +30,21 @@ public class CameraSystem : MonoBehaviour
         _gameInput = playerInput;
     }
 
-    public static LocoMotion GetSelectedCharacter()
+    public static LocoMotionLayer GetSelectedCharacter()
     {
         return _selectedCharacter;
     }
 
-    public void Select(LocoMotion locoMotion)
+    public void Select(LocoMotionLayer locoMotionLayer)
     {
-        if (locoMotion == null)
+        if (locoMotionLayer == null)
         {
             _selectedCharacter = null;
             SelectedCharacterChanged?.Invoke(null);
             SetTarget(null);
             return;
         }
-        var target = locoMotion.transform.FindObjectsWithTag(TagsAndLayersConst.CameraTargetTag)[0];
+        var target = locoMotionLayer.transform.FindObjectsWithTag(TagsAndLayersConst.CameraTargetTag)[0];
         if (target == null)
         {
             _selectedCharacter = null;
@@ -52,8 +52,8 @@ public class CameraSystem : MonoBehaviour
             SetTarget(null);
             return;
         }
-        _selectedCharacter = locoMotion;
-        SelectedCharacterChanged?.Invoke(locoMotion);
+        _selectedCharacter = locoMotionLayer;
+        SelectedCharacterChanged?.Invoke(locoMotionLayer);
         SetTarget(target.transform);
     }
 

@@ -6,12 +6,12 @@ using UnityEngine;
 public class SelectNextCharacter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textMesh;
-    private List<LocoMotion> _chars;
+    private List<LocoMotionLayer> _chars;
     private int _currentIndex = -1;
 
     private void Awake()
     {
-        _chars = FindObjectsByType<LocoMotion>(FindObjectsSortMode.None).ToList();
+        _chars = FindObjectsByType<LocoMotionLayer>(FindObjectsSortMode.None).ToList();
         textMesh.text = "";
        // Debug.LogWarning(_chars.Count);
     }
@@ -20,11 +20,11 @@ public class SelectNextCharacter : MonoBehaviour
     {
         if (_chars.Count > 0)
         {
-            LocoMotion.OnCharacterSelected(GetNextCharacter());
+            LocoMotionLayer.OnCharacterSelected(GetNextCharacter());
         }
     }
     
-    private LocoMotion GetNextCharacter()
+    private LocoMotionLayer GetNextCharacter()
     {
         if (_chars == null || _chars.Count == 0)
         {

@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterSkinModule))]
-[RequireComponent(typeof(CharacterAnimationParams))]
+[RequireComponent(typeof(CharacterAnimationParamsLayer))]
 public class EquipmentSystem : MonoBehaviour
 {
     [field: Header("Weapon")]
@@ -18,7 +18,7 @@ public class EquipmentSystem : MonoBehaviour
     [field: SerializeField] public CharacterSkinData PrimaryArmorData { get; private set; }
     
     private CharacterSkinModule _characterSkinModule;
-    private CharacterAnimationParams _characterAnimationParams;
+    private CharacterAnimationParamsLayer _characterAnimationParamsLayer;
     public List<IItemData> InventoryBag { get; private set; } = Enumerable.Repeat<IItemData>(null, 25).ToList();
 
     public event Action OnAnimationChanged;
@@ -27,7 +27,7 @@ public class EquipmentSystem : MonoBehaviour
     private void Awake()
     {
         _characterSkinModule = GetComponent<CharacterSkinModule>();
-        _characterAnimationParams = GetComponent<CharacterAnimationParams>();
+        _characterAnimationParamsLayer = GetComponent<CharacterAnimationParamsLayer>();
 
         foreach (var data in WeaponData)
         {
@@ -63,16 +63,16 @@ public class EquipmentSystem : MonoBehaviour
     [BurstCompile]
     public void CreateWeaponInstance(int index)
     {
-        WeaponInstances[index] = SetWeaponData((WeaponData[index]), _characterAnimationParams);
+        WeaponInstances[index] = SetWeaponData((WeaponData[index]), _characterAnimationParamsLayer);
         WeaponData[index].Equip(_characterSkinModule.BonesCollector, 0, WeaponInstances[index]);
     }
     
     [BurstCompile]
-    private static Transform SetWeaponData(WeaponData weaponData, CharacterAnimationParams animationParams)
+    private static Transform SetWeaponData(WeaponData weaponData, CharacterAnimationParamsLayer animationParamsLayer)
     {
         var result = weaponData.CreateInstance();
         var weaponDamageCollider = result.AddComponent<WeaponColliderDamage>();
-        weaponDamageCollider.Init(weaponData.Damage, weaponData.DamageDelay, animationParams);
+        weaponDamageCollider.Init(weaponData.Damage, weaponData.DamageDelay, animationParamsLayer);
         return result;
     }
 }
