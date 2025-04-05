@@ -17,7 +17,7 @@ public class CharacterInputLayer : GravitationLayer
     protected bool IsTargetLock  { get; private set; }
     protected bool IsDrawWeapon  { get; private set; }
     protected Vector2 NominalMovementDirection;
-    private static CharacterInputLayer _selectedCharacter;
+    public static CharacterInputLayer SelectedCharacter { get; private set; }
     
     protected ICharacterInput CharacterInput {get; private set;}
     protected Vector3 CorrectedDirection;
@@ -60,19 +60,19 @@ public class CharacterInputLayer : GravitationLayer
             return;
         }
         
-        if (_selectedCharacter != null)
+        if (SelectedCharacter != null)
         {
-            _selectedCharacter.UnsubscribeInputs();
+            SelectedCharacter.UnsubscribeInputs();
             var newInput =  new AICharacterInput();
-            _selectedCharacter.CharacterInput = newInput;
-            _selectedCharacter.CurrentMovementType = MovementTypes.MovementType.None;
-            _selectedCharacter.SubscribeInputs();
+            SelectedCharacter.CharacterInput = newInput;
+            SelectedCharacter.CurrentMovementType = MovementTypes.MovementType.None;
+            SelectedCharacter.SubscribeInputs();
             CameraSystem.Select(null);
             RotateByCamera = false;
         }
 
         UnsubscribeInputs();
-        _selectedCharacter = this;
+        SelectedCharacter = this;
         CharacterInput = _inputByPlayer;
         CurrentMovementType = MovementTypes.MovementType.RootMotion;
         SubscribeInputs();

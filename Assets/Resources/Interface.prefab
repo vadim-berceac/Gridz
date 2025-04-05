@@ -1,41 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &62384965315461183
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4555758498428729802}
-  m_Layer: 0
-  m_Name: GameObject (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4555758498428729802
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 62384965315461183}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2135035299034054877}
-  m_Father: {fileID: 8134295681115717969}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 124.7264, y: 44.386}
-  m_SizeDelta: {x: 264.7822, y: 88.771}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &306576753456468839
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8759800230951627268}
   m_Layer: 0
-  m_Name: HP
+  m_Name: Portrait
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -317,12 +281,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3140177097576107433}
+  - {fileID: 2135035299034054877}
   m_Father: {fileID: 8134295681115717969}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 404, y: 44.386}
-  m_SizeDelta: {x: 264.7822, y: 88.771}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 40, y: 556.87885}
+  m_SizeDelta: {x: 264.7822, y: 193.0133}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2685933318119591943
 GameObject:
@@ -1031,7 +996,7 @@ GameObject:
   - component: {fileID: 3140177097576107433}
   - component: {fileID: 6117938262597047111}
   m_Layer: 0
-  m_Name: Slider
+  m_Name: HPSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1054,9 +1019,9 @@ RectTransform:
   - {fileID: 4068455276355772066}
   m_Father: {fileID: 8759800230951627268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00055695, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 131, y: -79}
   m_SizeDelta: {x: 88.26, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6117938262597047111
@@ -1384,7 +1349,7 @@ GameObject:
   - component: {fileID: 4708371832406009686}
   - component: {fileID: 6479675766972158863}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1397,16 +1362,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7559740931367012488}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4555758498428729802}
+  m_Father: {fileID: 8759800230951627268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000045776, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 132.39, y: 50}
   m_SizeDelta: {x: 264.78, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4708371832406009686
@@ -1541,7 +1506,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 1.1766014, y: 0}
+  m_AnchoredPosition: {x: 1.1766052, y: 0}
   m_SizeDelta: {x: -9.144, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8472522657653495994
@@ -1880,7 +1845,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4638754344093817478}
-  - {fileID: 4555758498428729802}
   - {fileID: 8759800230951627268}
   m_Father: {fileID: 7233204088812665695}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
