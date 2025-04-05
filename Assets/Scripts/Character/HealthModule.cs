@@ -5,7 +5,7 @@ public class HealthModule : MonoBehaviour, IDamageable
 {
     [field: SerializeField] public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
-    public float NormalizedHealth { get; private set; }
+    public float NormalizedHealth { get; private set; } = 1;
     
     public event Action<AnimationTypes.Type, float> OnDamage;
     public event Action<AnimationTypes.Type, bool> OnDeath;
@@ -23,7 +23,7 @@ public class HealthModule : MonoBehaviour, IDamageable
         }
         
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, MaxHealth);
-        NormalizedHealth = CurrentHealth / MaxHealth;
+        NormalizedHealth = GetNormalizedHealth();
         
         OnDamage?.Invoke(hitType, damage);
 
@@ -31,5 +31,10 @@ public class HealthModule : MonoBehaviour, IDamageable
         {
             OnDeath?.Invoke(hitType, true);
         }
+    }
+
+    private float GetNormalizedHealth()
+    {
+        return NormalizedHealth / MaxHealth;
     }
 }

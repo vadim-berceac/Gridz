@@ -13,7 +13,7 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
     private int _selectedWeaponIndex = 0;
 
     private int _animationSpeedHash;
-    private const string OneShotClioName = "Blank";
+    private const string OneShotClipName = "Blank";
 
     [Inject]
     private void Construct(OneShotClipSetsContainer container)
@@ -28,10 +28,10 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
         _overrideController = new AnimatorOverrideController(baseController);
         Animator.runtimeAnimatorController = _overrideController;
         _animationSpeedHash = Animator.StringToHash("AnimationSpeed");
-        EquipmentSystem.OnAnimationChanged += OnAnimationReseted;
+        EquipmentSystem.OnAnimationChanged += OnAnimationReset;
     }
 
-    private void OnAnimationReseted()
+    private void OnAnimationReset()
     {
         SetAnimationType(AnimationTypes.Type.Default); 
     }
@@ -47,6 +47,11 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
             return;
         }
 
+        if (IsDrawWeapon)
+        {
+            CharacterInput.ForciblyDrawWeapon(false);
+        }
+        
         var list = ItemTargeting.Targets.ToList();
         
         var target = list[0].GetComponent<PickupObject>().ItemData;
@@ -82,7 +87,7 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
             return;
         }
         
-        SetNewClipToState(_blankAttack.Clip, OneShotClioName);
+        SetNewClipToState(_blankAttack.Clip, OneShotClipName);
         Animator.SetFloat(_animationSpeedHash, _blankAttack.Speed);
         Animator.SetTrigger("OneShotTrigger");
     }
@@ -184,6 +189,6 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
 
     private void OnDisable()
     {
-        EquipmentSystem.OnAnimationChanged -= OnAnimationReseted;
+        EquipmentSystem.OnAnimationChanged -= OnAnimationReset;
     }
 }
