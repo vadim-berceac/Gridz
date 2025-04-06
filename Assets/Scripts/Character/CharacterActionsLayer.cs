@@ -52,21 +52,12 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
             CharacterInput.ForciblyDrawWeapon(false);
         }
         
-        var list = ItemTargeting.Targets.ToList();
-        
-        var target = list[0].GetComponent<PickupObject>().ItemData;
-        
-        InventoryCell.FindIndexOfEmpty(EquipmentSystem.InventoryBag, out var index);
-        
-        EquipmentSystem.InventoryBag[index] = target;
-
-        Debug.LogWarning($"подбираю {target.name}");
-
-        var toRemove = list[0].gameObject;
-        
-        ItemTargeting.Targets.Remove(toRemove.transform);
-        
-        Destroy(toRemove); 
+        if (this.TryTakeItem(ItemTargeting, EquipmentSystem))
+        {
+            return;
+        }
+        Debug.LogWarning("Пробуем залутать контейнер");
+        Debug.LogWarning("Вызываем событие отображающее инвентарь контейнера");
     }
 
     [BurstCompile]

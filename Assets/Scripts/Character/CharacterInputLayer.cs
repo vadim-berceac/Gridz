@@ -47,9 +47,8 @@ public class CharacterInputLayer : GravitationLayer
         SubscribeInputs();
     }
 
-    protected override void Update()
+    protected virtual void Update()
     {
-        base.Update();
         CharacterInput.Correct(IsDead, SurfaceSlider, CashedTransform, ref NominalMovementDirection, ref CorrectedDirection);
     }
     
@@ -73,9 +72,12 @@ public class CharacterInputLayer : GravitationLayer
 
         UnsubscribeInputs();
         SelectedCharacter = this;
-        CharacterInput = _inputByPlayer;
-        CurrentMovementType = MovementTypes.MovementType.RootMotion;
-        SubscribeInputs();
+        if (!IsDead)
+        {
+            CharacterInput = _inputByPlayer;
+            CurrentMovementType = MovementTypes.MovementType.RootMotion;
+            SubscribeInputs();
+        }
         CameraSystem.Select(this);
         RotateByCamera = true;
     }
@@ -136,7 +138,9 @@ public class CharacterInputLayer : GravitationLayer
         IsDead = value;
         if (IsDead)
         {
+            CharacterInput = new AICharacterInput();
             CharacterInput.EnableCharacterInput(false);
+            gameObject.layer = TagsAndLayersConst.PickupObjectLayerIndex;
         }
         Debug.LogWarning($"{name} убит {value} от {animationType}");
     }

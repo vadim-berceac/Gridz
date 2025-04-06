@@ -59,6 +59,10 @@ public class LocoMotionLayer : CharacterInputLayer
     protected override void OnJump()
     {
         base.OnJump();
+        if (IsDead)
+        {
+            return;
+        }
         CharacterController.Jump(CurrentMovementType, CurrentSpeedZ, JumpHeight, JumpDuration, ResetJump);
     }
     

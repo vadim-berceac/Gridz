@@ -4,60 +4,83 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class GravitationLayer : MonoBehaviour
 {
-   [field: Header("Grounding")]
-   [field: SerializeField] public LayerMask GroundLayerMask { get; private set; }
-   [field: SerializeField] public Vector3 GroundOffset { get; private set; }
-   [field: SerializeField] public float SphereRadius { get; private set; }
-   
-   protected CharacterController CharacterController;
-   private float _currentFallSpeed = 0f;
-   private bool _isGrounded;
+    [field: Header("Grounding")]
+    [field: SerializeField]
+    public LayerMask GroundLayerMask { get; private set; }
 
-   public bool IsGrounded => _isGrounded;
-   
-   public Transform CashedTransform { get; private set; }
-   private void Awake()
-   {
-      Initialize();  
-   }
-   
-   protected virtual void Initialize()
-   {
-      CashedTransform = transform;
-      CharacterController = GetComponent<CharacterController>();
-   }
-
-   protected virtual void Update()
-   {
+    [field: SerializeField] public Vector3 GroundOffset { get; private set; }
+    [field: SerializeField] public float SphereRadius { get; private set; }
     
-   }
-   
-   protected virtual void FixedUpdate()
-   {
-      UpdateGrounded();
-      UpdateGravity();
-   }
+    [field: Header("Fall Damage")]
+    [field: SerializeField] public float FallDamageThreshold { get; private set; } = 5f;
 
-   private void UpdateGravity()
-   {
-      CharacterController.ApplyGravitation(ref _currentFallSpeed, _isGrounded, GravityConstants.MaxFallSpeed,
-         GravityConstants.GravityForce);
-   }
+    private float _maxHeightReached;
+    private bool _wasGroundedLastFrame;
+    public event System.Action<float> OnFallDamage; 
 
-   [BurstCompile]
-   private void UpdateGrounded()
-   {
-      var spherePos = CashedTransform.position + GroundOffset;
-      
-      var hitColliders = new Collider[32]; 
-      
-      var hitsCount = Physics.OverlapSphereNonAlloc(spherePos, SphereRadius, hitColliders, GroundLayerMask);
+    protected CharacterController CharacterController;
+    private float _currentFallSpeed = 0f;
+    private bool _isGrounded;
 
-      if (hitsCount > 0)
-      {
-         _isGrounded = true;
-         return;
-      }
-      _isGrounded = false;
-   }
+    public bool IsGrounded => _isGrounded;
+    public Transform CashedTransform { get; private set; }
+
+    private void Awake()
+    {
+        Initialize();
+    }
+
+    protected virtual void Initialize()
+    {
+        CashedTransform = transform;
+        CharacterController = GetComponent<CharacterController>();
+        _maxHeightReached = CashedTransform.position.y;
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        UpdateGrounded();
+        UpdateGravity();
+        UpdateFallDetection();
+    }
+
+    private void UpdateGravity()
+    {
+        CharacterController.ApplyGravitation(ref _currentFallSpeed, _isGrounded, GravityConstants.MaxFallSpeed,
+            GravityConstants.GravityForce);
+    }
+    [BurstCompile]
+
+    private void UpdateFallDetection()
+    {
+        var currentHeight = CashedTransform.position.y;
+        
+        if (!_isGrounded)
+        {
+            _maxHeightReached = Mathf.Max(_maxHeightReached, currentHeight);
+        }
+        
+        if (_isGrounded && !_wasGroundedLastFrame)
+        {
+            var fallDistance = _maxHeightReached - currentHeight;
+            if (fallDistance > FallDamageThreshold)
+            {
+                OnFallDamage?.Invoke(fallDistance);
+            }
+
+            _maxHeightReached = currentHeight; 
+        }
+
+        _wasGroundedLastFrame = _isGrounded;
+    }
+    
+    [BurstCompile]
+    private void UpdateGrounded()
+    {
+        var spherePos = CashedTransform.position + GroundOffset;
+        var hitColliders = new Collider[32]; 
+        var hitsCount = Physics.OverlapSphereNonAlloc(spherePos, SphereRadius, hitColliders, GroundLayerMask);
+
+        _isGrounded = hitsCount > 0;
+    }
 }
