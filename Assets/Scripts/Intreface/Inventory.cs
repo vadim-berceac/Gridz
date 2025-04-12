@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,18 +11,23 @@ public class Inventory : MonoBehaviour
     [field: SerializeField] public Text DescriptionText { get; private set; }
     [field: SerializeField] private Transform bagTransform;
     [field: SerializeField] private Transform weaponTable;
-    
-    public bool IsOpen { get; set; }
+
+    private ContainerInventory _containerInventory;
+    public bool IsOpen => _isOpen;
+    private bool _isOpen;
     
     public InventoryCell[] BagCells { get; private set; }
     public InventoryCell[] WeaponTableCells { get; private set; }
+
+    public Action OnInventoryClosed;
     
     private PlayerInput _playerInput;
 
     [Inject]
-    private void Construct(PlayerInput playerInput)
+    private void Construct(PlayerInput playerInput, ContainerInventory containerInventory)
     {
         _playerInput = playerInput;
+        _containerInventory = containerInventory;
     }
     
     //нужно реализовать отображение стака вещей в одной ячейке (счет не в itemData - потому что то ScriptableObject и общий для всех предметов)
@@ -34,9 +40,15 @@ public class Inventory : MonoBehaviour
     private void Init()
     {
         _playerInput.OpenInventory.performed += OnInventoryOpen;
+        _containerInventory.OnContainerInventoryOpen += OnContainerInventoryOpen;
         CameraSystem.SelectedCharacterChanged += ReloadInventory;
         BagCells = bagTransform.GetComponentsInChildren<InventoryCell>(includeInactive: true);
         WeaponTableCells = weaponTable.GetComponentsInChildren<InventoryCell>(includeInactive: true);
+    }
+
+    private void OnContainerInventoryOpen()
+    {
+        OpenClose(true);
     }
 
     private void OnInventoryOpen(InputAction.CallbackContext ctx)
@@ -46,25 +58,22 @@ public class Inventory : MonoBehaviour
             OpenClose(false);
             return;
         }
-        OpenClose(!IsOpen);
+        OpenClose(!_isOpen);
     }
 
     public void OpenClose(bool value)
     {
-        IsOpen = value;
-        InventoryWindow.SetActive(value);
-        if (value)
+        this.Open(value, ref _isOpen, InventoryWindow, _playerInput, Refresh);
+
+        if (!value)
         {
-            Refresh();
-            _playerInput.InputActionMapCharacter.Disable();
-            return;
+            OnInventoryClosed?.Invoke();
         }
-        _playerInput.InputActionMapCharacter.Enable();
     }
 
     private void ReloadInventory(CharacterInputLayer characterInputLayer)
     {
-        if (!IsOpen || CameraSystem.GetSelectedCharacter() == null)
+        if (!_isOpen || CameraSystem.GetSelectedCharacter() == null)
         {
             return;
         }
@@ -117,6 +126,7 @@ public class Inventory : MonoBehaviour
     private void OnDisable()
     {
         _playerInput.OpenInventory.performed -= OnInventoryOpen;
+        _containerInventory.OnContainerInventoryOpen -= OnContainerInventoryOpen;
         CameraSystem.SelectedCharacterChanged -= ReloadInventory;
     }
 }

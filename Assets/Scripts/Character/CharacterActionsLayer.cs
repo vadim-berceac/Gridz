@@ -13,12 +13,14 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
     private int _selectedWeaponIndex = 0;
 
     private int _animationSpeedHash;
+    private ContainerInventory _containerInventory;
     private const string OneShotClipName = "Blank";
 
     [Inject]
-    private void Construct(OneShotClipSetsContainer container)
+    private void Construct(OneShotClipSetsContainer container, ContainerInventory containerInventory)
     {
         _oneShotClipSetsContainer = container;
+        _containerInventory = containerInventory;
     }
 
     protected override void Initialize()
@@ -56,8 +58,11 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
         {
             return;
         }
+        
+        
         Debug.LogWarning("Пробуем залутать контейнер");
         Debug.LogWarning("Вызываем событие отображающее инвентарь контейнера");
+        _containerInventory.OpenClose(true);
     }
 
     [BurstCompile]

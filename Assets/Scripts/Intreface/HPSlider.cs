@@ -36,6 +36,10 @@ public class HPSlider : MonoBehaviour
     private void OnDisable()
     {
         CameraSystem.SelectedCharacterChanged -= OnCharacterSelected;
+        if (CharacterInputLayer.SelectedCharacter == null)
+        {
+            return;
+        }
         CharacterInputLayer.SelectedCharacter.Health.OnDamage -= OnHealthChanged;
     }
 }

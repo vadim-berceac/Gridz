@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1086750175022482036}
   - component: {fileID: 1123474152206956781}
   - component: {fileID: 4854034983369624538}
+  - component: {fileID: 5976397465232956879}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -54,6 +55,7 @@ MonoBehaviour:
   - {fileID: 1086750175022482036}
   - {fileID: 1123474152206956781}
   - {fileID: 4854034983369624538}
+  - {fileID: 5976397465232956879}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -123,3 +125,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   oneShotClipSetsContainer: {fileID: 11400000, guid: 206a92b8d11980f4f971adf2b8ada480, type: 2}
+--- !u!114 &5976397465232956879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653341817605386156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1232f1c118b279d4782397f8d2201882, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
