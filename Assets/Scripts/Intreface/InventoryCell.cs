@@ -11,6 +11,7 @@ public class InventoryCell : MonoBehaviour
    [field: SerializeField] public Image Icon { get; private set; }
    [field: SerializeField] public Button Button { get; private set; }
    [field: SerializeField] public TMP_Text Text { get; private set; }
+   [field: SerializeField] public bool IsLootCell { get; private set; }
    
    public IItemData Item { get; private set; }
    private EquipmentSystem _equipmentSystem;
@@ -39,6 +40,12 @@ public class InventoryCell : MonoBehaviour
    {
       if (Item == null)
       {
+         return;
+      }
+
+      if (IsLootCell)
+      {
+         Debug.LogWarning("Логика передачи из лута в сумку");
          return;
       }
 

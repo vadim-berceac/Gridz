@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Burst;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -35,6 +36,7 @@ public class Inventory : MonoBehaviour
         Init();
     }
 
+    [BurstCompile]
     private void Init()
     {
         _playerInput.OpenInventory.performed += OnInventoryOpen;
@@ -45,16 +47,19 @@ public class Inventory : MonoBehaviour
         WeaponTableCells = weaponTable.GetComponentsInChildren<InventoryCell>(includeInactive: true);
     }
 
+    [BurstCompile]
     private void OnContainerInventoryClose()
     {
         OpenClose(false);
     }
-
+    
+    [BurstCompile]
     private void OnContainerInventoryOpen()
     {
         OpenClose(true);
     }
 
+    [BurstCompile]
     private void OnInventoryOpen(InputAction.CallbackContext ctx)
     {
         if (CameraSystem.GetSelectedCharacter() == null)
@@ -64,7 +69,8 @@ public class Inventory : MonoBehaviour
         }
         OpenClose(!_isOpen);
     }
-
+    
+    [BurstCompile]
     public void OpenClose(bool value)
     {
         this.Open(value, ref _isOpen, InventoryWindow, true, _playerInput, Refresh);
@@ -74,7 +80,8 @@ public class Inventory : MonoBehaviour
            _containerInventory.SimpleClose();
         }
     }
-
+    
+    [BurstCompile]
     private void ReloadInventory(CharacterInputLayer characterInputLayer)
     {
         if (!_isOpen || CameraSystem.GetSelectedCharacter() == null)
@@ -85,6 +92,7 @@ public class Inventory : MonoBehaviour
         Refresh();
     }
 
+    [BurstCompile]
     private void Refresh()
     {
         if ( CameraSystem.GetSelectedCharacter()?.EquipmentSystem == null)
@@ -104,7 +112,7 @@ public class Inventory : MonoBehaviour
         this.FillCells(WeaponTableCells, equipmentSystem.WeaponData, equipmentSystem);
     }
 
-
+    [BurstCompile]
     private void OnDisable()
     {
         _playerInput.OpenInventory.performed -= OnInventoryOpen;

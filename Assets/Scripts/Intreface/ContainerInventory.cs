@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Burst;
 using UnityEngine;
 using Zenject;
 
@@ -28,6 +29,7 @@ public class ContainerInventory : MonoBehaviour
         ContainerCells = BagTransform.GetComponentsInChildren<InventoryCell>(includeInactive: true);
     }
 
+    [BurstCompile]
     public void OpenContainer(ItemTargeting itemTargeting)
     {
         _inventory.ClearCells(ContainerCells);
@@ -43,6 +45,7 @@ public class ContainerInventory : MonoBehaviour
         OpenClose(true);
     }
     
+    [BurstCompile]
     public void OpenClose(bool value)
     {
         _inventory.Open(value, ref _isOpen, ContainerInventoryWindow, false, _playerInput, Refresh);
@@ -57,6 +60,7 @@ public class ContainerInventory : MonoBehaviour
         }
     }
 
+    [BurstCompile]
     public void SimpleClose()
     {
         _inventory.Open(false, ref _isOpen, ContainerInventoryWindow, false, _playerInput, Refresh);
