@@ -1775,6 +1775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ContainerInventoryWindow>k__BackingField: {fileID: 1166654741649891764}
+  <BagTransform>k__BackingField: {fileID: 7200052104586740659}
 --- !u!114 &4846424215045528343
 MonoBehaviour:
   m_ObjectHideFlags: 0

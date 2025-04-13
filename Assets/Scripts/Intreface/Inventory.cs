@@ -18,8 +18,6 @@ public class Inventory : MonoBehaviour
     
     public InventoryCell[] BagCells { get; private set; }
     public InventoryCell[] WeaponTableCells { get; private set; }
-
-    public Action OnInventoryClosed;
     
     private PlayerInput _playerInput;
 
@@ -41,9 +39,15 @@ public class Inventory : MonoBehaviour
     {
         _playerInput.OpenInventory.performed += OnInventoryOpen;
         _containerInventory.OnContainerInventoryOpen += OnContainerInventoryOpen;
+        _containerInventory.OnContainerInventoryClose += OnContainerInventoryClose;
         CameraSystem.SelectedCharacterChanged += ReloadInventory;
         BagCells = bagTransform.GetComponentsInChildren<InventoryCell>(includeInactive: true);
         WeaponTableCells = weaponTable.GetComponentsInChildren<InventoryCell>(includeInactive: true);
+    }
+
+    private void OnContainerInventoryClose()
+    {
+        OpenClose(false);
     }
 
     private void OnContainerInventoryOpen()
@@ -63,11 +67,11 @@ public class Inventory : MonoBehaviour
 
     public void OpenClose(bool value)
     {
-        this.Open(value, ref _isOpen, InventoryWindow, _playerInput, Refresh);
+        this.Open(value, ref _isOpen, InventoryWindow, true, _playerInput, Refresh);
 
         if (!value)
         {
-            OnInventoryClosed?.Invoke();
+           _containerInventory.SimpleClose();
         }
     }
 
@@ -92,41 +96,20 @@ public class Inventory : MonoBehaviour
 
         var equipmentSystem = CameraSystem.GetSelectedCharacter().EquipmentSystem;
         
-        ClearCells(BagCells);
-        ClearCells(WeaponTableCells);
+        this.ClearCells(BagCells);
+        this.ClearCells(WeaponTableCells);
         
-        FillCells(BagCells, equipmentSystem.InventoryBag, equipmentSystem);
+        this.FillCells(BagCells, equipmentSystem.InventoryBag, equipmentSystem);
         
-        FillCells(WeaponTableCells, equipmentSystem.WeaponData, equipmentSystem);
+        this.FillCells(WeaponTableCells, equipmentSystem.WeaponData, equipmentSystem);
     }
 
-    private static void ClearCells(IEnumerable<InventoryCell> cells)
-    {
-        foreach (var cell in cells)
-        {
-            cell.Clear();
-        }
-    }
-
-    private void FillCells(InventoryCell[] cells, IEnumerable<IItemData> items, EquipmentSystem equipmentSystem)
-    {
-        var cellIndex = 0;
-
-        foreach (var item in items)
-        {
-            if (cellIndex >= cells.Length) break; 
-            if (cells[cellIndex].Item == null)
-            {
-                cells[cellIndex].SetItem(item, equipmentSystem, this);
-            }
-            cellIndex++;
-        }
-    }
 
     private void OnDisable()
     {
         _playerInput.OpenInventory.performed -= OnInventoryOpen;
         _containerInventory.OnContainerInventoryOpen -= OnContainerInventoryOpen;
+        _containerInventory.OnContainerInventoryClose -= OnContainerInventoryClose;
         CameraSystem.SelectedCharacterChanged -= ReloadInventory;
     }
 }

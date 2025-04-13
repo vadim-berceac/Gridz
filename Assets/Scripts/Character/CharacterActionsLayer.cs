@@ -58,11 +58,8 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
         {
             return;
         }
-        
-        
-        Debug.LogWarning("Пробуем залутать контейнер");
-        Debug.LogWarning("Вызываем событие отображающее инвентарь контейнера");
-        _containerInventory.OpenClose(true);
+
+        _containerInventory.OpenContainer(ItemTargeting);
     }
 
     [BurstCompile]

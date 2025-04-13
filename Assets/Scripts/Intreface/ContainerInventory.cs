@@ -1,12 +1,16 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
 public class ContainerInventory : MonoBehaviour
 {
     [field: SerializeField] public GameObject ContainerInventoryWindow { get; private set; }
-
+    [field: SerializeField] public Transform BagTransform { get; private set; }
+    public InventoryCell[] ContainerCells { get; private set; }
     public Action OnContainerInventoryOpen;
+    public Action OnContainerInventoryClose;
 
     private Inventory _inventory;
     private PlayerInput _playerInput;
@@ -21,28 +25,46 @@ public class ContainerInventory : MonoBehaviour
 
     private void Awake()
     {
-        _inventory.OnInventoryClosed += OnInventoryClosed;
+        ContainerCells = BagTransform.GetComponentsInChildren<InventoryCell>(includeInactive: true);
     }
 
-    private void OnInventoryClosed()
+    public void OpenContainer(ItemTargeting itemTargeting)
     {
-        OpenClose(false);
+        _inventory.ClearCells(ContainerCells);
+        
+        var equipSystem = itemTargeting.Targets.First().GetComponent<EquipmentSystem>();
+
+        var result = new HashSet<IItemData>(equipSystem.WeaponData);
+        result.UnionWith(equipSystem.InventoryBag);
+        //result.UnionWith(equipSystem.armor); и броню прибавляем когда будет
+        
+        _inventory.FillCells(ContainerCells, result, equipSystem);
+        
+        OpenClose(true);
     }
     
     public void OpenClose(bool value)
     {
-        _inventory.Open(value, ref _isOpen, ContainerInventoryWindow, _playerInput, Refresh);
-        
-        if(value) OnContainerInventoryOpen?.Invoke();
+        _inventory.Open(value, ref _isOpen, ContainerInventoryWindow, false, _playerInput, Refresh);
+
+        if (value)
+        {
+            OnContainerInventoryOpen?.Invoke();
+        }
+        else
+        {
+            OnContainerInventoryClose?.Invoke();
+        }
+    }
+
+    public void SimpleClose()
+    {
+        _inventory.Open(false, ref _isOpen, ContainerInventoryWindow, false, _playerInput, Refresh);
     }
 
     private void Refresh()
     {
+        // заполнить
         Debug.LogWarning("Refresh");
-    }
-
-    private void OnDisable()
-    {
-        _inventory.OnInventoryClosed -= OnInventoryClosed;
     }
 }
