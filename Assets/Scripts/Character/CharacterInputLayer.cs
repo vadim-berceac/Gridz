@@ -138,6 +138,7 @@ public class CharacterInputLayer : GravitationLayer
         IsDead = value;
         if (IsDead)
         {
+            UnsubscribeInputs();
             CharacterInput = new AICharacterInput();
             CharacterInput.EnableCharacterInput(false);
             gameObject.layer = TagsAndLayersConst.PickupObjectLayerIndex;
