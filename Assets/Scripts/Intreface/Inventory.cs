@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 using UnityEngine.InputSystem;

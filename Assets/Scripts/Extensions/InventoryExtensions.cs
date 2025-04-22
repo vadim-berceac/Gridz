@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class InventoryExtensions
@@ -20,18 +21,51 @@ public static class InventoryExtensions
         playerInput.InputActionMapCharacter.Enable();
     }
     
+    // public static void FillCells1(this Inventory inventory, InventoryCell[] cells, IEnumerable<IItemData> items, EquipmentModule equipmentModule)
+    // {
+    //     var cellIndex = 0;
+    //
+    //     foreach (var item in items)
+    //     {
+    //         if (cellIndex >= cells.Length) break; 
+    //         if (cells[cellIndex].Item == null)
+    //         {
+    //             cells[cellIndex].SetItem(item, equipmentModule, inventory);
+    //         }
+    //         cellIndex++;
+    //     }
+    // }
+    
     public static void FillCells(this Inventory inventory, InventoryCell[] cells, IEnumerable<IItemData> items, EquipmentModule equipmentModule)
     {
-        var cellIndex = 0;
-
-        foreach (var item in items)
+        foreach (var item in items) 
         {
-            if (cellIndex >= cells.Length) break; 
-            if (cells[cellIndex].Item == null)
+            if (item == null)
             {
-                cells[cellIndex].SetItem(item, equipmentModule, inventory);
+                continue;
             }
-            cellIndex++;
+
+            var stacked = false;
+            foreach (var cell in cells)
+            {
+                if (cell.Item == item && cell.AddToStack(item, 1))
+                {
+                    stacked = true;
+                    break;
+                }
+            }
+            if (stacked)
+            {
+                return;
+            }
+            foreach (var cell in cells)
+            {
+                if (cell.Item == null)
+                {
+                    cell.SetItem(item, equipmentModule, inventory, 1);
+                    break;
+                }
+            }
         }
     }
     

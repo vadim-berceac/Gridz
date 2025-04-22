@@ -162,7 +162,7 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
 
     protected override void SelectWeapon2()
     {
-       _ = SwitchWeaponAndSlot(3);
+       _ = SwitchWeaponAndSlot(2);
     }
 
     private async Task SwitchWeaponAndSlot(int index)
