@@ -20,7 +20,7 @@ public static class InventoryExtensions
         playerInput.InputActionMapCharacter.Enable();
     }
     
-    public static void FillCells(this Inventory inventory, InventoryCell[] cells, IEnumerable<IItemData> items, EquipmentSystem equipmentSystem)
+    public static void FillCells(this Inventory inventory, InventoryCell[] cells, IEnumerable<IItemData> items, EquipmentModule equipmentModule)
     {
         var cellIndex = 0;
 
@@ -29,7 +29,7 @@ public static class InventoryExtensions
             if (cellIndex >= cells.Length) break; 
             if (cells[cellIndex].Item == null)
             {
-                cells[cellIndex].SetItem(item, equipmentSystem, inventory);
+                cells[cellIndex].SetItem(item, equipmentModule, inventory);
             }
             cellIndex++;
         }

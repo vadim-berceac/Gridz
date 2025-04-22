@@ -34,7 +34,7 @@ public class ContainerInventory : MonoBehaviour
     {
         _inventory.ClearCells(ContainerCells);
         
-        var equipSystem = itemTargeting.Targets.First().GetComponent<EquipmentSystem>();
+        var equipSystem = itemTargeting.Targets.First().GetComponent<EquipmentModule>();
 
         var result = new HashSet<IItemData>(equipSystem.WeaponData);
         result.UnionWith(equipSystem.InventoryBag);

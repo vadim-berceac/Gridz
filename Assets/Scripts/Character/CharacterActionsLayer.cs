@@ -1,12 +1,12 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Unity.Burst;
 using UnityEngine;
 using Zenject;
 
-[RequireComponent(typeof(EquipmentSystem))]
+[RequireComponent(typeof(EquipmentModule))]
 public class CharacterActionsLayer : CharacterAnimationParamsLayer
 {
+    private EquipmentModule _equipmentModule;
     private OneShotClipSetsContainer _oneShotClipSetsContainer;
     private AnimatorOverrideController _overrideController;
     private OneShotClip _blankAttack;
@@ -30,7 +30,8 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
         _overrideController = new AnimatorOverrideController(baseController);
         Animator.runtimeAnimatorController = _overrideController;
         _animationSpeedHash = Animator.StringToHash("AnimationSpeed");
-        EquipmentSystem.OnAnimationChanged += OnAnimationReset;
+        _equipmentModule = GetComponent<EquipmentModule>();
+        _equipmentModule.OnAnimationChanged += OnAnimationReset;
     }
 
     private void OnAnimationReset()
@@ -43,7 +44,7 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
     {
         base.Take();
 
-        if (ItemTargeting.Targets.Count < 1)
+        if (TargetingSettings.ItemTargeting.Targets.Count < 1)
         {
             Debug.LogWarning("нечего подбирать");
             return;
@@ -54,12 +55,12 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
             CharacterInput.ForciblyDrawWeapon(false);
         }
         
-        if (this.TryTakeItem(ItemTargeting, EquipmentSystem))
+        if (this.TryTakeItem(TargetingSettings.ItemTargeting, _equipmentModule))
         {
             return;
         }
 
-        _containerInventory.OpenContainer(ItemTargeting);
+        _containerInventory.OpenContainer(TargetingSettings.ItemTargeting);
     }
 
     [BurstCompile]
@@ -72,7 +73,7 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
 
         _blankAttack = null;
 
-        _blankAttack = _oneShotClipSetsContainer.GetOneShotClip(EquipmentSystem.GetAnimationType(_selectedWeaponIndex));
+        _blankAttack = _oneShotClipSetsContainer.GetOneShotClip(_equipmentModule.GetAnimationType(_selectedWeaponIndex));
         
         if (_blankAttack == null)
         {
@@ -90,7 +91,7 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
     {
         base.HandleDrawWeapon(isDrawWeapon);
 
-        var hasWeapon = EquipmentSystem.WeaponData[_selectedWeaponIndex] != null;
+        var hasWeapon = _equipmentModule.WeaponData[_selectedWeaponIndex] != null;
 
         if (!isDrawWeapon)
         {
@@ -106,7 +107,7 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
         }
 
         SetAnimationType(hasWeapon 
-            ? EquipmentSystem.GetAnimationType(0) 
+            ? _equipmentModule.GetAnimationType(0) 
             : AnimationTypes.Type.Unarmed);
 
         if (hasWeapon)
@@ -131,7 +132,7 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
         {
             if (SwitchBoneValue == 0f)
             {
-                EquipmentSystem.WeaponData[weaponIndex].Equip(Skin.BonesCollector, slotIndex, EquipmentSystem.WeaponInstances[weaponIndex]);
+                _equipmentModule.WeaponData[weaponIndex].Equip(Personality.BonesCollector, slotIndex, _equipmentModule.WeaponInstances[weaponIndex]);
                 break;
             }
             await Task.Yield();
@@ -182,6 +183,6 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
 
     private void OnDisable()
     {
-        EquipmentSystem.OnAnimationChanged -= OnAnimationReset;
+        _equipmentModule.OnAnimationChanged -= OnAnimationReset;
     }
 }

@@ -6,18 +6,14 @@ using Unity.Burst;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterSkinModule))]
+[RequireComponent(typeof(CharacterPersonalityModule))]
 [RequireComponent(typeof(CharacterAnimationParamsLayer))]
-public class EquipmentSystem : MonoBehaviour
+public class EquipmentModule : MonoBehaviour
 {
-    [field: Header("Weapon")]
-    [field: SerializeField] public WeaponData[] WeaponData { get; private set; } = new WeaponData [3];
+    public WeaponData[] WeaponData { get; private set; }
     public Transform[] WeaponInstances { get; private set; } = new Transform[3];
-
-    [field: Header("Test Armor")]
-    [field: SerializeField] public CharacterSkinData PrimaryArmorData { get; private set; }
     
-    private CharacterSkinModule _characterSkinModule;
+    private CharacterPersonalityModule _characterPersonalityModule;
     private CharacterAnimationParamsLayer _characterAnimationParamsLayer;
     public List<IItemData> InventoryBag { get; private set; } = Enumerable.Repeat<IItemData>(null, 25).ToList();
 
@@ -26,8 +22,9 @@ public class EquipmentSystem : MonoBehaviour
     [BurstCompile]
     private void Awake()
     {
-        _characterSkinModule = GetComponent<CharacterSkinModule>();
+        _characterPersonalityModule = GetComponent<CharacterPersonalityModule>();
         _characterAnimationParamsLayer = GetComponent<CharacterAnimationParamsLayer>();
+        WeaponData = _characterPersonalityModule.CharacterPersonalityData.WeaponData;
 
         foreach (var data in WeaponData)
         {
@@ -64,7 +61,7 @@ public class EquipmentSystem : MonoBehaviour
     public void CreateWeaponInstance(int index)
     {
         WeaponInstances[index] = SetWeaponData((WeaponData[index]), _characterAnimationParamsLayer);
-        WeaponData[index].Equip(_characterSkinModule.BonesCollector, 0, WeaponInstances[index]);
+        WeaponData[index].Equip(_characterPersonalityModule.BonesCollector, 0, WeaponInstances[index]);
     }
     
     [BurstCompile]

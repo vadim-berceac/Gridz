@@ -5,7 +5,7 @@ using UnityEngine;
 public static class CharacterActionsLayerExtensions
 {
     [BurstCompile]
-    public static bool TryTakeItem(this CharacterActionsLayer layer, ItemTargeting itemTargeting, EquipmentSystem equipmentSystem)
+    public static bool TryTakeItem(this CharacterActionsLayer layer, ItemTargeting itemTargeting, EquipmentModule equipmentModule)
     {
         var list = itemTargeting.Targets.ToList();
         
@@ -16,9 +16,9 @@ public static class CharacterActionsLayerExtensions
             return false;
         }
         
-        InventoryCell.FindIndexOfEmpty(equipmentSystem.InventoryBag, out var index);
+        InventoryCell.FindIndexOfEmpty(equipmentModule.InventoryBag, out var index);
         
-        equipmentSystem.InventoryBag[index] = item.ItemData;
+        equipmentModule.InventoryBag[index] = item.ItemData;
 
         Debug.LogWarning($"подбираю {item.name}");
 

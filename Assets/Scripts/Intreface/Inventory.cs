@@ -95,14 +95,13 @@ public class Inventory : MonoBehaviour
     [BurstCompile]
     private void Refresh()
     {
-        if ( CameraSystem.GetSelectedCharacter()?.EquipmentSystem == null)
+        var equipmentSystem = CameraSystem.GetSelectedCharacter().GetComponent<EquipmentModule>();
+        if (equipmentSystem == null)
         {
             return;
         }
 
         DescriptionText.text = "";
-
-        var equipmentSystem = CameraSystem.GetSelectedCharacter().EquipmentSystem;
         
         this.ClearCells(BagCells);
         this.ClearCells(WeaponTableCells);

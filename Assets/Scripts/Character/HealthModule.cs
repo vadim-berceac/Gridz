@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterPersonalityModule))]
 [RequireComponent(typeof(GravitationLayer))]
 public class HealthModule : MonoBehaviour, IDamageable
 {
-    [field: SerializeField] public float MaxHealth { get; private set; }
+    public float MaxHealth { get; private set; }
+    private CharacterPersonalityModule _characterPersonalityModule;
     public float CurrentHealth { get; private set; }
     private float _normalizedHealth = 1;
     private GravitationLayer _gravitationLayer;
@@ -14,8 +16,10 @@ public class HealthModule : MonoBehaviour, IDamageable
 
     private void Awake()
     {
+        _characterPersonalityModule = GetComponent<CharacterPersonalityModule>();
         _gravitationLayer = GetComponent<GravitationLayer>();
         _gravitationLayer.OnFallDamage += OnFallDamage;
+        MaxHealth = _characterPersonalityModule.CharacterPersonalityData.MaxHealth;
         CurrentHealth = MaxHealth;
     }
 

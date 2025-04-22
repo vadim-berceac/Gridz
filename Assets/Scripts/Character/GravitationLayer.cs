@@ -4,15 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class GravitationLayer : MonoBehaviour
 {
-    [field: Header("Grounding")]
-    [field: SerializeField]
-    public LayerMask GroundLayerMask { get; private set; }
-
-    [field: SerializeField] public Vector3 GroundOffset { get; private set; }
-    [field: SerializeField] public float SphereRadius { get; private set; }
-    
-    [field: Header("Fall Damage")]
-    [field: SerializeField] public float FallDamageThreshold { get; private set; } = 5f;
+    [field: SerializeField] public GravitationSettings GravitationSettings { get; set; }
 
     private float _maxHeightReached;
     private bool _wasGroundedLastFrame;
@@ -63,7 +55,7 @@ public class GravitationLayer : MonoBehaviour
         if (_isGrounded && !_wasGroundedLastFrame)
         {
             var fallDistance = _maxHeightReached - currentHeight;
-            if (fallDistance > FallDamageThreshold)
+            if (fallDistance > GravitationSettings.FallDamageThreshold)
             {
                 OnFallDamage?.Invoke(fallDistance);
             }
@@ -77,10 +69,23 @@ public class GravitationLayer : MonoBehaviour
     [BurstCompile]
     private void UpdateGrounded()
     {
-        var spherePos = CashedTransform.position + GroundOffset;
+        var spherePos = CashedTransform.position + GravitationSettings.GroundOffset;
         var hitColliders = new Collider[32]; 
-        var hitsCount = Physics.OverlapSphereNonAlloc(spherePos, SphereRadius, hitColliders, GroundLayerMask);
+        var hitsCount = Physics.OverlapSphereNonAlloc(spherePos, GravitationSettings.SphereRadius, hitColliders, 
+            GravitationSettings.GroundLayerMask);
 
         _isGrounded = hitsCount > 0;
     }
+}
+
+[System.Serializable]
+public struct GravitationSettings
+{
+    [field: SerializeField] public LayerMask GroundLayerMask { get; private set; }
+
+    [field: SerializeField] public Vector3 GroundOffset { get; private set; }
+    [field: SerializeField] public float SphereRadius { get; private set; }
+    
+    [field: Header("Fall Damage")]
+    [field: SerializeField] public float FallDamageThreshold { get; private set; }
 }

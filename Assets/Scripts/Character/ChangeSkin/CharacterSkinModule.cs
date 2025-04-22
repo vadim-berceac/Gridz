@@ -2,12 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CharacterSkinModule : MonoBehaviour
+public class CharacterPersonalityModule : MonoBehaviour
 {
    public BonesCollector BonesCollector { get; private set; }
-   [field: SerializeField] public CharacterSkinData CharacterSkinData { get; private set; }
-   [field: SerializeField] public Transform CapsuleMarker { get; private set; }
-   [field: SerializeField] public bool HideCapsule { get; private set; }
+   [field: SerializeField] public CharacterPersonalityData CharacterPersonalityData { get; private set; }
+   [field: SerializeField] public CapsuleSettings CapsuleSettings { get; private set; }
    
    private SkinnedMeshRenderer _blankRenderer;
    private List<SkinnedMeshRenderer> _temporaryBlankRenderers;
@@ -19,6 +18,7 @@ public class CharacterSkinModule : MonoBehaviour
       if (!IsValidSetup()) return;
 
       Hide();
+      SetName();
       SetupBaseSkin();
       ApplyAdditionalSkins();
    }
@@ -38,35 +38,41 @@ public class CharacterSkinModule : MonoBehaviour
    private bool IsValidSetup()
    {
       return _blankRenderer != null && 
-             CharacterSkinData != null && 
-             CharacterSkinData.SkinData?.Count > 0;
+             CharacterPersonalityData.CharacterSkinData != null && 
+             CharacterPersonalityData.CharacterSkinData.SkinData?.Count > 0 &&
+             CharacterPersonalityData.CharacterName != null;
    }
 
    private void SetupBaseSkin()
    {
-      gameObject.name = CharacterSkinData.SkinName;
-      gameObject.transform.localScale = new Vector3(CharacterSkinData.SizeMode, CharacterSkinData.SizeMode, CharacterSkinData.SizeMode);
-      ApplySkin(CharacterSkinData.SkinData[0], _blankRenderer);
+      gameObject.transform.localScale = new Vector3(CharacterPersonalityData.CharacterSkinData.SizeMode, 
+         CharacterPersonalityData.CharacterSkinData.SizeMode, CharacterPersonalityData.CharacterSkinData.SizeMode);
+      ApplySkin(CharacterPersonalityData.CharacterSkinData.SkinData[0], _blankRenderer);
    }
 
    private void Hide()
    {
-      if (!HideCapsule || CapsuleMarker == null)
+      if (!CapsuleSettings.HideCapsule || CapsuleSettings.CapsuleMarker == null)
       {
          return;
       }
-      CapsuleMarker.gameObject.SetActive(false);
+      CapsuleSettings.CapsuleMarker.gameObject.SetActive(false);
+   }
+
+   private void SetName()
+   {
+      gameObject.name = CharacterPersonalityData.CharacterName;
    }
 
    private void ApplyAdditionalSkins()
    {
-      if (CharacterSkinData.SkinData.Count <= 1) return;
+      if (CharacterPersonalityData.CharacterSkinData.SkinData.Count <= 1) return;
 
-      for (var i = 1; i < CharacterSkinData.SkinData.Count; i++)
+      for (var i = 1; i < CharacterPersonalityData.CharacterSkinData.SkinData.Count; i++)
       {
          var newRendererObject = Instantiate(_blankRenderer, _blankRenderer.transform.parent);
          _temporaryBlankRenderers.Add(newRendererObject);
-         ApplySkin(CharacterSkinData.SkinData[i], newRendererObject);
+         ApplySkin(CharacterPersonalityData.CharacterSkinData.SkinData[i], newRendererObject);
       }
    }
 
@@ -84,4 +90,11 @@ public class CharacterSkinModule : MonoBehaviour
          targetRenderer.sharedMaterial = skinData.SkinMaterial;
       }
    }
+}
+
+[System.Serializable]
+public struct CapsuleSettings
+{
+   [field: SerializeField] public Transform CapsuleMarker { get; private set; }
+   [field: SerializeField] public bool HideCapsule { get; private set; }
 }

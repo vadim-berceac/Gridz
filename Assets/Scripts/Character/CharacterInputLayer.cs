@@ -5,9 +5,6 @@ using Zenject;
 [RequireComponent(typeof(HealthModule))]
 public class CharacterInputLayer : GravitationLayer
 {
-    [field:Header("Inventory")]
-    [field: SerializeField] public EquipmentSystem EquipmentSystem { get; private set; }
-    
     public static UnityAction<CharacterInputLayer> OnCharacterSelected;
     public HealthModule Health { get; private set; }
     protected bool IsJump {get;private set;}

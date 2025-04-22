@@ -224,9 +224,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <MaxHealth>k__BackingField: 100
-  <Animator>k__BackingField: {fileID: 420042207409785341}
-  <AnimatorHitTriggerName>k__BackingField: HitTrigger
-  <DeathParamName>k__BackingField: Dead
 --- !u!114 &8688598080372717116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,8 +254,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CharacterSkinData>k__BackingField: {fileID: 0}
-  <CapsuleMarker>k__BackingField: {fileID: 7344547244489389414}
-  <HideCapsule>k__BackingField: 1
+  <CapsuleSettings>k__BackingField:
+    <CapsuleMarker>k__BackingField: {fileID: 7344547244489389414}
+    <HideCapsule>k__BackingField: 1
 --- !u!114 &527339777544466241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,161 +269,164 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be3f80b171b9004ca9402de3117bd57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GroundLayerMask>k__BackingField:
-    serializedVersion: 2
-    m_Bits: 1
-  <GroundOffset>k__BackingField: {x: 0, y: -0.8, z: 0}
-  <SphereRadius>k__BackingField: 0.4
-  <RotationSpeed>k__BackingField: 4
-  <ForwardSneakSpeedCurve>k__BackingField:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.5
-      outSlope: 0.5
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 5
-      value: 2.5
-      inSlope: 0.5
-      outSlope: 0.5
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  <BackWardSneakSpeedCurve>k__BackingField:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.5
-      outSlope: 0.5
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 3
-      value: 1.5
-      inSlope: 0.5
-      outSlope: 0.5
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  <ForwardWalkSpeedCurve>k__BackingField:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.8
-      outSlope: 0.8
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 5
-      value: 4
-      inSlope: 0.8
-      outSlope: 0.8
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  <BackWardWalkSpeedCurve>k__BackingField:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.6666667
-      outSlope: 0.6666667
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 3
-      value: 2
-      inSlope: 0.6666667
-      outSlope: 0.6666667
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  <ForwardRunSpeedCurve>k__BackingField:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1.4
-      outSlope: 1.4
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 5
-      value: 7
-      inSlope: 1.4
-      outSlope: 1.4
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  <BackWardRunSpeedCurve>k__BackingField:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1.3333334
-      outSlope: 1.3333334
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 3
-      value: 4
-      inSlope: 1.3333334
-      outSlope: 1.3333334
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  <JumpDuration>k__BackingField: 0.7
-  <JumpHeight>k__BackingField: 2
-  <EnemyTargeting>k__BackingField: {fileID: 8398287543195089317}
-  <ItemTargeting>k__BackingField: {fileID: 6312215889744057395}
-  <EquipmentSystem>k__BackingField: {fileID: 8688598080372717116}
+  <GravitationSettings>k__BackingField:
+    <GroundLayerMask>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 1
+    <GroundOffset>k__BackingField: {x: 0, y: -0.8, z: 0}
+    <SphereRadius>k__BackingField: 0.4
+    <FallDamageThreshold>k__BackingField: 5
+  <LocoMotionSettings>k__BackingField:
+    <RotationSpeed>k__BackingField: 4
+    <ForwardSneakSpeedCurve>k__BackingField:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0.5
+        outSlope: 0.5
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 5
+        value: 2.5
+        inSlope: 0.5
+        outSlope: 0.5
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    <BackWardSneakSpeedCurve>k__BackingField:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0.5
+        outSlope: 0.5
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 3
+        value: 1.5
+        inSlope: 0.5
+        outSlope: 0.5
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    <ForwardWalkSpeedCurve>k__BackingField:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0.8
+        outSlope: 0.8
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 5
+        value: 4
+        inSlope: 0.8
+        outSlope: 0.8
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    <BackWardWalkSpeedCurve>k__BackingField:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0.6666667
+        outSlope: 0.6666667
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 3
+        value: 2
+        inSlope: 0.6666667
+        outSlope: 0.6666667
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    <ForwardRunSpeedCurve>k__BackingField:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1.4
+        outSlope: 1.4
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 5
+        value: 7
+        inSlope: 1.4
+        outSlope: 1.4
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    <BackWardRunSpeedCurve>k__BackingField:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1.3333334
+        outSlope: 1.3333334
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 3
+        value: 4
+        inSlope: 1.3333334
+        outSlope: 1.3333334
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    <JumpDuration>k__BackingField: 0.7
+    <JumpHeight>k__BackingField: 2
+  <TargetingSettings>k__BackingField:
+    <EnemyTargeting>k__BackingField: {fileID: 8398287543195089317}
+    <ItemTargeting>k__BackingField: {fileID: 6312215889744057395}
 --- !u!1 &5927873971416705715
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,7 +506,7 @@ GameObject:
   - component: {fileID: 7267480647659247984}
   - component: {fileID: 7077227752074453505}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: MarkerCapsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

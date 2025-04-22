@@ -14,11 +14,11 @@ public class InventoryCell : MonoBehaviour
    [field: SerializeField] public bool IsLootCell { get; private set; }
    
    public IItemData Item { get; private set; }
-   private EquipmentSystem _equipmentSystem;
+   private EquipmentModule _equipmentModule;
    private Inventory _inventory;
 
    [BurstCompile]
-   public void SetItem(IItemData item, EquipmentSystem equipmentSystem, Inventory inventory)
+   public void SetItem(IItemData item, EquipmentModule equipmentModule, Inventory inventory)
    {
       Item = item;
       _inventory = inventory;
@@ -31,7 +31,7 @@ public class InventoryCell : MonoBehaviour
       
       Icon.sprite = item.Icon;
       Text.SetText("1");
-      _equipmentSystem = equipmentSystem;
+      _equipmentModule = equipmentModule;
       Button.interactable = true;
    }
 
@@ -51,12 +51,12 @@ public class InventoryCell : MonoBehaviour
 
       if (Item is WeaponData)
       {
-         if (FindIndexOfEmpty(_equipmentSystem.WeaponData, out var result))
+         if (FindIndexOfEmpty(_equipmentModule.WeaponData, out var result))
          {
-            _equipmentSystem.WeaponData[result] = Item as WeaponData;
-            _equipmentSystem.CreateWeaponInstance(result);
-            _inventory.WeaponTableCells[result].SetItem(Item, _equipmentSystem, _inventory);
-            _equipmentSystem.InventoryBag[_equipmentSystem.InventoryBag.IndexOf(Item)] = null;
+            _equipmentModule.WeaponData[result] = Item as WeaponData;
+            _equipmentModule.CreateWeaponInstance(result);
+            _inventory.WeaponTableCells[result].SetItem(Item, _equipmentModule, _inventory);
+            _equipmentModule.InventoryBag[_equipmentModule.InventoryBag.IndexOf(Item)] = null;
             Clear();
          }
       }
@@ -70,12 +70,12 @@ public class InventoryCell : MonoBehaviour
          return;
       }
       
-      if (FindIndexOfEmpty(_equipmentSystem.InventoryBag, out var result))
+      if (FindIndexOfEmpty(_equipmentModule.InventoryBag, out var result))
       {
-         _equipmentSystem.InventoryBag[result] = Item;
-         _equipmentSystem.DestroyWeaponInstance(_equipmentSystem.WeaponData.IndexOf(Item));
-         _inventory.BagCells[result].SetItem(Item, _equipmentSystem, _inventory);
-         _equipmentSystem.WeaponData[_equipmentSystem.WeaponData.IndexOf(Item)] = null;
+         _equipmentModule.InventoryBag[result] = Item;
+         _equipmentModule.DestroyWeaponInstance(_equipmentModule.WeaponData.IndexOf(Item));
+         _inventory.BagCells[result].SetItem(Item, _equipmentModule, _inventory);
+         _equipmentModule.WeaponData[_equipmentModule.WeaponData.IndexOf(Item)] = null;
          Clear();
       }
       Debug.LogWarning(result);
@@ -103,7 +103,7 @@ public class InventoryCell : MonoBehaviour
    {
       Icon.sprite = null;
       Item = null;
-      _equipmentSystem = null;
+      _equipmentModule = null;
       _inventory = null;
       Button.interactable = false;
       Text.SetText("");
