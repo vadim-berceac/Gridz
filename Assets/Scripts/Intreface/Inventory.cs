@@ -41,6 +41,7 @@ public class Inventory : MonoBehaviour
         _containerInventory.OnContainerInventoryOpen += OnContainerInventoryOpen;
         _containerInventory.OnContainerInventoryClose += OnContainerInventoryClose;
         CameraSystem.SelectedCharacterChanged += ReloadInventory;
+        InventoryCell.OnClick += Refresh;
         BagCells = bagTransform.GetComponentsInChildren<InventoryCell>(includeInactive: true);
         WeaponTableCells = weaponTable.GetComponentsInChildren<InventoryCell>(includeInactive: true);
     }
@@ -116,5 +117,6 @@ public class Inventory : MonoBehaviour
         _containerInventory.OnContainerInventoryOpen -= OnContainerInventoryOpen;
         _containerInventory.OnContainerInventoryClose -= OnContainerInventoryClose;
         CameraSystem.SelectedCharacterChanged -= ReloadInventory;
+        InventoryCell.OnClick -= Refresh;
     }
 }

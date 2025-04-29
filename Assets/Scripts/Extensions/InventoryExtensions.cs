@@ -21,21 +21,6 @@ public static class InventoryExtensions
         playerInput.InputActionMapCharacter.Enable();
     }
     
-    // public static void FillCells1(this Inventory inventory, InventoryCell[] cells, IEnumerable<IItemData> items, EquipmentModule equipmentModule)
-    // {
-    //     var cellIndex = 0;
-    //
-    //     foreach (var item in items)
-    //     {
-    //         if (cellIndex >= cells.Length) break; 
-    //         if (cells[cellIndex].Item == null)
-    //         {
-    //             cells[cellIndex].SetItem(item, equipmentModule, inventory);
-    //         }
-    //         cellIndex++;
-    //     }
-    // }
-    
     public static void FillCells(this Inventory inventory, InventoryCell[] cells, IEnumerable<IItemData> items, EquipmentModule equipmentModule)
     {
         foreach (var item in items) 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ModestTree;
@@ -18,6 +19,7 @@ public class InventoryCell : MonoBehaviour
    private int MaxStackSize { get; set; } = 100;
    private EquipmentModule _equipmentModule;
    private Inventory _inventory;
+   public static event Action OnClick;
 
    [BurstCompile]
    public void SetItem(IItemData item, EquipmentModule equipmentModule, Inventory inventory, int stackCount = 1)
@@ -99,7 +101,7 @@ public class InventoryCell : MonoBehaviour
       {
          return;
       }
-
+      
       if (IsLootCell)
       {
          Debug.LogWarning("Логика передачи из лута в сумку");
@@ -117,6 +119,8 @@ public class InventoryCell : MonoBehaviour
             Clear();
          }
       }
+      
+      OnClick?.Invoke();
    }
 
    [BurstCompile]
@@ -136,6 +140,7 @@ public class InventoryCell : MonoBehaviour
          Clear();
       }
       Debug.LogWarning(result);
+      OnClick?.Invoke();
    }
 
    [BurstCompile]
