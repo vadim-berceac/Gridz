@@ -8,10 +8,10 @@ public class GravitationLayer : MonoBehaviour
 
     private float _maxHeightReached;
     private bool _wasGroundedLastFrame;
+    private float _currentFallSpeed;
     public event System.Action<float> OnFallDamage; 
 
-    protected CharacterController CharacterController;
-    private float _currentFallSpeed = 0f;
+    public CharacterController CharacterController { get; private set; }
     private bool _isGrounded;
 
     public bool IsGrounded => _isGrounded;
