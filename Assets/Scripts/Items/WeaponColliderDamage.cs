@@ -29,7 +29,7 @@ public class WeaponColliderDamage : MonoBehaviour
             return;
         }
 
-        if (!_triggerCollider.enabled || _character.OneShotPlayedValue < 1)
+        if (!_triggerCollider.enabled || _character.OneShotClipPlayedValue < 1)
         {
             return;
         }

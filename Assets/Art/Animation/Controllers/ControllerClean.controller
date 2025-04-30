@@ -464,25 +464,25 @@ BlendTree:
   m_Name: BackBlend
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -3272211729767469250}
-    m_Threshold: 2
-    m_Position: {x: 0.5, y: 0}
+    m_Motion: {fileID: -7315308947145575964}
+    m_Threshold: -4
+    m_Position: {x: 1, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: InputX
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -7315308947145575964}
-    m_Threshold: 4
-    m_Position: {x: 1, y: 0}
+    m_Motion: {fileID: -3272211729767469250}
+    m_Threshold: -2
+    m_Position: {x: 0.5, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: InputX
     m_Mirror: 0
   m_BlendParameter: CurrentSpeedZ
   m_BlendParameterY: AnimationType
-  m_MinThreshold: 2
-  m_MaxThreshold: 4
+  m_MinThreshold: -4
+  m_MaxThreshold: -2
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0

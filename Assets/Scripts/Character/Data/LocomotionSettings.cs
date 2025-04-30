@@ -3,9 +3,10 @@ using UnityEngine;
 [System.Serializable]
 public struct LocoMotionSettings
 {
+    [field: SerializeField] public float SpeedChangeRate { get; private set; }
+    
     [field: Header("Rotation Settings")]
-    [field: SerializeField]
-    public float RotationSpeed { get; private set; }
+    [field: SerializeField] public float RotationSpeed { get; private set; }
 
     [field: Header("Sneak Settings")]
     [field: SerializeField]

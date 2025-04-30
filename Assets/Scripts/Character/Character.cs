@@ -12,8 +12,31 @@ public class Character : GravitationLayer
     [field: SerializeField] public LocoMotionSettings LocoMotionSettings { get; private set; }
     [field: SerializeField] public TargetingSettings TargetingSettings { get; private set; }
     
-    public static UnityAction<Character> OnCharacterSelected;
+    //modules
     public HealthModule Health { get; private set; }
+    private CharacterPersonalityModule _personality;
+    private EquipmentModule _equipmentModule;
+    private ContainerInventory _containerInventory;
+    private OneShotClipSetsContainer _oneShotClipSetsContainer;
+    
+    //camera
+    private CameraSystem _cameraSystem;
+    public static Character SelectedCharacter { get; private set; }
+    public static UnityAction<Character> OnCharacterSelected;
+
+    //input
+    private ICharacterInput _playerInput;
+    private ICharacterInput _currentCharacterInput;
+    private Vector3 _correctedDirection;
+    private SurfaceSlider _surfaceSlider;
+    private bool _rotateByCamera;
+    
+    //locomotion
+    private MovementTypes.MovementType _currentMovementType;
+    private AnimationCurve _selectedMovementCurve;
+    private float _currentSpeedZ;
+    private float _currentSpeedX;
+    private bool _previousUsePlayerInput;
     private bool _isJump;
     private bool _isDead;
     private bool _isRunning;
@@ -21,42 +44,22 @@ public class Character : GravitationLayer
     private bool _isTargetLock;
     private bool _isDrawWeapon;
     private Vector2 _nominalMovementDirection;
-    public static Character SelectedCharacter { get; private set; }
 
-    private ICharacterInput _characterInput;
-    private Vector3 _correctedDirection;
-    private SurfaceSlider _surfaceSlider;
-    private ICharacterInput _inputByPlayer;
-    private MovementTypes.MovementType _currentMovementType;
-    private bool _rotateByCamera;
-    private CameraSystem _cameraSystem;
-
-    private CharacterPersonalityModule _personality;
-    
-    private float _currentSpeedZ;
-    private float _currentSpeedX;
-    private bool _previousUsePlayerInput;
-    private AnimationCurve _selectedMovementCurve;
-    private const float SpeedChangeRate = 4f;
-
-
+    //animation
     public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.Default;
     private Animator _animator;
-    
-     
-    private EquipmentModule _equipmentModule;
-    private OneShotClipSetsContainer _oneShotClipSetsContainer;
     private AnimatorOverrideController _overrideController;
     private OneShotClip _blankAttack;
-    private int _selectedWeaponIndex = 0;
-
-    private int _animationSpeedHash;
-    private ContainerInventory _containerInventory;
     private const string OneShotClipName = "Blank";
-
-    public float OneShotPlayedValue {get; private set;}
+    
+    //equp
+    private int _selectedWeaponIndex = 0;
+    
+    //params 
+    public float OneShotClipPlayedValue {get; private set;}
     private float _switchBoneValue;
-   
+    
+    private int _animationSpeedHash;
     private int _oneShotPlayedHash;
     private int _animationTypeHash;
     private int _switchBoneCurveHash;
@@ -78,7 +81,7 @@ public class Character : GravitationLayer
     [Inject]
     private void Construct(PlayerInput playerInput, CameraSystem cameraSystem, OneShotClipSetsContainer container, ContainerInventory containerInventory)
     {
-        _inputByPlayer = playerInput;
+        _playerInput = playerInput;
         _cameraSystem = cameraSystem;
         _oneShotClipSetsContainer = container;
         _containerInventory = containerInventory;
@@ -87,7 +90,7 @@ public class Character : GravitationLayer
     protected override void Initialize()
     {
         base.Initialize();
-        _characterInput = new AICharacterInput();
+        _currentCharacterInput = new AICharacterInput();
         Health = GetComponent<HealthModule>();
         _correctedDirection = CashedTransform.position;
         _surfaceSlider = new SurfaceSlider();
@@ -109,7 +112,7 @@ public class Character : GravitationLayer
 
     protected void Update()
     {
-        _characterInput.Correct(_isDead, _surfaceSlider, CashedTransform, ref _nominalMovementDirection, ref _correctedDirection);
+        _currentCharacterInput.Correct(_isDead, _surfaceSlider, CashedTransform, ref _nominalMovementDirection, ref _correctedDirection);
         
         UpdateLocomotion();
         UpdateParams();
@@ -126,7 +129,7 @@ public class Character : GravitationLayer
         {
             SelectedCharacter.UnsubscribeInputs();
             var newInput =  new AICharacterInput();
-            SelectedCharacter._characterInput = newInput;
+            SelectedCharacter._currentCharacterInput = newInput;
             SelectedCharacter._currentMovementType = MovementTypes.MovementType.None;
             SelectedCharacter.SubscribeInputs();
             _cameraSystem.Select(null);
@@ -137,7 +140,7 @@ public class Character : GravitationLayer
         SelectedCharacter = this;
         if (!_isDead)
         {
-            _characterInput = _inputByPlayer;
+            _currentCharacterInput = _playerInput;
             _currentMovementType = MovementTypes.MovementType.RootMotion;
             SubscribeInputs();
         }
@@ -147,36 +150,34 @@ public class Character : GravitationLayer
 
     private void SubscribeInputs()
     {
-        _characterInput.OnJump += OnJump;
-        _characterInput.OnSneak += HandleSneak;
-        _characterInput.OnSprint += HandleSprint;
-        _characterInput.OnHoldTarget += HandleTargetLock;
-        _characterInput.OnDrawWeapon += HandleDrawWeapon;
-        _characterInput.OnAttack += HandleAttack;
-        _characterInput.OnInteract += Take;
-        _characterInput.OnWeaponSelect0 += SelectWeapon0;
-        _characterInput.OnWeaponSelect1 += SelectWeapon1;
-        _characterInput.OnWeaponSelect2 += SelectWeapon2;
-        
-        _characterInput.OnAttack += HandleAttackTrigger;
-        _characterInput.OnDrawWeapon += HandleDrawTrigger;
+        _currentCharacterInput.OnJump += OnJump;
+        _currentCharacterInput.OnSneak += HandleSneak;
+        _currentCharacterInput.OnSprint += HandleSprint;
+        _currentCharacterInput.OnHoldTarget += HandleTargetLock;
+        _currentCharacterInput.OnDrawWeapon += HandleDrawWeapon;
+        _currentCharacterInput.OnAttack += HandleAttack;
+        _currentCharacterInput.OnInteract += Take;
+        _currentCharacterInput.OnWeaponSelect0 += SelectWeapon0;
+        _currentCharacterInput.OnWeaponSelect1 += SelectWeapon1;
+        _currentCharacterInput.OnWeaponSelect2 += SelectWeapon2;
+        _currentCharacterInput.OnAttack += HandleAttackTrigger;
+        _currentCharacterInput.OnDrawWeapon += HandleDrawTrigger;
     }
 
     private void UnsubscribeInputs()
     {
-        _characterInput.OnJump -= OnJump;
-        _characterInput.OnSneak -= HandleSneak;
-        _characterInput.OnSprint -= HandleSprint;
-        _characterInput.OnHoldTarget -= HandleTargetLock;
-        _characterInput.OnDrawWeapon -= HandleDrawWeapon;
-        _characterInput.OnAttack -= HandleAttack;
-        _characterInput.OnInteract -= Take;
-        _characterInput.OnWeaponSelect0 -= SelectWeapon0;
-        _characterInput.OnWeaponSelect1 -= SelectWeapon1;
-        _characterInput.OnWeaponSelect2 -= SelectWeapon2;
-        
-        _characterInput.OnAttack -= HandleAttackTrigger;
-        _characterInput.OnDrawWeapon -= HandleDrawTrigger;
+        _currentCharacterInput.OnJump -= OnJump;
+        _currentCharacterInput.OnSneak -= HandleSneak;
+        _currentCharacterInput.OnSprint -= HandleSprint;
+        _currentCharacterInput.OnHoldTarget -= HandleTargetLock;
+        _currentCharacterInput.OnDrawWeapon -= HandleDrawWeapon;
+        _currentCharacterInput.OnAttack -= HandleAttack;
+        _currentCharacterInput.OnInteract -= Take;
+        _currentCharacterInput.OnWeaponSelect0 -= SelectWeapon0;
+        _currentCharacterInput.OnWeaponSelect1 -= SelectWeapon1;
+        _currentCharacterInput.OnWeaponSelect2 -= SelectWeapon2;
+        _currentCharacterInput.OnAttack -= HandleAttackTrigger;
+        _currentCharacterInput.OnDrawWeapon -= HandleDrawTrigger;
     }
 
     private void ResetJump()
@@ -216,8 +217,8 @@ public class Character : GravitationLayer
         if (_isDead)
         {
             UnsubscribeInputs();
-            _characterInput = new AICharacterInput();
-            _characterInput.EnableCharacterInput(false);
+            _currentCharacterInput = new AICharacterInput();
+            _currentCharacterInput.EnableCharacterInput(false);
             gameObject.layer = TagsAndLayersConst.PickupObjectLayerIndex;
         }
         Debug.LogWarning($"{name} убит {value} от {animationType}");
@@ -271,7 +272,7 @@ public class Character : GravitationLayer
 
     private void HandleAttack()
     {
-        if (!_isDrawWeapon || _switchBoneValue != 0 || OneShotPlayedValue > 0)
+        if (!_isDrawWeapon || _switchBoneValue != 0 || OneShotClipPlayedValue > 0)
         {
             return;
         }
@@ -301,7 +302,7 @@ public class Character : GravitationLayer
 
         if (_isDrawWeapon)
         {
-            _characterInput.ForciblyDrawWeapon(false);
+            _currentCharacterInput.ForciblyDrawWeapon(false);
         }
         
         if (TryTakeItem(TargetingSettings.ItemTargeting, _equipmentModule))
@@ -338,14 +339,14 @@ public class Character : GravitationLayer
 
     private void UpdateLocomotion()
     {
-        _characterInput.Correct(_isDead, _surfaceSlider, CashedTransform, ref _nominalMovementDirection, ref _correctedDirection);
+        _currentCharacterInput.Correct(_isDead, _surfaceSlider, CashedTransform, ref _nominalMovementDirection, ref _correctedDirection);
         
         Speed.MoveCurve(_correctedDirection.z, _isSneaking, _isRunning, LocoMotionSettings.ForwardSneakSpeedCurve, LocoMotionSettings.ForwardWalkSpeedCurve, 
             LocoMotionSettings.ForwardRunSpeedCurve, LocoMotionSettings.BackWardSneakSpeedCurve, LocoMotionSettings.BackWardWalkSpeedCurve, 
             LocoMotionSettings.BackWardRunSpeedCurve, ref _selectedMovementCurve);
         
-        Speed.Update(_isDead, _isJump, SpeedChangeRate, _correctedDirection, _selectedMovementCurve, ref _currentSpeedX, ref _currentSpeedZ);
-        TargetingSettings.EnemyTargeting.Target(_isDead, _isTargetLock, _characterInput);
+        Speed.Update(_isDead, _isJump, LocoMotionSettings.SpeedChangeRate, _correctedDirection, _selectedMovementCurve, ref _currentSpeedX, ref _currentSpeedZ);
+        TargetingSettings.EnemyTargeting.Target(_isDead, _isTargetLock, _currentCharacterInput);
         
         CashedTransform.Move(_isDead, _isTargetLock, _isJump, TargetingSettings.EnemyTargeting, CharacterController, _currentMovementType,
             _correctedDirection, _currentSpeedZ, _currentSpeedX);
@@ -407,12 +408,12 @@ public class Character : GravitationLayer
         _animator.SetFloat(_inputXHash, _correctedDirection.x, 0.2f, Time.deltaTime);
         _animator.SetFloat(_inputZHash, _correctedDirection.z, 0.2f, Time.deltaTime);
         _switchBoneValue = _animator.GetFloat(_switchBoneCurveHash);
-        OneShotPlayedValue = _animator.GetFloat(_oneShotPlayedHash);
+        OneShotClipPlayedValue = _animator.GetFloat(_oneShotPlayedHash);
     }
 
     private void HandleAttackTrigger()
     {
-        if (OneShotPlayedValue > 0 || !_isDrawWeapon)
+        if (OneShotClipPlayedValue > 0 || !_isDrawWeapon)
         {
             return;
         }
@@ -422,7 +423,7 @@ public class Character : GravitationLayer
 
     private void HandleDrawTrigger(bool sda)
     {
-        if (OneShotPlayedValue > 0)
+        if (OneShotClipPlayedValue > 0)
         {
             return;
         }
@@ -504,7 +505,7 @@ public class Character : GravitationLayer
        
         if (_isDrawWeapon)
         {
-            _characterInput.ForciblyDrawWeapon(false);
+            _currentCharacterInput.ForciblyDrawWeapon(false);
             await Task.Run(() => HandleDrawWeapon(false));
         }
         
