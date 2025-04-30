@@ -81,7 +81,7 @@ public class Inventory : MonoBehaviour
     }
     
     [BurstCompile]
-    private void ReloadInventory(CharacterInputLayer characterInputLayer)
+    private void ReloadInventory(Character character)
     {
         if (!_isOpen || CameraSystem.GetSelectedCharacter() == null)
         {

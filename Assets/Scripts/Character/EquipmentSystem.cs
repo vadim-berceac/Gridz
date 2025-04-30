@@ -7,14 +7,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterPersonalityModule))]
-[RequireComponent(typeof(CharacterAnimationParamsLayer))]
+[RequireComponent(typeof(Character))]
 public class EquipmentModule : MonoBehaviour
 {
     public WeaponData[] WeaponData { get; private set; }
     public Transform[] WeaponInstances { get; private set; } = new Transform[3];
     
     private CharacterPersonalityModule _characterPersonalityModule;
-    private CharacterAnimationParamsLayer _characterAnimationParamsLayer;
+    private Character _character;
     public List<IItemData> InventoryBag { get; private set; } = Enumerable.Repeat<IItemData>(null, 25).ToList();
 
     public event Action OnAnimationChanged;
@@ -23,7 +23,7 @@ public class EquipmentModule : MonoBehaviour
     private void Awake()
     {
         _characterPersonalityModule = GetComponent<CharacterPersonalityModule>();
-        _characterAnimationParamsLayer = GetComponent<CharacterAnimationParamsLayer>();
+        _character = GetComponent<Character>();
         WeaponData = _characterPersonalityModule.CharacterPersonalityData.WeaponData;
 
         foreach (var data in WeaponData)
@@ -60,12 +60,12 @@ public class EquipmentModule : MonoBehaviour
     [BurstCompile]
     public void CreateWeaponInstance(int index)
     {
-        WeaponInstances[index] = SetWeaponData((WeaponData[index]), _characterAnimationParamsLayer);
+        WeaponInstances[index] = SetWeaponData((WeaponData[index]), _character);
         WeaponData[index].Equip(_characterPersonalityModule.BonesCollector, 0, WeaponInstances[index]);
     }
     
     [BurstCompile]
-    private static Transform SetWeaponData(WeaponData weaponData, CharacterAnimationParamsLayer animationParamsLayer)
+    private static Transform SetWeaponData(WeaponData weaponData, Character animationParamsLayer)
     {
         var result = weaponData.CreateInstance();
         var weaponDamageCollider = result.AddComponent<WeaponColliderDamage>();

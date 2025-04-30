@@ -15,10 +15,10 @@ public class HPSlider : MonoBehaviour
         CameraSystem.SelectedCharacterChanged += OnCharacterSelected;
     }
 
-    private void OnCharacterSelected(CharacterInputLayer characterInputLayer)
+    private void OnCharacterSelected(Character character)
     {
-        CharacterInputLayer.SelectedCharacter.Health.OnDamage -= OnHealthChanged;
-        CharacterInputLayer.SelectedCharacter.Health.OnDamage += OnHealthChanged;
+        Character.SelectedCharacter.Health.OnDamage -= OnHealthChanged;
+        Character.SelectedCharacter.Health.OnDamage += OnHealthChanged;
         UpdateHealth();
     }
 
@@ -29,17 +29,17 @@ public class HPSlider : MonoBehaviour
 
     private void UpdateHealth()
     {
-        var hp = CharacterInputLayer.SelectedCharacter.Health.GetNormalizedHealth();
+        var hp = Character.SelectedCharacter.Health.GetNormalizedHealth();
         Slider.value = hp;
     }
 
     private void OnDisable()
     {
         CameraSystem.SelectedCharacterChanged -= OnCharacterSelected;
-        if (CharacterInputLayer.SelectedCharacter == null)
+        if (Character.SelectedCharacter == null)
         {
             return;
         }
-        CharacterInputLayer.SelectedCharacter.Health.OnDamage -= OnHealthChanged;
+        Character.SelectedCharacter.Health.OnDamage -= OnHealthChanged;
     }
 }
