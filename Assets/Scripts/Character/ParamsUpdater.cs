@@ -22,8 +22,8 @@ public class ParamsUpdater
         _character.ComponentsSettings.AnimatorLocal.SetBool( AnimationParams.DrawWeapon, _character.CharacterStates.IsDrawWeapon);
         _character.ComponentsSettings.AnimatorLocal.SetFloat( AnimationParams.CurrentSpeedZ, _character.CurrentSpeedZ);
         _character.ComponentsSettings.AnimatorLocal.SetFloat(AnimationParams.CurrentSpeedX, _character.CurrentSpeedX, 0.5f, Time.deltaTime);
-        _character.ComponentsSettings.AnimatorLocal.SetFloat(AnimationParams.InputX, _character.CorrectedDirection.x, 0.2f, Time.deltaTime);
-        _character.ComponentsSettings.AnimatorLocal.SetFloat( AnimationParams.InputZ, _character.CorrectedDirection.z, 0.2f, Time.deltaTime);
+        _character.ComponentsSettings.AnimatorLocal.SetFloat(AnimationParams.InputX, _character.Input3.x, 0.2f, Time.deltaTime);
+        _character.ComponentsSettings.AnimatorLocal.SetFloat( AnimationParams.InputZ, _character.Input3.z, 0.2f, Time.deltaTime);
         _character.SetSwitchBoneValue(_character.ComponentsSettings.AnimatorLocal.GetFloat(AnimationParams.SwitchBoneCurve));
         _character.SetOneShotClipPlayedValue(_character.ComponentsSettings.AnimatorLocal.GetFloat(AnimationParams.OneShotPlayed));
     }

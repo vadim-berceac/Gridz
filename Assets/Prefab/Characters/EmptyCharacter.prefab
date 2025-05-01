@@ -111,7 +111,6 @@ GameObject:
   - component: {fileID: 420042207409785341}
   - component: {fileID: 8515440021263373062}
   - component: {fileID: 4218026636482552046}
-  - component: {fileID: 7105497252630676905}
   - component: {fileID: 4374174592053158896}
   - component: {fileID: 8688598080372717116}
   - component: {fileID: 2199576843291160208}
@@ -155,11 +154,11 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: 80068d826bd7b4b4a9c665170e5fb84b, type: 3}
   m_Controller: {fileID: 9100000, guid: a682b03c8819dc148b341abcb745056b, type: 2}
   m_CullingMode: 2
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
+  m_AnimatePhysics: 1
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -173,24 +172,24 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4373059052394708103}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 5
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_CenterOfMass: {x: 0, y: 1, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 536870912
-  m_ImplicitCom: 1
+    m_Bits: 536879104
+  m_ImplicitCom: 0
   m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!136 &4218026636482552046
 CapsuleCollider:
@@ -202,43 +201,18 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 536879104
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.4
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
---- !u!143 &7105497252630676905
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4373059052394708103}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.4
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.03
-  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &4374174592053158896
 MonoBehaviour:
@@ -297,11 +271,11 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 1
     <GroundOffset>k__BackingField: {x: 0, y: -0.8, z: 0}
-    <SphereRadius>k__BackingField: 0.4
+    <SphereRadius>k__BackingField: 0.1
     <FallDamageThreshold>k__BackingField: 5
   <LocoMotionSettings>k__BackingField:
     <SpeedChangeRate>k__BackingField: 4
-    <RotationSpeed>k__BackingField: 5
+    <RotationSpeed>k__BackingField: 10
     <ForwardSneakSpeedCurve>k__BackingField:
       serializedVersion: 2
       m_Curve:
@@ -450,6 +424,8 @@ MonoBehaviour:
     <JumpHeight>k__BackingField: 1.5
   <ComponentsSettings>k__BackingField:
     <AnimatorLocal>k__BackingField: {fileID: 420042207409785341}
+    <CapsuleCollider>k__BackingField: {fileID: 4218026636482552046}
+    <Rigidbody>k__BackingField: {fileID: 8515440021263373062}
     <Health>k__BackingField: {fileID: 4374174592053158896}
     <Equipment>k__BackingField: {fileID: 8688598080372717116}
     <CharacterPersonality>k__BackingField: {fileID: 2199576843291160208}
@@ -475,7 +451,7 @@ MonoBehaviour:
     <ScaleDown>k__BackingField: {x: 1.1, y: 0.9, z: 1.1}
     <ScaleUp>k__BackingField: {x: 0.9, y: 1.1, z: 0.9}
     <ScaleCoefficient>k__BackingField: 0.5
-    <RotationCoefficient>k__BackingField: 60
+    <RotationCoefficient>k__BackingField: 100
 --- !u!1 &5927873971416705715
 GameObject:
   m_ObjectHideFlags: 0

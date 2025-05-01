@@ -187,20 +187,15 @@ public class CharacterStates
     
     private void OnJump()
     {
-        if (IsJump || !_character.IsGrounded)
+        if (IsJump || !_character.IsGrounded || IsDead)
         {
             return;
         }
         IsJump = true;
-        
-        if (IsDead)
-        {
-            return;
-        }
-        _character.CharacterController.Jump(_character.CurrentMovementType, _character.CurrentSpeedZ, _character.LocoMotionSettings.JumpHeight, _character.LocoMotionSettings.JumpDuration, ResetJump);
+        _character.ComponentsSettings.Rigidbody.linearVelocity = new Vector3(_character.Input3.x, 10f, _character.Input3.z);
     }
-    
-    private void ResetJump()
+
+    public void ResetJump()
     {
         IsJump = false;
     }

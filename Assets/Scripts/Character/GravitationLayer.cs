@@ -1,7 +1,6 @@
 using Unity.Burst;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
 public class GravitationLayer : MonoBehaviour
 {
     [field: SerializeField] public GravitationSettings GravitationSettings { get; set; }
@@ -10,8 +9,6 @@ public class GravitationLayer : MonoBehaviour
     private bool _wasGroundedLastFrame;
     private float _currentFallSpeed;
     public event System.Action<float> OnFallDamage; 
-
-    public CharacterController CharacterController { get; private set; }
     private bool _isGrounded;
 
     public bool IsGrounded => _isGrounded;
@@ -25,21 +22,13 @@ public class GravitationLayer : MonoBehaviour
     protected virtual void Initialize()
     {
         CashedTransform = transform;
-        CharacterController = GetComponent<CharacterController>();
         _maxHeightReached = CashedTransform.position.y;
     }
 
     protected virtual void FixedUpdate()
     {
         UpdateGrounded();
-        UpdateGravity();
         UpdateFallDetection();
-    }
-
-    private void UpdateGravity()
-    {
-        CharacterController.ApplyGravitation(ref _currentFallSpeed, _isGrounded, GravityConstants.MaxFallSpeed,
-            GravityConstants.GravityForce);
     }
     
     [BurstCompile]

@@ -22,9 +22,6 @@ public class Character : GravitationLayer
     // === Input ===
     private ICharacterInput _playerInput;
     public ICharacterInput CurrentCharacterInput { get; private set; }
-    public Vector3 CorrectedDirection => _correctedDirection;
-    private Vector3 _correctedDirection;
-    private SurfaceSlider _surfaceSlider;
     private bool _rotateByCamera;
 
     // === Locomotion ===
@@ -33,9 +30,10 @@ public class Character : GravitationLayer
     public float CurrentSpeedZ => _currentSpeedZ; 
     public float CurrentSpeedX => _currentSpeedX; 
     private bool _previousUsePlayerInput; 
-    private Vector2 _nominalMovementDirection;
     private float _currentSpeedX;
     private float _currentSpeedZ;
+    private Vector3 _input3;
+    public Vector3 Input3 => _input3;
 
     // === Animation ===
     public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.Default;
@@ -60,8 +58,6 @@ public class Character : GravitationLayer
         CharacterStates = new CharacterStates(this);
         _paramsUpdater = new ParamsUpdater(this);
         CurrentCharacterInput = new AICharacterInput();
-        _surfaceSlider = new SurfaceSlider();
-        _correctedDirection = CashedTransform.position;
         OnCharacterSelected += OnSelect;
         CharacterStates.Subscribe(CurrentCharacterInput);
         ComponentsSettings.AnimatorLocal.runtimeAnimatorController = OverrideController;
@@ -72,22 +68,59 @@ public class Character : GravitationLayer
     [BurstCompile]
     private void Update()
     {
-        CurrentCharacterInput.Correct(CharacterStates.IsDead, _surfaceSlider, CashedTransform, ref _nominalMovementDirection, ref _correctedDirection);
+        var input = CurrentCharacterInput.GetMoveDirection();
+        _input3 = new Vector3(input.x, CashedTransform.position.y, input.y);
         
-        Speed.MoveCurve(CorrectedDirection.z, CharacterStates.IsSneaking, CharacterStates.IsRunning, LocoMotionSettings.ForwardSneakSpeedCurve, LocoMotionSettings.ForwardWalkSpeedCurve, 
+        Speed.MoveCurve(_input3.z, CharacterStates.IsSneaking, CharacterStates.IsRunning, LocoMotionSettings.ForwardSneakSpeedCurve, LocoMotionSettings.ForwardWalkSpeedCurve, 
             LocoMotionSettings.ForwardRunSpeedCurve, LocoMotionSettings.BackWardSneakSpeedCurve, LocoMotionSettings.BackWardWalkSpeedCurve, 
             LocoMotionSettings.BackWardRunSpeedCurve, ref _selectedMovementCurve);
         
-        Speed.Update(CharacterStates.IsDead, CharacterStates.IsJump, LocoMotionSettings.SpeedChangeRate, CorrectedDirection, _selectedMovementCurve, ref _currentSpeedX, ref _currentSpeedZ);
+        Speed.Update(CharacterStates.IsDead, CharacterStates.IsJump, LocoMotionSettings.SpeedChangeRate, _input3, _selectedMovementCurve, ref _currentSpeedX, ref _currentSpeedZ);
+        
         TargetingSettings.EnemyTargeting.Target(CharacterStates.IsDead, CharacterStates.IsTargetLock, CurrentCharacterInput);
         
-        CashedTransform.Move(CharacterStates.IsDead, CharacterStates.IsTargetLock, CharacterStates.IsJump, TargetingSettings.EnemyTargeting, CharacterController, CurrentMovementType,
-            CorrectedDirection, CurrentSpeedZ, CurrentSpeedX);
-        
-        CashedTransform.Rotate(CharacterStates.IsDead, CharacterStates.IsTargetLock, TargetingSettings.EnemyTargeting, CurrentMovementType, _rotateByCamera, _cameraSystem,
-            _nominalMovementDirection, LocoMotionSettings.RotationSpeed);
-        
         _paramsUpdater.UpdateParams();
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        
+        Move();
+        Rotate();
+        
+        if (CharacterStates.IsJump && IsGrounded)
+        {
+            CharacterStates.ResetJump();
+        }
+    }
+
+    [BurstCompile]
+    private void Move()
+    {
+        if (CharacterStates.IsJump || CharacterStates.IsDead || !IsGrounded)
+        {
+            return;
+        }
+        var force = new Vector3(0, CashedTransform.position.y, _input3.z) * CurrentSpeedZ;
+        var woldForce = CashedTransform.TransformVector(force);
+        ComponentsSettings.Rigidbody.linearVelocity = woldForce;
+    }
+
+    [BurstCompile]
+    private void Rotate()
+    {
+        if (CharacterStates.IsJump || CharacterStates.IsDead || !IsGrounded)
+        {
+            return;
+        }
+          //не реализовано управление вращением от камеры
+        if (_rotateByCamera)
+        {
+            ComponentsSettings.Rigidbody.angularVelocity = new Vector3 (0f, _input3.x  * LocoMotionSettings.RotationSpeed, 0f);
+            return;
+        }
+        ComponentsSettings.Rigidbody.angularVelocity = new Vector3 (0f, _input3.x * LocoMotionSettings.RotationSpeed, 0f);
     }
 
     // === Character Selection ===
@@ -120,17 +153,6 @@ public class Character : GravitationLayer
         }
         _cameraSystem.Select(this);
         _rotateByCamera = true;
-    }
-    
-    // === Collision Handling ===
-    [BurstCompile]
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (CharacterStates.IsDead)
-        {
-            return;
-        }
-        _surfaceSlider.SetNormal(collision);
     }
 
     // === State Setters ===
