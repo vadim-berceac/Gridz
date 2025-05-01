@@ -41,8 +41,8 @@ public class GravitationLayer : MonoBehaviour
         CharacterController.ApplyGravitation(ref _currentFallSpeed, _isGrounded, GravityConstants.MaxFallSpeed,
             GravityConstants.GravityForce);
     }
+    
     [BurstCompile]
-
     private void UpdateFallDetection()
     {
         var currentHeight = CashedTransform.position.y;

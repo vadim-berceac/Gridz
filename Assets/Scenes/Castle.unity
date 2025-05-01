@@ -2024,6 +2024,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4714465811730457011, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5487662251822900080, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.16
@@ -2385,7 +2389,8 @@ PrefabInstance:
       propertyPath: '<WeaponData>k__BackingField.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: dd3708fcfd43c2b4eb0dd230a626f1e7, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6416131180775843088, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

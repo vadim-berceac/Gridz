@@ -109,12 +109,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5487662251822900080}
   - component: {fileID: 420042207409785341}
+  - component: {fileID: 8515440021263373062}
   - component: {fileID: 4218026636482552046}
   - component: {fileID: 7105497252630676905}
   - component: {fileID: 4374174592053158896}
   - component: {fileID: 8688598080372717116}
   - component: {fileID: 2199576843291160208}
   - component: {fileID: 1447908450166132393}
+  - component: {fileID: 4714465811730457011}
   m_Layer: 13
   m_Name: EmptyCharacter
   m_TagString: Untagged
@@ -163,6 +165,33 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!54 &8515440021263373062
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4373059052394708103}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 536870912
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!136 &4218026636482552046
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -427,6 +456,26 @@ MonoBehaviour:
   <TargetingSettings>k__BackingField:
     <EnemyTargeting>k__BackingField: {fileID: 8398287543195089317}
     <ItemTargeting>k__BackingField: {fileID: 6312215889744057395}
+--- !u!114 &4714465811730457011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4373059052394708103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 374c656def6d9ae42a156ac263d8f524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PhysicsBoxSettings>k__BackingField:
+    <Prefab>k__BackingField: {fileID: 5456853207085140544, guid: c7253bc9dd3d0304583e8f23d572ba37, type: 3}
+    <Rb>k__BackingField: {fileID: 8515440021263373062}
+    <PlayerModel>k__BackingField: {fileID: 6336170388179410788}
+    <ScaleDown>k__BackingField: {x: 1.1, y: 0.9, z: 1.1}
+    <ScaleUp>k__BackingField: {x: 0.9, y: 1.1, z: 0.9}
+    <ScaleCoefficient>k__BackingField: 0.5
+    <RotationCoefficient>k__BackingField: 60
 --- !u!1 &5927873971416705715
 GameObject:
   m_ObjectHideFlags: 0
