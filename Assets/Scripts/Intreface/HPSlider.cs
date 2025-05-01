@@ -17,8 +17,8 @@ public class HPSlider : MonoBehaviour
 
     private void OnCharacterSelected(Character character)
     {
-        Character.SelectedCharacter.Health.OnDamage -= OnHealthChanged;
-        Character.SelectedCharacter.Health.OnDamage += OnHealthChanged;
+        Character.SelectedCharacter.ComponentsSettings.Health.OnDamage -= OnHealthChanged;
+        Character.SelectedCharacter.ComponentsSettings.Health.OnDamage += OnHealthChanged;
         UpdateHealth();
     }
 
@@ -29,7 +29,7 @@ public class HPSlider : MonoBehaviour
 
     private void UpdateHealth()
     {
-        var hp = Character.SelectedCharacter.Health.GetNormalizedHealth();
+        var hp = Character.SelectedCharacter.ComponentsSettings.Health.GetNormalizedHealth();
         Slider.value = hp;
     }
 
@@ -40,6 +40,6 @@ public class HPSlider : MonoBehaviour
         {
             return;
         }
-        Character.SelectedCharacter.Health.OnDamage -= OnHealthChanged;
+        Character.SelectedCharacter.ComponentsSettings.Health.OnDamage -= OnHealthChanged;
     }
 }

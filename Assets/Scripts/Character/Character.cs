@@ -1,56 +1,48 @@
-using System.Linq;
-using System.Threading.Tasks;
 using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using Zenject;
 
-[RequireComponent(typeof(HealthModule))]
-[RequireComponent(typeof(Animator))]
 public class Character : GravitationLayer
 {
     [field: SerializeField] public LocoMotionSettings LocoMotionSettings { get; private set; }
+    [field: SerializeField] public ComponentsSettings ComponentsSettings { get; private set; }
     [field: SerializeField] public TargetingSettings TargetingSettings { get; private set; }
     
     //modules
-    public CharacterActions CharacterActions { get; private set; }
-    public HealthModule Health { get; private set; }
-    public CharacterPersonalityModule Personality { get; private set; }
-    public EquipmentModule EquipmentModule { get; private set; }
+    public CharacterStates CharacterStates { get; private set; }
     public ContainerInventory LootInventory { get; private set; }
     public OneShotClipSetsContainer OneShotClipSetsContainer { get; private set; }
-    
-    //camera
+
+    // === Camera ===
     private CameraSystem _cameraSystem;
     public static Character SelectedCharacter { get; private set; }
     public static UnityAction<Character> OnCharacterSelected;
 
-    //input
+    // === Input ===
     private ICharacterInput _playerInput;
     public ICharacterInput CurrentCharacterInput { get; private set; }
+    public Vector3 CorrectedDirection => _correctedDirection;
     private Vector3 _correctedDirection;
     private SurfaceSlider _surfaceSlider;
     private bool _rotateByCamera;
-    
-    //locomotion
+
+    // === Locomotion ===
     public MovementTypes.MovementType CurrentMovementType { get; private set; }
     private AnimationCurve _selectedMovementCurve;
     public float CurrentSpeedZ => _currentSpeedZ; 
     public float CurrentSpeedX => _currentSpeedX; 
-    private bool _previousUsePlayerInput;
-    public bool IsDead { get; private set; }
+    private bool _previousUsePlayerInput; 
     private Vector2 _nominalMovementDirection;
     private float _currentSpeedX;
     private float _currentSpeedZ;
 
-    //animation
+    // === Animation ===
     public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.Default;
-    public Animator AnimatorLocal { get; private set; }
     public AnimatorOverrideController OverrideController { get; private set; }
-    
-    public float OneShotClipPlayedValue {get; private set;}
-    public float SwitchBoneValue {get; private set;}
+    private ParamsUpdater _paramsUpdater;
+    public float OneShotClipPlayedValue { get; private set; }
+    public float SwitchBoneValue { get; private set; }
    
     [Inject]
     private void Construct(PlayerInput playerInput, CameraSystem cameraSystem, OneShotClipSetsContainer container, ContainerInventory containerInventory)
@@ -60,41 +52,46 @@ public class Character : GravitationLayer
         OneShotClipSetsContainer = container;
         LootInventory = containerInventory;
     }
-    
+
     protected override void Initialize()
     {
         base.Initialize();
+        OverrideController = new AnimatorOverrideController(ComponentsSettings.AnimatorLocal.runtimeAnimatorController);
+        CharacterStates = new CharacterStates(this);
+        _paramsUpdater = new ParamsUpdater(this);
         CurrentCharacterInput = new AICharacterInput();
-        _correctedDirection = CashedTransform.position;
         _surfaceSlider = new SurfaceSlider();
-        
+        _correctedDirection = CashedTransform.position;
         OnCharacterSelected += OnSelect;
-        
-        Health = GetComponent<HealthModule>();
-        Health.OnDamage += HandleDamage;
-        Health.OnDeath += HandleDeath;
-        
-        CharacterActions = new CharacterActions(this);
-        CharacterActions.Subscribe(CurrentCharacterInput);
-        
-        Personality = GetComponent<CharacterPersonalityModule>();
-        AnimatorLocal = GetComponent<Animator>();
-        
-        OverrideController = new AnimatorOverrideController(AnimatorLocal.runtimeAnimatorController);
-        AnimatorLocal.runtimeAnimatorController = OverrideController;
-        
-        EquipmentModule = GetComponent<EquipmentModule>();
-        EquipmentModule.OnAnimationChanged += OnAnimationReset;
+        CharacterStates.Subscribe(CurrentCharacterInput);
+        ComponentsSettings.AnimatorLocal.runtimeAnimatorController = OverrideController;
+        ComponentsSettings.Equipment.OnAnimationChanged += OnAnimationReset;
     }
 
-    protected void Update()
+    // === Update ===
+    [BurstCompile]
+    private void Update()
     {
-        CurrentCharacterInput.Correct(IsDead, _surfaceSlider, CashedTransform, ref _nominalMovementDirection, ref _correctedDirection);
+        CurrentCharacterInput.Correct(CharacterStates.IsDead, _surfaceSlider, CashedTransform, ref _nominalMovementDirection, ref _correctedDirection);
         
-        UpdateLocomotion();
-        UpdateParams();
+        Speed.MoveCurve(CorrectedDirection.z, CharacterStates.IsSneaking, CharacterStates.IsRunning, LocoMotionSettings.ForwardSneakSpeedCurve, LocoMotionSettings.ForwardWalkSpeedCurve, 
+            LocoMotionSettings.ForwardRunSpeedCurve, LocoMotionSettings.BackWardSneakSpeedCurve, LocoMotionSettings.BackWardWalkSpeedCurve, 
+            LocoMotionSettings.BackWardRunSpeedCurve, ref _selectedMovementCurve);
+        
+        Speed.Update(CharacterStates.IsDead, CharacterStates.IsJump, LocoMotionSettings.SpeedChangeRate, CorrectedDirection, _selectedMovementCurve, ref _currentSpeedX, ref _currentSpeedZ);
+        TargetingSettings.EnemyTargeting.Target(CharacterStates.IsDead, CharacterStates.IsTargetLock, CurrentCharacterInput);
+        
+        CashedTransform.Move(CharacterStates.IsDead, CharacterStates.IsTargetLock, CharacterStates.IsJump, TargetingSettings.EnemyTargeting, CharacterController, CurrentMovementType,
+            CorrectedDirection, CurrentSpeedZ, CurrentSpeedX);
+        
+        CashedTransform.Rotate(CharacterStates.IsDead, CharacterStates.IsTargetLock, TargetingSettings.EnemyTargeting, CurrentMovementType, _rotateByCamera, _cameraSystem,
+            _nominalMovementDirection, LocoMotionSettings.RotationSpeed);
+        
+        _paramsUpdater.UpdateParams();
     }
-    
+
+    // === Character Selection ===
+    [BurstCompile]
     private void OnSelect(Character character)
     {
         if (character != this)
@@ -104,116 +101,70 @@ public class Character : GravitationLayer
         
         if (SelectedCharacter != null)
         {
-            SelectedCharacter.CharacterActions.Unsubscribe();
-            var newInput =  new AICharacterInput();
+            SelectedCharacter.CharacterStates.Unsubscribe();
+            var newInput = new AICharacterInput();
             SelectedCharacter.CurrentCharacterInput = newInput;
             SelectedCharacter.CurrentMovementType = MovementTypes.MovementType.None;
-            SelectedCharacter.CharacterActions.Subscribe(newInput);
+            SelectedCharacter.CharacterStates.Subscribe(newInput);
             _cameraSystem.Select(null);
             _rotateByCamera = false;
         }
 
-        CharacterActions.Unsubscribe();
+        CharacterStates.Unsubscribe();
         SelectedCharacter = this;
-        if (!IsDead)
+        if (!CharacterStates.IsDead)
         {
             CurrentCharacterInput = _playerInput;
             CurrentMovementType = MovementTypes.MovementType.RootMotion;
-            CharacterActions.Subscribe(CurrentCharacterInput);
+            CharacterStates.Subscribe(CurrentCharacterInput);
         }
         _cameraSystem.Select(this);
         _rotateByCamera = true;
     }
     
-    private void HandleDamage(AnimationTypes.Type animationType, float value)
-    {
-        if (value <= 0)
-        {
-            return;
-        }
-        Debug.LogWarning($"{name} получил урон {value} от {animationType}, осталось {Health.CurrentHealth}/{Health.MaxHealth}");
-        
-        AnimatorLocal.SetTrigger( AnimationParams.HitTrigger);
-    }
-
-    private void HandleDeath(AnimationTypes.Type animationType, bool value)
-    {
-        IsDead = value;
-        if (IsDead)
-        {
-            CharacterActions.Unsubscribe();
-            CurrentCharacterInput = new AICharacterInput();
-            CurrentCharacterInput.EnableCharacterInput(false);
-            gameObject.layer = TagsAndLayersConst.PickupObjectLayerIndex;
-        }
-        Debug.LogWarning($"{name} убит {value} от {animationType}");
-        
-        AnimatorLocal.SetTrigger(AnimationParams.Dead);
-    }
-    
-    private void OnDisable()
-    {
-        CharacterActions.Unsubscribe();
-        OnCharacterSelected -= OnSelect;
-        Health.OnDamage -= HandleDamage;
-        Health.OnDeath -= HandleDeath;
-        EquipmentModule.OnAnimationChanged -= OnAnimationReset;
-    }
-
-    private void UpdateLocomotion()
-    {
-        CurrentCharacterInput.Correct(IsDead, _surfaceSlider, CashedTransform, ref _nominalMovementDirection, ref _correctedDirection);
-        
-        Speed.MoveCurve(_correctedDirection.z, CharacterActions.IsSneaking, CharacterActions.IsRunning, LocoMotionSettings.ForwardSneakSpeedCurve, LocoMotionSettings.ForwardWalkSpeedCurve, 
-            LocoMotionSettings.ForwardRunSpeedCurve, LocoMotionSettings.BackWardSneakSpeedCurve, LocoMotionSettings.BackWardWalkSpeedCurve, 
-            LocoMotionSettings.BackWardRunSpeedCurve, ref _selectedMovementCurve);
-        
-        Speed.Update(IsDead, CharacterActions.IsJump, LocoMotionSettings.SpeedChangeRate, _correctedDirection, _selectedMovementCurve, ref _currentSpeedX, ref _currentSpeedZ);
-        TargetingSettings.EnemyTargeting.Target(IsDead, CharacterActions.IsTargetLock, CurrentCharacterInput);
-        
-        CashedTransform.Move(IsDead, CharacterActions.IsTargetLock, CharacterActions.IsJump, TargetingSettings.EnemyTargeting, CharacterController, CurrentMovementType,
-            _correctedDirection, CurrentSpeedZ, CurrentSpeedX);
-        
-        CashedTransform.Rotate(IsDead, CharacterActions.IsTargetLock, TargetingSettings.EnemyTargeting, CurrentMovementType, _rotateByCamera, _cameraSystem,
-            _nominalMovementDirection, LocoMotionSettings.RotationSpeed);
-    }
-    
-    
+    // === Collision Handling ===
     [BurstCompile]
     private void OnCollisionEnter(Collision collision)
     {
-        if (IsDead)
+        if (CharacterStates.IsDead)
         {
             return;
         }
         _surfaceSlider.SetNormal(collision);
     }
-  
+
+    // === State Setters ===
     public void SetAnimationType(AnimationTypes.Type animationType)
     {
         AnimationType = animationType;
     }
 
-    [BurstCompile]
-    private void UpdateParams()
+    public void SetSwitchBoneValue(float value)
     {
-        AnimatorLocal.SetFloat(AnimationParams.AnimationType, (int)AnimationType, 0.1f, Time.deltaTime);
-        AnimatorLocal.SetBool(AnimationParams.Grounded, IsGrounded);
-        AnimatorLocal.SetBool( AnimationParams.Jump, CharacterActions.IsJump);
-        AnimatorLocal.SetBool(AnimationParams.Running, CharacterActions.IsRunning);
-        AnimatorLocal.SetBool(AnimationParams.Sneaking, CharacterActions.IsSneaking);
-        AnimatorLocal.SetBool(AnimationParams.TargetLock, CharacterActions.IsTargetLock);
-        AnimatorLocal.SetBool( AnimationParams.DrawWeapon, CharacterActions.IsDrawWeapon);
-        AnimatorLocal.SetFloat( AnimationParams.CurrentSpeedZ, CurrentSpeedZ);
-        AnimatorLocal.SetFloat(AnimationParams.CurrentSpeedX, CurrentSpeedX, 0.5f, Time.deltaTime);
-        AnimatorLocal.SetFloat(AnimationParams.InputX, _correctedDirection.x, 0.2f, Time.deltaTime);
-        AnimatorLocal.SetFloat( AnimationParams.InputZ, _correctedDirection.z, 0.2f, Time.deltaTime);
-        SwitchBoneValue = AnimatorLocal.GetFloat(AnimationParams.SwitchBoneCurve);
-        OneShotClipPlayedValue = AnimatorLocal.GetFloat(AnimationParams.OneShotPlayed);
+        SwitchBoneValue = value;
     }
 
+    public void SetOneShotClipPlayedValue(float value)
+    {
+        OneShotClipPlayedValue = value;
+    }
+
+    public void SetInput(ICharacterInput input)
+    {
+        CurrentCharacterInput = input;
+    }
+
+    // === Animation Reset ===
     private void OnAnimationReset()
     {
         SetAnimationType(AnimationTypes.Type.Default); 
+    }
+
+    // === Cleanup ===
+    private void OnDisable()
+    {
+        CharacterStates.Unsubscribe();
+        OnCharacterSelected -= OnSelect;
+        ComponentsSettings.Equipment.OnAnimationChanged -= OnAnimationReset;
     }
 }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Unity.Burst;
 using UnityEngine;
 
-public class CharacterActions
+public class CharacterStates
 {
     private ICharacterInput _characterInput;
     private readonly Character _character;
@@ -15,8 +15,9 @@ public class CharacterActions
     public bool IsSneaking { get; private set; }
     public bool IsTargetLock { get; private set; }
     public bool IsJump { get; private set; }
+    public bool IsDead { get; private set; }
    
-    public CharacterActions(Character character)
+    public CharacterStates(Character character)
     {
         _character = character;
     }
@@ -36,10 +37,16 @@ public class CharacterActions
         _characterInput.OnWeaponSelect2 += SelectWeapon2;
         _characterInput.OnAttack += HandleAttackTrigger;
         _characterInput.OnDrawWeapon += HandleDrawTrigger;
+        _character.ComponentsSettings.Health.OnDamage += HandleDamage;
+        _character.ComponentsSettings.Health.OnDeath += HandleDeath;
     }
     
     public void Unsubscribe()
     {
+        if (_characterInput == null)
+        {
+            return;
+        }
         _characterInput.OnJump -= OnJump;
         _characterInput.OnSneak -= HandleSneak;
         _characterInput.OnSprint -= HandleSprint;
@@ -52,6 +59,8 @@ public class CharacterActions
         _characterInput.OnWeaponSelect2 -= SelectWeapon2;
         _characterInput.OnAttack -= HandleAttackTrigger;
         _characterInput.OnDrawWeapon -= HandleDrawTrigger;
+        _character.ComponentsSettings.Health.OnDamage -= HandleDamage;
+        _character.ComponentsSettings.Health.OnDeath -= HandleDeath;
         _characterInput = null;
     }
     
@@ -62,7 +71,7 @@ public class CharacterActions
         {
             return;
         }
-        _character.AnimatorLocal.SetTrigger( AnimationParams.OneShotTrigger);
+        _character.ComponentsSettings.AnimatorLocal.SetTrigger( AnimationParams.OneShotTrigger);
     }
 
 
@@ -72,7 +81,34 @@ public class CharacterActions
         {
             return;
         }
-        _character.AnimatorLocal.SetTrigger(AnimationParams.DrawTrigger);
+        _character.ComponentsSettings.AnimatorLocal.SetTrigger(AnimationParams.DrawTrigger);
+    }
+    
+    private void HandleDamage(AnimationTypes.Type animationType, float value)
+    {
+        if (value <= 0)
+        {
+            return;
+        }
+        Debug.LogWarning($"{_character.name} получил урон {value} от {animationType}, " +
+                         $"осталось {_character.ComponentsSettings.Health.CurrentHealth}/{_character.ComponentsSettings.Health.MaxHealth}");
+        
+        _character.ComponentsSettings.AnimatorLocal.SetTrigger(AnimationParams.HitTrigger);
+    }
+
+    private void HandleDeath(AnimationTypes.Type animationType, bool value)
+    {
+        IsDead = value;
+        if (IsDead)
+        {
+            Unsubscribe();
+            _character.SetInput(new AICharacterInput()); 
+            _character.CurrentCharacterInput.EnableCharacterInput(false);
+            _character.gameObject.layer = TagsAndLayersConst.PickupObjectLayerIndex;
+        }
+        Debug.LogWarning($"{_character.name} убит {value} от {animationType}");
+        
+        _character.ComponentsSettings.AnimatorLocal.SetTrigger(AnimationParams.Dead);
     }
     
     private void SelectWeapon0()
@@ -115,7 +151,7 @@ public class CharacterActions
 
         _blankAttack = null;
 
-        _blankAttack = _character.OneShotClipSetsContainer.GetOneShotClip(_character.EquipmentModule.GetAnimationType(_selectedWeaponIndex));
+        _blankAttack = _character.OneShotClipSetsContainer.GetOneShotClip(_character.ComponentsSettings.Equipment.GetAnimationType(_selectedWeaponIndex));
         
         if (_blankAttack == null)
         {
@@ -124,8 +160,8 @@ public class CharacterActions
         }
         
         SetNewClipToState(_blankAttack.Clip, AnimationParams.OneShotClipName);
-        _character.AnimatorLocal.SetFloat(AnimationParams.AnimationSpeed, _blankAttack.Speed);
-        _character.AnimatorLocal.SetTrigger(AnimationParams.OneShotTrigger);
+        _character.ComponentsSettings.AnimatorLocal.SetFloat(AnimationParams.AnimationSpeed, _blankAttack.Speed);
+        _character.ComponentsSettings.AnimatorLocal.SetTrigger(AnimationParams.OneShotTrigger);
     }
 
     private void Take()
@@ -141,7 +177,7 @@ public class CharacterActions
             _character.CurrentCharacterInput.ForciblyDrawWeapon(false);
         }
         
-        if (TryTakeItem(_character.TargetingSettings.ItemTargeting, _character.EquipmentModule))
+        if (TryTakeItem(_character.TargetingSettings.ItemTargeting, _character.ComponentsSettings.Equipment))
         {
             return;
         }
@@ -157,7 +193,7 @@ public class CharacterActions
         }
         IsJump = true;
         
-        if (_character.IsDead)
+        if (IsDead)
         {
             return;
         }
@@ -173,7 +209,7 @@ public class CharacterActions
     {
         IsDrawWeapon = isDrawWeapon;
         
-        var hasWeapon = _character.EquipmentModule.WeaponData[_selectedWeaponIndex] != null;
+        var hasWeapon = _character.ComponentsSettings.Equipment.WeaponData[_selectedWeaponIndex] != null;
 
         if (!isDrawWeapon)
         {
@@ -189,7 +225,7 @@ public class CharacterActions
         }
 
         _character.SetAnimationType(hasWeapon 
-            ? _character.EquipmentModule.GetAnimationType(0) 
+            ? _character.ComponentsSettings.Equipment.GetAnimationType(0) 
             : AnimationTypes.Type.Unarmed);
 
         if (hasWeapon)
@@ -240,7 +276,8 @@ public class CharacterActions
         {
             if (_character.SwitchBoneValue == 0f)
             {
-                _character.EquipmentModule.WeaponData[weaponIndex].Equip(_character.Personality.BonesCollector, slotIndex, _character.EquipmentModule.WeaponInstances[weaponIndex]);
+                _character.ComponentsSettings.Equipment.WeaponData[weaponIndex].Equip(_character.ComponentsSettings.CharacterPersonality.BonesCollector,
+                    slotIndex, _character.ComponentsSettings.Equipment.WeaponInstances[weaponIndex]);
                 break;
             }
             await Task.Yield();
@@ -255,7 +292,7 @@ public class CharacterActions
             return;
         }
         _character.OverrideController[clipName] = clip;
-        _character.AnimatorLocal.runtimeAnimatorController = _character.OverrideController;
+        _character.ComponentsSettings.AnimatorLocal.runtimeAnimatorController = _character.OverrideController;
     }
     
 
@@ -274,5 +311,4 @@ public class CharacterActions
         
         _selectedWeaponIndex = index;
     }
-    
 }

@@ -2373,6 +2373,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7105497252630676905, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8688598080372717116, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: <PrimaryWeaponData>k__BackingField
       value: 

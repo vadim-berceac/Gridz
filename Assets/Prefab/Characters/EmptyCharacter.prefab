@@ -419,6 +419,11 @@ MonoBehaviour:
       m_RotationOrder: 4
     <JumpDuration>k__BackingField: 0.7
     <JumpHeight>k__BackingField: 1.5
+  <ComponentsSettings>k__BackingField:
+    <AnimatorLocal>k__BackingField: {fileID: 420042207409785341}
+    <Health>k__BackingField: {fileID: 4374174592053158896}
+    <Equipment>k__BackingField: {fileID: 8688598080372717116}
+    <CharacterPersonality>k__BackingField: {fileID: 2199576843291160208}
   <TargetingSettings>k__BackingField:
     <EnemyTargeting>k__BackingField: {fileID: 8398287543195089317}
     <ItemTargeting>k__BackingField: {fileID: 6312215889744057395}
