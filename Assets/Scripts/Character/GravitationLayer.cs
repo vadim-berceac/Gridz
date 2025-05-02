@@ -10,8 +10,10 @@ public class GravitationLayer : MonoBehaviour
     private float _currentFallSpeed;
     public event System.Action<float> OnFallDamage; 
     private bool _isGrounded;
+    private bool _freeFall;
 
     public bool IsGrounded => _isGrounded;
+    public bool IsFreeFall => _freeFall;
     public Transform CashedTransform { get; private set; }
 
     private void Awake()
@@ -39,6 +41,7 @@ public class GravitationLayer : MonoBehaviour
         if (!_isGrounded)
         {
             _maxHeightReached = Mathf.Max(_maxHeightReached, currentHeight);
+            _freeFall = true;
         }
         
         if (_isGrounded && !_wasGroundedLastFrame)
@@ -50,6 +53,7 @@ public class GravitationLayer : MonoBehaviour
             }
 
             _maxHeightReached = currentHeight; 
+            _freeFall = false;
         }
 
         _wasGroundedLastFrame = _isGrounded;
@@ -64,7 +68,18 @@ public class GravitationLayer : MonoBehaviour
             GravitationSettings.GroundLayerMask);
 
         _isGrounded = hitsCount > 0;
+
+        // if (_isGrounded)
+        // {
+        //     Debug.LogWarning(hitColliders[0].name + " is grounded");
+        // }
     }
+
+    // private void OnDrawGizmosSelected()
+    // {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawSphere(transform.position + GravitationSettings.GroundOffset, GravitationSettings.SphereRadius);
+    // }
 }
 
 [System.Serializable]

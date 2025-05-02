@@ -1078,6 +1078,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EmptyCharacter (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4373059052394708103, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5487662251822900080, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: m_LocalPosition.x
       value: 25.61445
@@ -1894,6 +1898,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EmptyCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 4373059052394708103, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5487662251822900080, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: m_LocalPosition.x
       value: -24.391426
@@ -2318,6 +2326,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1447908450166132393, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: <GravitationSettings>k__BackingField.<GroundOffset>k__BackingField.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1447908450166132393, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: <LocoMotionSettings>k__BackingField.<SpeedChangeRate>k__BackingField
       value: 4
       objectReference: {fileID: 0}
@@ -2335,6 +2347,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4373059052394708103, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714465811730457011, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5487662251822900080, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
@@ -2379,10 +2395,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7105497252630676905, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
       propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8515440021263373062, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}
-      propertyPath: m_ImplicitCom
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8688598080372717116, guid: 46c524487e2cd7f4cafd197b152bcd73, type: 3}

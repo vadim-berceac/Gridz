@@ -89,7 +89,7 @@ public class Character : GravitationLayer
         Move();
         Rotate();
         
-        if (CharacterStates.IsJump && IsGrounded)
+        if (CharacterStates.IsJump && IsGrounded && !IsFreeFall)
         {
             CharacterStates.ResetJump();
         }
@@ -98,11 +98,15 @@ public class Character : GravitationLayer
     [BurstCompile]
     private void Move()
     {
-        if (CharacterStates.IsJump || CharacterStates.IsDead || !IsGrounded)
+        if (CharacterStates.IsJump || IsFreeFall || CharacterStates.IsDead || !IsGrounded)
         {
+            if (ComponentsSettings.Rigidbody.linearVelocity.y < 0)
+            {
+                ComponentsSettings.Rigidbody.linearVelocity += 5f * Time.fixedDeltaTime * Vector3.down;
+            }
             return;
         }
-        var force = new Vector3(0, CashedTransform.position.y, _input3.z) * CurrentSpeedZ;
+        var force = new Vector3(0, 0, _input3.z) * CurrentSpeedZ;
         var woldForce = CashedTransform.TransformVector(force);
         ComponentsSettings.Rigidbody.linearVelocity = woldForce;
     }

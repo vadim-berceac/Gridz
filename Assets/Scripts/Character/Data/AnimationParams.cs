@@ -19,4 +19,5 @@ public static class  AnimationParams
     public const string InputZ = "InputZ";
     public const string OneShotPlayed = "OneShotPlayed";
     public const string AnimationSpeed = "AnimationSpeed";
+    public const string FreeFall = "FreeFall";
 }

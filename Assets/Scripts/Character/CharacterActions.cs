@@ -105,6 +105,7 @@ public class CharacterStates
             _character.SetInput(new AICharacterInput()); 
             _character.CurrentCharacterInput.EnableCharacterInput(false);
             _character.gameObject.layer = TagsAndLayersConst.PickupObjectLayerIndex;
+            _character.ComponentsSettings.Rigidbody.freezeRotation = true;
         }
         Debug.LogWarning($"{_character.name} убит {value} от {animationType}");
         
@@ -187,7 +188,7 @@ public class CharacterStates
     
     private void OnJump()
     {
-        if (IsJump || !_character.IsGrounded || IsDead)
+        if (IsJump || _character.IsFreeFall || !_character.IsGrounded || IsDead)
         {
             return;
         }
