@@ -64,6 +64,7 @@ GameObject:
   - component: {fileID: 4824510107649532514}
   - component: {fileID: 2505805451457320803}
   - component: {fileID: 4619820597210395720}
+  - component: {fileID: 6808533111023634834}
   - component: {fileID: 370035328664978193}
   m_Layer: 0
   m_Name: CharacterCamera
@@ -157,6 +158,19 @@ MonoBehaviour:
     CameraRadius: 0.2
     DampingIntoCollision: 0.15
     DampingFromCollision: 0.5
+--- !u!114 &6808533111023634834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7250071856126467287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4afa82ae3200b82408d605c3dbdd1e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damping: 0
 --- !u!114 &370035328664978193
 MonoBehaviour:
   m_ObjectHideFlags: 0

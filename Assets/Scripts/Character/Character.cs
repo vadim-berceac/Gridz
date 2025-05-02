@@ -80,6 +80,8 @@ public class Character : GravitationLayer
         TargetingSettings.EnemyTargeting.Target(CharacterStates.IsDead, CharacterStates.IsTargetLock, CurrentCharacterInput);
         
         _paramsUpdater.UpdateParams();
+        
+        CheckRootMotion();
     }
 
     protected override void FixedUpdate()
@@ -118,13 +120,32 @@ public class Character : GravitationLayer
         {
             return;
         }
-          //не реализовано управление вращением от камеры
-        if (_rotateByCamera)
+
+        ComponentsSettings.Rigidbody.angularVelocity = new Vector3(0f, _input3.x * LocoMotionSettings.RotationSpeed, 0f);
+        
+        if (!_rotateByCamera)
         {
-            ComponentsSettings.Rigidbody.angularVelocity = new Vector3 (0f, _input3.x  * LocoMotionSettings.RotationSpeed, 0f);
             return;
         }
-        ComponentsSettings.Rigidbody.angularVelocity = new Vector3 (0f, _input3.x * LocoMotionSettings.RotationSpeed, 0f);
+        var cameraYaw = _cameraSystem.GetCameraYaw();
+        var currentRotation = ComponentsSettings.Rigidbody.rotation;
+        var targetRotation = Quaternion.Euler(0f, cameraYaw, 0f);
+        var rotationSpeed = LocoMotionSettings.RotationSpeed; 
+        var newRotation = Quaternion.Slerp(
+            currentRotation,
+            targetRotation,
+            rotationSpeed * Time.fixedDeltaTime
+        );
+        ComponentsSettings.Rigidbody.MoveRotation(newRotation);
+    }
+
+    [BurstCompile]
+    private void CheckRootMotion()
+    {
+        if (ComponentsSettings.AnimatorLocal.applyRootMotion && OneShotClipPlayedValue == 0)
+        {
+            ComponentsSettings.AnimatorLocal.applyRootMotion = false;
+        }
     }
 
     // === Character Selection ===

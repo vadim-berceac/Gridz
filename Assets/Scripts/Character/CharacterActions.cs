@@ -150,6 +150,8 @@ public class CharacterStates
             return;
         }
 
+        _character.ComponentsSettings.AnimatorLocal.applyRootMotion = true;
+
         _blankAttack = null;
 
         _blankAttack = _character.OneShotClipSetsContainer.GetOneShotClip(_character.ComponentsSettings.Equipment.GetAnimationType(_selectedWeaponIndex));
