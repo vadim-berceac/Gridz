@@ -10,29 +10,10 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
     public float OneShotPlayedValue { get; private set; }
     protected float SwitchBoneValue;
    
-    private int _oneShotPlayedHash;
-    private int _animationTypeHash;
-    private int _switchBoneCurveHash;
-    private int _groundedHash;
-    private int _deadHash;
-    private int _hitTriggerHash;
-    private int _jumpHash;
-    private int _runningHash;
-    private int _sneakingHash;
-    private int _targetLockHash;
-    private int _drawWeaponHash;
-    private int _currentSpeedZHash;
-    private int _currentSpeedXHash;
-    private int _oneShotTriggerHash;
-    private int _drawTriggerHash;
-    private int _inputXHash;
-    private int _inputZHash;
-
     protected override void Initialize()
     {
         base.Initialize();
         Animator = GetComponent<Animator>();
-        HashParams();
     }
 
     protected override void SubscribeInputs()
@@ -61,43 +42,21 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
     }
 
     [BurstCompile]
-    protected virtual void HashParams()
+    private void UpdateParams()
     {
-        _animationTypeHash = Animator.StringToHash("AnimationType");
-        _switchBoneCurveHash = Animator.StringToHash("SwitchBoneCurve");
-        _groundedHash = Animator.StringToHash("Grounded");
-        _deadHash = Animator.StringToHash("Dead");
-        _hitTriggerHash = Animator.StringToHash("HitTrigger");
-        _jumpHash = Animator.StringToHash("Jump");
-        _runningHash = Animator.StringToHash("Run");
-        _sneakingHash = Animator.StringToHash("Sneak");
-        _targetLockHash = Animator.StringToHash("TargetLock");
-        _drawWeaponHash = Animator.StringToHash("DrawWeapon");
-        _currentSpeedZHash = Animator.StringToHash("CurrentSpeedZ");
-        _currentSpeedXHash = Animator.StringToHash("CurrentSpeedX");
-        _oneShotTriggerHash = Animator.StringToHash("OneShotTrigger");
-        _drawTriggerHash = Animator.StringToHash("DrawTrigger");
-        _inputXHash = Animator.StringToHash("InputX");
-        _inputZHash = Animator.StringToHash("InputZ");
-        _oneShotPlayedHash = Animator.StringToHash("OneShotPlayed");
-    }
-
-    [BurstCompile]
-    protected virtual void UpdateParams()
-    {
-        Animator.SetFloat(_animationTypeHash, (int)AnimationType, 0.1f, Time.deltaTime);
-        Animator.SetBool(_groundedHash, IsGrounded);
-        Animator.SetBool(_jumpHash, IsJump);
-        Animator.SetBool(_runningHash, IsRunning);
-        Animator.SetBool(_sneakingHash, IsSneaking);
-        Animator.SetBool(_targetLockHash, IsTargetLock);
-        Animator.SetBool(_drawWeaponHash, IsDrawWeapon);
-        Animator.SetFloat(_currentSpeedZHash, CurrentSpeedZ);
-        Animator.SetFloat(_currentSpeedXHash, CurrentSpeedX, 0.5f, Time.deltaTime);
-        Animator.SetFloat(_inputXHash, CorrectedDirection.x, 0.2f, Time.deltaTime);
-        Animator.SetFloat(_inputZHash, CorrectedDirection.z, 0.2f, Time.deltaTime);
-        SwitchBoneValue = Animator.GetFloat(_switchBoneCurveHash);
-        OneShotPlayedValue = Animator.GetFloat(_oneShotPlayedHash);
+        Animator.SetFloat(AnimationParams.AnimationType, (int)AnimationType, 0.1f, Time.deltaTime);
+        Animator.SetBool(AnimationParams.Grounded, IsGrounded);
+        Animator.SetBool(AnimationParams.Jump, IsJump);
+        Animator.SetBool(AnimationParams.Run, IsRunning);
+        Animator.SetBool(AnimationParams.Sneak, IsSneaking);
+        Animator.SetBool(AnimationParams.TargetLock, IsTargetLock);
+        Animator.SetBool(AnimationParams.DrawWeapon, IsDrawWeapon);
+        Animator.SetFloat(AnimationParams.CurrentSpeedZ, CurrentSpeedZ);
+        Animator.SetFloat(AnimationParams.CurrentSpeedX, CurrentSpeedX, 0.5f, Time.deltaTime);
+        Animator.SetFloat(AnimationParams.InputX, CorrectedDirection.x, 0.2f, Time.deltaTime);
+        Animator.SetFloat(AnimationParams.InputZ, CorrectedDirection.z, 0.2f, Time.deltaTime);
+        SwitchBoneValue = Animator.GetFloat(AnimationParams.SwitchBoneCurve);
+        OneShotPlayedValue = Animator.GetFloat(AnimationParams.OneShotPlayed);
     }
 
     private void HandleAttackTrigger()
@@ -106,19 +65,19 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
         {
             return;
         }
-        Animator.SetTrigger(_oneShotTriggerHash);
+        Animator.SetTrigger(AnimationParams.OneShotTrigger);
     }
 
     protected override void HandleDamage(AnimationTypes.Type animationType, float value)
     {
         base.HandleDamage(animationType, value);
-        Animator.SetTrigger(_hitTriggerHash);
+        Animator.SetTrigger(AnimationParams.HitTrigger);
     }
 
     protected override void HandleDeath(AnimationTypes.Type animationType, bool value)
     {
         base.HandleDeath(animationType, value);
-        Animator.SetTrigger(_deadHash);
+        Animator.SetTrigger(AnimationParams.Dead);
     }
 
     private void HandleDrawTrigger(bool sda)
@@ -127,6 +86,6 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
         {
             return;
         }
-        Animator.SetTrigger(_drawTriggerHash);
+        Animator.SetTrigger(AnimationParams.DrawTrigger);
     }
 }

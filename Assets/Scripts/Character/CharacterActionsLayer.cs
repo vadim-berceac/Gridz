@@ -11,10 +11,8 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
     private AnimatorOverrideController _overrideController;
     private OneShotClip _blankAttack;
     private int _selectedWeaponIndex = 0;
-
-    private int _animationSpeedHash;
     private ContainerInventory _containerInventory;
-    private const string OneShotClipName = "Blank";
+   
 
     [Inject]
     private void Construct(OneShotClipSetsContainer container, ContainerInventory containerInventory)
@@ -29,7 +27,6 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
         var baseController = Animator.runtimeAnimatorController;
         _overrideController = new AnimatorOverrideController(baseController);
         Animator.runtimeAnimatorController = _overrideController;
-        _animationSpeedHash = Animator.StringToHash("AnimationSpeed");
         _equipmentModule = GetComponent<EquipmentModule>();
         _equipmentModule.OnAnimationChanged += OnAnimationReset;
     }
@@ -81,9 +78,9 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
             return;
         }
         
-        SetNewClipToState(_blankAttack.Clip, OneShotClipName);
-        Animator.SetFloat(_animationSpeedHash, _blankAttack.Speed);
-        Animator.SetTrigger("OneShotTrigger");
+        SetNewClipToState(_blankAttack.Clip, AnimationParams.OneShotClipName);
+        Animator.SetFloat(AnimationParams.AnimationSpeed, _blankAttack.Speed);
+        Animator.SetTrigger(AnimationParams.OneShotTrigger);
     }
 
     [BurstCompile]
