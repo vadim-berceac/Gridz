@@ -421,6 +421,8 @@ MonoBehaviour:
   <TargetingSettings>k__BackingField:
     <EnemyTargeting>k__BackingField: {fileID: 8398287543195089317}
     <ItemTargeting>k__BackingField: {fileID: 6312215889744057395}
+  <CharacterAnimationParamsSettings>k__BackingField:
+    <IdleTimeOut>k__BackingField: 5
 --- !u!1 &5927873971416705715
 GameObject:
   m_ObjectHideFlags: 0

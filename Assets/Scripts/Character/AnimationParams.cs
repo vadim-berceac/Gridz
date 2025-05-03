@@ -21,4 +21,7 @@ public static class AnimationParams
     public const string InputX = "InputX";
     public const string InputZ = "InputZ";
     public const string OneShotPlayed = "OneShotPlayed";
+    public const string IdleTimeOutTrigger = "IdleTimeOutTrigger";
+    public const string RandomIdle = "RandomIdle";
+    public const string InputDetected = "InputDetected";
 }

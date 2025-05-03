@@ -4,11 +4,13 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
 {
+    [field: SerializeField] public CharacterAnimationParamsSettings CharacterAnimationParamsSettings { get; private set; }
     public AnimationTypes.Type AnimationType { get; private set; } = AnimationTypes.Type.Default;
     public Animator Animator { get; private set; }
 
     public float OneShotPlayedValue { get; private set; }
     protected float SwitchBoneValue;
+    private float _currentIdleTimer;
    
     protected override void Initialize()
     {
@@ -41,6 +43,12 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
         UpdateParams();
     }
 
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        TimeoutToIdle();
+    }
+
     [BurstCompile]
     private void UpdateParams()
     {
@@ -52,7 +60,7 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
         Animator.SetBool(AnimationParams.TargetLock, IsTargetLock);
         Animator.SetBool(AnimationParams.DrawWeapon, IsDrawWeapon);
         Animator.SetFloat(AnimationParams.CurrentSpeedZ, CurrentSpeedZ);
-        Animator.SetFloat(AnimationParams.CurrentSpeedX, CurrentSpeedX, 0.5f, Time.deltaTime);
+        Animator.SetFloat(AnimationParams.CurrentSpeedX, CurrentSpeedX);
         Animator.SetFloat(AnimationParams.InputX, CorrectedDirection.x, 0.2f, Time.deltaTime);
         Animator.SetFloat(AnimationParams.InputZ, CorrectedDirection.z, 0.2f, Time.deltaTime);
         SwitchBoneValue = Animator.GetFloat(AnimationParams.SwitchBoneCurve);
@@ -88,4 +96,32 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
         }
         Animator.SetTrigger(AnimationParams.DrawTrigger);
     }
+    
+    private void TimeoutToIdle()
+    {
+        var inputDetected = CurrentSpeedX > 0 || CurrentSpeedZ > 0 || OneShotPlayedValue > 0;
+        if (IsGrounded && !IsDead && !inputDetected)
+        {
+            _currentIdleTimer += Time.deltaTime;
+
+            if (_currentIdleTimer >= CharacterAnimationParamsSettings.IdleTimeOut)
+            {
+                _currentIdleTimer = 0f;
+                Animator.SetTrigger(AnimationParams.IdleTimeOutTrigger);
+            }
+        }
+        else
+        {
+            _currentIdleTimer = 0f;
+            Animator.ResetTrigger(AnimationParams.IdleTimeOutTrigger);
+        }
+
+        Animator.SetBool(AnimationParams.InputDetected, inputDetected);
+    }
+}
+
+[System.Serializable]
+public struct CharacterAnimationParamsSettings
+{
+    [field: SerializeField] public float IdleTimeOut { get; private set; }
 }
