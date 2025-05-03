@@ -11,6 +11,7 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
     public float OneShotPlayedValue { get; private set; }
     protected float SwitchBoneValue;
     private float _currentIdleTimer;
+    public bool InputDetected { get; private set; }
    
     protected override void Initialize()
     {
@@ -40,6 +41,7 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
     protected override void Update()
     {
         base.Update();
+        InputDetected = CurrentSpeedX > 0 || CurrentSpeedZ > 0 || OneShotPlayedValue > 0;
         UpdateParams();
     }
 
@@ -65,6 +67,7 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
         Animator.SetFloat(AnimationParams.InputZ, CorrectedDirection.z, 0.2f, Time.deltaTime);
         SwitchBoneValue = Animator.GetFloat(AnimationParams.SwitchBoneCurve);
         OneShotPlayedValue = Animator.GetFloat(AnimationParams.OneShotPlayed);
+        Animator.SetBool(AnimationParams.InputDetected, InputDetected);
     }
 
     private void HandleAttackTrigger()
@@ -99,8 +102,8 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
     
     private void TimeoutToIdle()
     {
-        var inputDetected = CurrentSpeedX > 0 || CurrentSpeedZ > 0 || OneShotPlayedValue > 0;
-        if (IsGrounded && !IsDead && !inputDetected)
+        
+        if (IsGrounded && !IsDead && !InputDetected)
         {
             _currentIdleTimer += Time.deltaTime;
 
@@ -115,8 +118,6 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
             _currentIdleTimer = 0f;
             Animator.ResetTrigger(AnimationParams.IdleTimeOutTrigger);
         }
-
-        Animator.SetBool(AnimationParams.InputDetected, inputDetected);
     }
 }
 
