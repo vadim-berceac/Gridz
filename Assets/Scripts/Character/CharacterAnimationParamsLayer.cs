@@ -54,7 +54,7 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
     [BurstCompile]
     private void UpdateParams()
     {
-        Animator.SetFloat(AnimationParams.AnimationType, (int)AnimationType, 0.1f, Time.deltaTime);
+        Animator.SetFloat(AnimationParams.AnimationType, (int)AnimationType);
         Animator.SetBool(AnimationParams.Grounded, IsGrounded);
         Animator.SetBool(AnimationParams.Jump, IsJump);
         Animator.SetBool(AnimationParams.Run, IsRunning);

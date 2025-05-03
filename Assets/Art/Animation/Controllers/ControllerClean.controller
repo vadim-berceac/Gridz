@@ -231,7 +231,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: f35ccd5a59f594a4386570360ca5cfb9, type: 3}
+  m_Motion: {fileID: 7189692871544966566}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -814,6 +814,37 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!206 &-5147250959673201670
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Blend Tree
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: -203655887218126122, guid: c1bf56b32c23039499a573730a3621a3, type: 3}
+    m_Threshold: 1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: AnimationSpeed
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: -203655887218126122, guid: 93525e341b7ed234488d11e9b9b3beef, type: 3}
+    m_Threshold: 3
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: AnimationSpeed
+    m_Mirror: 0
+  m_BlendParameter: AnimationType
+  m_BlendParameterY: AnimationSpeed
+  m_MinThreshold: 1
+  m_MaxThreshold: 3
+  m_UseAutomaticThresholds: 0
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
 --- !u!1101 &-5082209323904111943
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1572,7 +1603,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 2d61a360f067f8f4c8b3b4f1216ebb7a, type: 3}
+  m_Motion: {fileID: 6931963316370484675}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -2495,7 +2526,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: c1bf56b32c23039499a573730a3621a3, type: 3}
+  m_Motion: {fileID: -5147250959673201670}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -3182,6 +3213,68 @@ BlendTree:
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!206 &6931963316370484675
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Blend Tree
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: -203655887218126122, guid: 2d61a360f067f8f4c8b3b4f1216ebb7a, type: 3}
+    m_Threshold: 1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: AnimationSpeed
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 0}
+    m_Threshold: 3
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: AnimationSpeed
+    m_Mirror: 0
+  m_BlendParameter: AnimationType
+  m_BlendParameterY: AnimationSpeed
+  m_MinThreshold: 1
+  m_MaxThreshold: 3
+  m_UseAutomaticThresholds: 0
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
+--- !u!206 &7189692871544966566
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Blend Tree
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: -203655887218126122, guid: f35ccd5a59f594a4386570360ca5cfb9, type: 3}
+    m_Threshold: 1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: AnimationSpeed
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: -203655887218126122, guid: d9aff26a16f6f8545b3e1a8fb0e2bf6f, type: 3}
+    m_Threshold: 3
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: AnimationSpeed
+    m_Mirror: 0
+  m_BlendParameter: AnimationType
+  m_BlendParameterY: AnimationSpeed
+  m_MinThreshold: 1
+  m_MaxThreshold: 3
+  m_UseAutomaticThresholds: 0
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
 --- !u!206 &7228360919606110393
 BlendTree:
   m_ObjectHideFlags: 1
@@ -3451,7 +3544,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <RandomStateSettings>k__BackingField:
-    <NumberOfStates>k__BackingField: 3
+    <AnimationStates>k__BackingField:
+    - <Name>k__BackingField: Default
+      <Type>k__BackingField: 1
+      <StatesCount>k__BackingField: 3
+    - <Name>k__BackingField: Unarmed
+      <Type>k__BackingField: 2
+      <StatesCount>k__BackingField: -1
+    - <Name>k__BackingField: One Handed Sword
+      <Type>k__BackingField: 3
+      <StatesCount>k__BackingField: 2
     <MinNormTime>k__BackingField: 0.5
     <MaxNormTime>k__BackingField: 5
 --- !u!206 &8748935374285222289
