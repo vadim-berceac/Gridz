@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d3d3a255e7db1946831d25e1d91bcba, type: 3}
+  m_Name: TrainingRifle
+  m_EditorClassIdentifier: 
+  <Icon>k__BackingField: {fileID: 21300000, guid: 99e697e7ca47593478ff5be9ee9ebf7d, type: 3}
+  description: "\u0422\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043E\u0447\u043D\u043E\u0435
+    \u0440\u0443\u0436\u044C\u0435.\n\u0423\u0440\u043E\u043D -55 \u0435\u0434."
+  <GroundView>k__BackingField: {fileID: 8339592821350100798, guid: a1892241dbd05e84e8246626885283aa, type: 3}
+  <ModelView>k__BackingField: {fileID: 8339592821350100798, guid: d97ec9e72c6a83a48b9a7918a6f97cf6, type: 3}
+  <Damage>k__BackingField: 55
+  <DamageDelay>k__BackingField: 0.6
+  <BoneTransformSlots>k__BackingField:
+  - <BonesType>k__BackingField: 3
+    <Position>k__BackingField: {x: -0.078, y: -0.161, z: -0.15}
+    <Rotation>k__BackingField: {x: 0, y: 0, z: 45}
+    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+  - <BonesType>k__BackingField: 17
+    <Position>k__BackingField: {x: 0.002, y: 0.068, z: 0.012}
+    <Rotation>k__BackingField: {x: 1.5674597, y: 359.8834, z: 88.63453}
+    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+  <AnimationType>k__BackingField: 4

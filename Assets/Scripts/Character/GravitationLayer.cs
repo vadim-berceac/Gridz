@@ -1,5 +1,6 @@
 using Unity.Burst;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(CharacterController))]
 public class GravitationLayer : MonoBehaviour
@@ -16,6 +17,15 @@ public class GravitationLayer : MonoBehaviour
 
     public bool IsGrounded => _isGrounded;
     public Transform CashedTransform { get; private set; }
+    public SfxContainer SfxContainer { get; private set; }
+    private SfxSet _landingSfx;
+
+    [Inject]
+    private void Construct(SfxContainer sfxContainer)
+    {
+        SfxContainer = sfxContainer;
+        _landingSfx = SfxContainer.GetSfxSet(GravitationSettings.LandingSoundsSetName);
+    }
 
     private void Awake()
     {
@@ -54,6 +64,7 @@ public class GravitationLayer : MonoBehaviour
         
         if (_isGrounded && !_wasGroundedLastFrame)
         {
+            PlayLandingSound();
             var fallDistance = _maxHeightReached - currentHeight;
             if (fallDistance > GravitationSettings.FallDamageThreshold)
             {
@@ -64,6 +75,11 @@ public class GravitationLayer : MonoBehaviour
         }
 
         _wasGroundedLastFrame = _isGrounded;
+    }
+
+    private void PlayLandingSound()
+    {
+        AudioSource.PlayClipAtPoint( _landingSfx.GetRandomClip(), CashedTransform.position );
     }
     
     [BurstCompile]
@@ -88,4 +104,7 @@ public struct GravitationSettings
     
     [field: Header("Fall Damage")]
     [field: SerializeField] public float FallDamageThreshold { get; private set; }
+    
+    [field: Header("Sound")]
+    [field: SerializeField] public string LandingSoundsSetName { get; private set; }
 }

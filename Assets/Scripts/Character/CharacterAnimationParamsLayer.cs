@@ -36,6 +36,7 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
 
     protected void SetAnimationType(AnimationTypes.Type animationType)
     {
+        Debug.Log(animationType);
         AnimationType = animationType;
     }
    

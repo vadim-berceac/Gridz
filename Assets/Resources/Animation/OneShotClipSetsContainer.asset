@@ -15,3 +15,4 @@ MonoBehaviour:
   oneShotClipSets:
   - {fileID: 11400000, guid: 14ddbc47cc472704f92b58961751af34, type: 2}
   - {fileID: 11400000, guid: 781e0da1a4d7aa4409c911af872a5d37, type: 2}
+  - {fileID: 11400000, guid: 7ec1e819bf947254091a0dec9d720483, type: 2}

@@ -17,6 +17,6 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <WeaponData>k__BackingField:
   - {fileID: 11400000, guid: dd3708fcfd43c2b4eb0dd230a626f1e7, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 50a1f09650cde3d46906fc2f3f16e993, type: 2}
   - {fileID: 0}
   <PrimaryArmorData>k__BackingField: {fileID: 0}

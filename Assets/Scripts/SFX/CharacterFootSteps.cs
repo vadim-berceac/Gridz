@@ -5,7 +5,6 @@ public class CharacterFootSteps : MonoBehaviour
 {
    [field: SerializeField] private CharacterFootStepsSettings FootStepsSettings { get; set; }
 
-   private const string FootStepsSet = "FootSteps0";
    private const float Tolerance = 0.05f;
    private float _lastFootstepTime;
    private const float FootstepCooldown = 0.1f;
@@ -14,7 +13,7 @@ public class CharacterFootSteps : MonoBehaviour
    [Inject]
    private void Construct(SfxContainer sfxContainer)
    {
-       _footStepsSfxSet = sfxContainer.GetSfxSet(FootStepsSet);
+       _footStepsSfxSet = sfxContainer.GetSfxSet(FootStepsSettings.FootStepsSetName);
    }
 
    private void Update()
@@ -51,6 +50,7 @@ public class CharacterFootSteps : MonoBehaviour
 [System.Serializable]
 public struct CharacterFootStepsSettings
 {
+    [field: SerializeField] public string FootStepsSetName { get; set; }
     [field: SerializeField] public CharacterAnimationParamsLayer Character { get; private set; }
     [field: SerializeField] public int LeftFootStepValue { get; private set; } 
     [field: SerializeField] public int RightFootStepValue { get; private set; } 

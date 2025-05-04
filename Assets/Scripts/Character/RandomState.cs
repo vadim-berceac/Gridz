@@ -21,7 +21,7 @@ public class RandomState : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_currentAnimationState == null || _currentAnimationState.StatesCount < 0)
+        if (_currentAnimationState == null)
         {
             return;
         }

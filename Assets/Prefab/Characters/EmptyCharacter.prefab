@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <FootStepsSettings>k__BackingField:
+    <FootStepsSetName>k__BackingField: FootSteps0
     <Character>k__BackingField: {fileID: 527339777544466241}
     <LeftFootStepValue>k__BackingField: -1
     <RightFootStepValue>k__BackingField: 1
@@ -289,6 +290,7 @@ MonoBehaviour:
     <GroundOffset>k__BackingField: {x: 0, y: -0.8, z: 0}
     <SphereRadius>k__BackingField: 0.4
     <FallDamageThreshold>k__BackingField: 5
+    <LandingSoundsSetName>k__BackingField: Landing0
   <LocoMotionSettings>k__BackingField:
     <RotationSpeed>k__BackingField: 4
     <ForwardSneakSpeedCurve>k__BackingField:

@@ -104,7 +104,7 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
         }
 
         SetAnimationType(hasWeapon 
-            ? _equipmentModule.GetAnimationType(0) 
+            ? _equipmentModule.GetAnimationType(_selectedWeaponIndex) 
             : AnimationTypes.Type.Unarmed);
 
         if (hasWeapon)
