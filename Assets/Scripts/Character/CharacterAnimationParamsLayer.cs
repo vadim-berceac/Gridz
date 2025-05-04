@@ -9,6 +9,7 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
     public Animator Animator { get; private set; }
 
     public float OneShotPlayedValue { get; private set; }
+    public float FootStepsCurveValue { get; private set; }
     protected float SwitchBoneValue;
     private float _currentIdleTimer;
     public bool InputDetected { get; private set; }
@@ -67,6 +68,7 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
         Animator.SetFloat(AnimationParams.InputZ, CorrectedDirection.z, 0.2f, Time.deltaTime);
         SwitchBoneValue = Animator.GetFloat(AnimationParams.SwitchBoneCurve);
         OneShotPlayedValue = Animator.GetFloat(AnimationParams.OneShotPlayed);
+        FootStepsCurveValue = Animator.GetFloat(AnimationParams.FootStepsCurve);
         Animator.SetBool(AnimationParams.InputDetected, InputDetected);
     }
 

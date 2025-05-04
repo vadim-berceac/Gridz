@@ -54,7 +54,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves:
-      - name: Footstep
+      - name: FootStepsCurve
         curve:
           serializedVersion: 2
           curve:
@@ -62,26 +62,53 @@ ModelImporter:
             time: 0
             value: 0
             inSlope: 0
-            outSlope: 0
-            tangentMode: 0
+            outSlope: -2.5196848
+            tangentMode: 69
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 0.67729366
+            time: 0.39687502
             value: -1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
+            inSlope: -2.5196848
+            outSlope: 320.0003
+            tangentMode: 69
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.40312502
+            value: 1
+            inSlope: 320.0003
+            outSlope: -9.1428585
+            tangentMode: 69
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.621875
+            value: -1
+            inSlope: -9.1428585
+            outSlope: 64
+            tangentMode: 69
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.653125
+            value: 1
+            inSlope: 64
+            outSlope: -2.8828828
+            tangentMode: 69
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
             time: 1
             value: 0
-            inSlope: 2
+            inSlope: -2.8828828
             outSlope: 2
-            tangentMode: 0
+            tangentMode: 69
             weightedMode: 0
             inWeight: 0
             outWeight: 0

@@ -24,4 +24,5 @@ public static class AnimationParams
     public const string IdleTimeOutTrigger = "IdleTimeOutTrigger";
     public const string RandomIdle = "RandomIdle";
     public const string InputDetected = "InputDetected";
+    public const string FootStepsCurve = "FootStepsCurve";
 }

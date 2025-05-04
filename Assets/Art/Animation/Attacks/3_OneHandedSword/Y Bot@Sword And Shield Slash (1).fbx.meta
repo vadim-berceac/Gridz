@@ -54,7 +54,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves:
-      - name: Curve
+      - name: OneShotPlayed
         curve:
           serializedVersion: 2
           curve:
@@ -73,6 +73,58 @@ ModelImporter:
             inSlope: 0
             outSlope: 0
             tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          preInfinity: 3
+          postInfinity: 3
+          rotationOrder: 4
+      - name: FootStepsCurve
+        curve:
+          serializedVersion: 2
+          curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 3.018868
+            tangentMode: 69
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.33124998
+            value: 1
+            inSlope: 3.018868
+            outSlope: -4.324324
+            tangentMode: 69
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.5625
+            value: 0
+            inSlope: -4.324324
+            outSlope: 4.3243246
+            tangentMode: 69
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.79375
+            value: 1
+            inSlope: 4.3243246
+            outSlope: -4.8484845
+            tangentMode: 69
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -4.8484845
+            outSlope: 0
+            tangentMode: 69
             weightedMode: 0
             inWeight: 0
             outWeight: 0
