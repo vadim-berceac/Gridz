@@ -91,7 +91,7 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
         Animator.SetTrigger(AnimationParams.Dead);
     }
 
-    private void HandleDrawTrigger(bool sda)
+    private void HandleDrawTrigger()
     {
         if (OneShotPlayedValue > 0)
         {

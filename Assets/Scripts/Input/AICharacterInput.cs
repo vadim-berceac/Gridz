@@ -14,10 +14,10 @@ public class AICharacterInput: ICharacterInput
     public event Action OnWeaponSelect0;
     public event Action OnWeaponSelect1;
     public event Action OnWeaponSelect2;
-    public event Action<bool> OnHoldTarget;
-    public event Action<bool> OnDrawWeapon;
-    public event Action<bool> OnSprint;
-    public event Action<bool> OnSneak;
+    public event Action OnHoldTarget;
+    public event Action OnDrawWeapon;
+    public event Action OnSprint;
+    public event Action OnSneak;
 
     // Методы для установки состояния AI
     public void SetMoveDirection(Vector2 direction) => _moveDirection = direction;
@@ -25,10 +25,10 @@ public class AICharacterInput: ICharacterInput
     public void TriggerAttack() => OnAttack?.Invoke();
     public void TriggerInteract() => OnInteract?.Invoke();
     public void TriggerJump() => OnJump?.Invoke();
-    public void TriggerHoldTarget(bool value) => OnHoldTarget?.Invoke(value);
-    public void TriggerDrawWeapon(bool value) => OnDrawWeapon?.Invoke(value);
-    public void SetSprinting(bool value) => OnSprint?.Invoke(value);
-    public void SetSneaking(bool value) => OnSneak?.Invoke(value);
+    public void TriggerHoldTarget() => OnHoldTarget?.Invoke();
+    public void TriggerDrawWeapon() => OnDrawWeapon?.Invoke();
+    public void SetSprinting() => OnSprint?.Invoke();
+    public void SetSneaking() => OnSneak?.Invoke();
 
     // Реализация интерфейса ICharacterInput
     public Vector2 GetMoveDirection() => _moveDirection;
@@ -63,6 +63,6 @@ public class AICharacterInput: ICharacterInput
     public void ForciblyDrawWeapon(bool value)
     {
         //_isWeaponDrawn = value;
-        OnDrawWeapon?.Invoke(value);
+        OnDrawWeapon?.Invoke();
     }
 }

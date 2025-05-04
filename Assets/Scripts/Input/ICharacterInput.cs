@@ -12,10 +12,10 @@ public interface ICharacterInput
     public event Action OnWeaponSelect0;
     public event Action OnWeaponSelect1;
     public event Action OnWeaponSelect2;
-    public event Action<bool> OnHoldTarget;
-    public event Action<bool> OnDrawWeapon;
-    public event Action<bool> OnSprint; 
-    public event Action<bool> OnSneak;
+    public event Action OnHoldTarget;
+    public event Action OnDrawWeapon;
+    public event Action OnSprint; 
+    public event Action OnSneak;
 
     public void ResetHoldTarget();
 

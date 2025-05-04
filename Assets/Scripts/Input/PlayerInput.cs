@@ -42,10 +42,10 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     public event Action OnWeaponSelect0;
     public event Action OnWeaponSelect1;
     public event Action OnWeaponSelect2;
-    public event Action<bool> OnHoldTarget;
-    public event Action<bool> OnDrawWeapon;
-    public event Action<bool> OnSprint;
-    public event Action<bool> OnSneak;
+    public event Action OnHoldTarget;
+    public event Action OnDrawWeapon;
+    public event Action OnSprint;
+    public event Action OnSneak;
 
     private void Awake()
     {
@@ -57,7 +57,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     public void ResetHoldTarget()
     {
         _isTargetLock = false;
-        OnHoldTarget?.Invoke(false);
+        OnHoldTarget?.Invoke();
     }
 
     private void FindActions()
@@ -160,20 +160,20 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         HoldTarget.performed += ctx =>
         {
             _isTargetLock = !_isTargetLock;
-            OnHoldTarget?.Invoke(_isTargetLock);
+            OnHoldTarget?.Invoke();
         };
         
         DrawWeapon.performed += ctx => 
         {
             _isWeaponDrawn = !_isWeaponDrawn; 
-            OnDrawWeapon?.Invoke(_isWeaponDrawn);
+            OnDrawWeapon?.Invoke();
         };
         
-        Sprint.performed += ctx => OnSprint?.Invoke(true);
-        Sprint.canceled += ctx => OnSprint?.Invoke(false);
+        Sprint.performed += ctx => OnSprint?.Invoke();
+        Sprint.canceled += ctx => OnSprint?.Invoke();
         
-        Sneak.performed += ctx => OnSneak?.Invoke(true);
-        Sneak.canceled += ctx => OnSneak?.Invoke(false);
+        Sneak.performed += ctx => OnSneak?.Invoke();
+        Sneak.canceled += ctx => OnSneak?.Invoke();
     }
 
     private void OnDisable()
@@ -184,7 +184,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     public void ForciblyDrawWeapon(bool value)
     {
         _isWeaponDrawn = value;
-        OnDrawWeapon?.Invoke(value);
+        OnDrawWeapon?.Invoke();
     }
 
     public Vector2 GetMoveDirection() => _moveDirection;

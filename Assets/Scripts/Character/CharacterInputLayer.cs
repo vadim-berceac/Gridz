@@ -143,24 +143,24 @@ public class CharacterInputLayer : GravitationLayer
         Debug.LogWarning($"{name} убит {value} от {animationType}");
     }
     
-    private void HandleSprint(bool isRunning)
+    private void HandleSprint()
     {
-        IsRunning = isRunning;
+        IsRunning = !IsRunning;
     }
 
-    private void HandleSneak(bool isSneaking)
+    private void HandleSneak()
     {
-        IsSneaking = isSneaking;
+        IsSneaking = !IsSneaking;
     }
 
-    private void HandleTargetLock(bool isTargetLocked)
+    private void HandleTargetLock()
     {
-        IsTargetLock = isTargetLocked;
+        IsTargetLock = !IsTargetLock;
     }
 
-    protected virtual void HandleDrawWeapon(bool isDrawWeapon)
+    protected virtual void HandleDrawWeapon()
     {
-        IsDrawWeapon = isDrawWeapon;
+        IsDrawWeapon = !IsDrawWeapon;
     }
 
     protected virtual void HandleAttack()

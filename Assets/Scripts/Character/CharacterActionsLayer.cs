@@ -84,13 +84,13 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
     }
 
     [BurstCompile]
-    protected override async void HandleDrawWeapon(bool isDrawWeapon)
+    protected override async void HandleDrawWeapon()
     {
-        base.HandleDrawWeapon(isDrawWeapon);
+        base.HandleDrawWeapon();
 
         var hasWeapon = _equipmentModule.WeaponData[_selectedWeaponIndex] != null;
 
-        if (!isDrawWeapon)
+        if (!IsDrawWeapon)
         {
             if (!hasWeapon)
             {
@@ -172,7 +172,7 @@ public class CharacterActionsLayer : CharacterAnimationParamsLayer
         if (IsDrawWeapon)
         {
             CharacterInput.ForciblyDrawWeapon(false);
-            await Task.Run(() => HandleDrawWeapon(false));
+            await Task.Run(() => HandleDrawWeapon());
         }
         
         _selectedWeaponIndex = index;
