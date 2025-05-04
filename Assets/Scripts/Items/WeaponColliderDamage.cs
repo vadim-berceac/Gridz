@@ -1,20 +1,42 @@
+using System;
 using UnityEngine;
+using Zenject;
 
 public class WeaponColliderDamage : MonoBehaviour
 {
     private float _damage;
     private float _damageDelay = 0.3f;
+    private bool _isRanged;
     private Collider _triggerCollider;
-    private CharacterAnimationParamsLayer _animationParamsLayer;
+    public CharacterAnimationParamsLayer AnimationParamsLayer { get; private set; }
     public bool Enabled { get; private set; }
+    public string SvxSetName { get; private set; }
+    
+    private SfxContainer _sfxContainer;
+    public SfxSet SvxSet { get; private set; }
 
-    public void Init(float damage, float damageDelay, CharacterAnimationParamsLayer animationParamsLayer)
+    [Inject]
+    private void Construct(SfxContainer sfxContainer)
+    {
+        _sfxContainer = sfxContainer;
+        SvxSet = _sfxContainer.GetSfxSet(SvxSetName);
+    }
+
+    public void Init(float damage, float damageDelay, bool isRanged, CharacterAnimationParamsLayer animationParamsLayer, string svxSetName)
     {
         _damage = damage;
         _damageDelay = damageDelay;
-        _animationParamsLayer = animationParamsLayer;
+        AnimationParamsLayer = animationParamsLayer;
+        _isRanged = isRanged;
+        SvxSetName = svxSetName;
         _triggerCollider = GetComponent<Collider>();
         Enabled = true;
+        
+        if (_isRanged)
+        {
+            var ranged = gameObject.AddComponent<RangedWeapon>();
+            ranged.SetWeaponCollider(this);
+        }
     }
 
     public void Enable(bool value)
@@ -24,12 +46,12 @@ public class WeaponColliderDamage : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (!Enabled)
+        if (!Enabled || _isRanged)
         {
             return;
         }
 
-        if (!_triggerCollider.enabled || _animationParamsLayer.OneShotPlayedValue < 1)
+        if (!_triggerCollider.enabled || AnimationParamsLayer.OneShotPlayedValue < 1)
         {
             return;
         }
@@ -41,7 +63,7 @@ public class WeaponColliderDamage : MonoBehaviour
 
         if (other.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage(_damage, _animationParamsLayer.AnimationType);
+            damageable.TakeDamage(_damage, AnimationParamsLayer.AnimationType);
             _triggerCollider.enabled = false; 
             Invoke(nameof(ResetCollider), _damageDelay); 
         }

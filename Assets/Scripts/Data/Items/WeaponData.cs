@@ -6,6 +6,8 @@ using UnityEngine;
 public class WeaponData : ItemData, IWearable, IChangeAnimation
 {
     [field: SerializeField] public Transform ModelView  { get; private set; }
+    [field: SerializeField] public string SvxSetName { get; private set; }
+    [field: SerializeField] public bool IsRanged { get; private set; }
     [field: SerializeField] public float Damage { get; private set; }
     [field: SerializeField] public float DamageDelay { get; private set; }
     [field: SerializeField] public List<BoneTransformSlot> BoneTransformSlots { get; private set; }

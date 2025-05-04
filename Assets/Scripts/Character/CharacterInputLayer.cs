@@ -16,7 +16,7 @@ public class CharacterInputLayer : GravitationLayer
     protected Vector2 NominalMovementDirection;
     public static CharacterInputLayer SelectedCharacter { get; private set; }
     
-    protected ICharacterInput CharacterInput {get; private set;}
+    public ICharacterInput CharacterInput {get; private set;}
     protected Vector3 CorrectedDirection;
     protected SurfaceSlider SurfaceSlider;
     private ICharacterInput _inputByPlayer;

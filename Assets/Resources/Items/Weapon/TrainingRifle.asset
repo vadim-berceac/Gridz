@@ -17,6 +17,8 @@ MonoBehaviour:
     \u0440\u0443\u0436\u044C\u0435.\n\u0423\u0440\u043E\u043D -55 \u0435\u0434."
   <GroundView>k__BackingField: {fileID: 8339592821350100798, guid: a1892241dbd05e84e8246626885283aa, type: 3}
   <ModelView>k__BackingField: {fileID: 8339592821350100798, guid: d97ec9e72c6a83a48b9a7918a6f97cf6, type: 3}
+  <SvxSetName>k__BackingField: TrainingRifle
+  <IsRanged>k__BackingField: 1
   <Damage>k__BackingField: 55
   <DamageDelay>k__BackingField: 0.6
   <BoneTransformSlots>k__BackingField:

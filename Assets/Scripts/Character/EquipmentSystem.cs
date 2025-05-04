@@ -69,7 +69,7 @@ public class EquipmentModule : MonoBehaviour
     {
         var result = weaponData.CreateInstance();
         var weaponDamageCollider = result.AddComponent<WeaponColliderDamage>();
-        weaponDamageCollider.Init(weaponData.Damage, weaponData.DamageDelay, animationParamsLayer);
+        weaponDamageCollider.Init(weaponData.Damage, weaponData.DamageDelay, weaponData.IsRanged, animationParamsLayer, weaponData.SvxSetName);
         return result;
     }
 }

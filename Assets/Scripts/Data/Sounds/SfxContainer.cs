@@ -1,4 +1,5 @@
 using System.Linq;
+using ModestTree;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SFXContainer", menuName = "Scriptable Objects/SFXContainer")]
@@ -8,7 +9,7 @@ public class SfxContainer : ScriptableObject
 
     public SfxSet GetSfxSet(string id)
     {
-        return SfxSets.FirstOrDefault(x => x.SetName == id);
+        return id == null || id.IsEmpty() ? null : SfxSets.FirstOrDefault(x => x.SetName == id);
     }
 }
 
