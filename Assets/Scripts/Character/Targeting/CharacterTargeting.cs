@@ -59,7 +59,6 @@ public class CharacterTargeting : AbstractTargeting
 
         if (Targets.Count < 1)
         {
-            input.ResetHoldTarget();
             return;
         }
         UpdateTarget();

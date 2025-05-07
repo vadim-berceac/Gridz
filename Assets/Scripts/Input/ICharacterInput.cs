@@ -17,8 +17,6 @@ public interface ICharacterInput
     public event Action OnSprint; 
     public event Action OnSneak;
 
-    public void ResetHoldTarget();
-
     public void ForciblyDrawWeapon(bool value);
 
     public void EnableCharacterInput(bool value);

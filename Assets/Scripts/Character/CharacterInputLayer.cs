@@ -20,6 +20,7 @@ public class CharacterInputLayer : GravitationLayer
     protected Vector3 CorrectedDirection;
     protected SurfaceSlider SurfaceSlider;
     private ICharacterInput _inputByPlayer;
+    private bool _isSubscribed;
     protected MovementTypes.MovementType CurrentMovementType { get; private set; }
     protected bool RotateByCamera { get; private set; }
     protected CameraSystem CameraSystem { get; private set; }
@@ -81,6 +82,13 @@ public class CharacterInputLayer : GravitationLayer
 
     protected virtual void SubscribeInputs()
     {
+        if (_isSubscribed)
+        {
+            Debug.LogWarning($"Already subscribed for {gameObject.name}");
+            return;
+        }
+        _isSubscribed = true;
+        Debug.Log($"Subscribing inputs for {gameObject.name}");
         CharacterInput.OnJump += OnJump;
         CharacterInput.OnSneak += HandleSneak;
         CharacterInput.OnSprint += HandleSprint;
@@ -95,6 +103,13 @@ public class CharacterInputLayer : GravitationLayer
 
     protected virtual void UnsubscribeInputs()
     {
+        if (!_isSubscribed)
+        {
+            Debug.LogWarning($"Not subscribed for {gameObject.name}");
+            return;
+        }
+        _isSubscribed = false;
+        Debug.Log($"Unsubscribing inputs for {gameObject.name}");
         CharacterInput.OnJump -= OnJump;
         CharacterInput.OnSneak -= HandleSneak;
         CharacterInput.OnSprint -= HandleSprint;
@@ -156,11 +171,13 @@ public class CharacterInputLayer : GravitationLayer
     private void HandleTargetLock()
     {
         IsTargetLock = !IsTargetLock;
+        Debug.LogWarning(gameObject.name + IsTargetLock);
     }
 
     protected virtual void HandleDrawWeapon()
     {
         IsDrawWeapon = !IsDrawWeapon;
+        Debug.LogWarning(gameObject.name + IsDrawWeapon);
     }
 
     protected virtual void HandleAttack()

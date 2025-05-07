@@ -33,8 +33,6 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     
     private Vector2 _moveDirection;
     private Vector2 _lookDirection;
-    private bool _isWeaponDrawn;
-    private bool _isTargetLock;
     
     public event Action OnAttack;
     public event Action OnInteract;
@@ -52,12 +50,6 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         FindActions();
         EnableActions();
         SubscribeToActions();
-    }
-
-    public void ResetHoldTarget()
-    {
-        _isTargetLock = false;
-        OnHoldTarget?.Invoke();
     }
 
     private void FindActions()
@@ -159,13 +151,11 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
 
         HoldTarget.performed += ctx =>
         {
-            _isTargetLock = !_isTargetLock;
             OnHoldTarget?.Invoke();
         };
         
         DrawWeapon.performed += ctx => 
         {
-            _isWeaponDrawn = !_isWeaponDrawn; 
             OnDrawWeapon?.Invoke();
         };
         
@@ -183,7 +173,6 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
 
     public void ForciblyDrawWeapon(bool value)
     {
-        _isWeaponDrawn = value;
         OnDrawWeapon?.Invoke();
     }
 
