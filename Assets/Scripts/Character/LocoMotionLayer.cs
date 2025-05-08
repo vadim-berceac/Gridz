@@ -33,11 +33,7 @@ public class LocoMotionLayer : CharacterInputLayer
         Speed.Update(IsDead, IsJump, SpeedChangeRate, CorrectedDirection, _selectedMovementCurve, ref CurrentSpeedX, ref CurrentSpeedZ);
         TargetingSettings.EnemyTargeting.Target(IsDead, IsTargetLock, CharacterInput);
         
-        CashedTransform.Move(IsDead, IsTargetLock, IsJump, TargetingSettings.EnemyTargeting, CharacterController, CurrentMovementType,
-            CorrectedDirection, CurrentSpeedZ, CurrentSpeedX);
-        
-        CashedTransform.Rotate(IsDead, IsTargetLock, TargetingSettings.EnemyTargeting, CurrentMovementType, RotateByCamera, CameraSystem,
-            NominalMovementDirection, LocoMotionSettings.RotationSpeed);
+        CashedTransform.Rotate(IsDead, IsTargetLock, TargetingSettings.EnemyTargeting, RotateByCamera, CameraSystem, NominalMovementDirection, LocoMotionSettings.RotationSpeed);
     }
 
     [BurstCompile]
@@ -48,7 +44,7 @@ public class LocoMotionLayer : CharacterInputLayer
         {
             return;
         }
-        CharacterController.Jump(CurrentMovementType, CurrentSpeedZ, LocoMotionSettings.JumpHeight, LocoMotionSettings.JumpDuration, ResetJump);
+        CharacterController.Jump(CurrentSpeedZ, LocoMotionSettings.JumpHeight, LocoMotionSettings.JumpDuration, ResetJump);
     }
     
     [BurstCompile]

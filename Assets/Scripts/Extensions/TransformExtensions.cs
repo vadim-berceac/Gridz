@@ -46,8 +46,7 @@ public static class TransformExtensions
     }
     
     [BurstCompile]
-    public static void Rotate(this Transform transform, bool isDead, bool isTargetLock, CharacterTargeting enemyTargeting, 
-        MovementTypes.MovementType currentMovementType, bool rotateByCamera, CameraSystem cameraSystem, 
+    public static void Rotate(this Transform transform, bool isDead, bool isTargetLock, CharacterTargeting enemyTargeting, bool rotateByCamera, CameraSystem cameraSystem, 
         Vector2 nominalMovementDirection, float rotationSpeed)
     {
         if (isDead)
@@ -56,22 +55,16 @@ public static class TransformExtensions
         }
         if (enemyTargeting.TargetDirection == Vector3.zero || !isTargetLock)
         {
-            transform.RotateCombined(currentMovementType, nominalMovementDirection, rotationSpeed, 
+            transform.RotateCombined(nominalMovementDirection, rotationSpeed, 
                 Time.deltaTime, rotateByCamera, cameraSystem.GetCameraYaw());
             return;
         }
-        transform.RotateTo(currentMovementType, enemyTargeting.TargetDirection, rotationSpeed, 
-            Time.deltaTime);
+        transform.RotateTo( enemyTargeting.TargetDirection, rotationSpeed, Time.deltaTime);
     }
     
     [BurstCompile]
-    private static void RotateCombined(this Transform transform, MovementTypes.MovementType type, Vector3 inputDirection, 
-        float rotationSpeed, float duration, bool rotateByCamera, float cameraYaw)
+    private static void RotateCombined(this Transform transform, Vector3 inputDirection, float rotationSpeed, float duration, bool rotateByCamera, float cameraYaw)
     {
-        if (type == MovementTypes.MovementType.None)
-        {
-            return;
-        }
 
         var targetRotation = transform.rotation; 
        
@@ -95,14 +88,8 @@ public static class TransformExtensions
     }
 
     [BurstCompile]
-    public static void RotateTo(this Transform transform, MovementTypes.MovementType type, Vector3 direction, 
-        float rotationSpeed, float duration)
+    private static void RotateTo(this Transform transform, Vector3 direction, float rotationSpeed, float duration)
     {
-        if (type == MovementTypes.MovementType.None)
-        {
-            return;
-        }
-
         if (direction == Vector3.zero)
         {
            return;
@@ -112,81 +99,5 @@ public static class TransformExtensions
         var targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * duration);
-    }
-    
-    [BurstCompile]
-    public static void Move(this Transform transform, bool isDead, bool isTargetLock, bool isJumping,
-        CharacterTargeting enemyTargeting, CharacterController characterController, MovementTypes.MovementType currentMovementType,
-        Vector3 correctedDirection, float currentSpeedZ, float currentSpeedX)
-    {
-        if (isDead)
-        {
-            return;
-        }
-        
-        if (enemyTargeting.TargetDirection == Vector3.zero || !isTargetLock)
-        {
-            transform.Move(characterController, currentMovementType, correctedDirection, currentSpeedZ, Time.deltaTime, isJumping);
-            return;
-        }
-
-        //нестабильно
-        if (Mathf.Abs(correctedDirection.z) <  0.1f)
-        {
-            transform.Move(characterController, currentMovementType, enemyTargeting.TargetDirection, currentSpeedX, Time.deltaTime, isJumping);
-            return;
-        }
-    
-        transform.Move(characterController, currentMovementType, correctedDirection, currentSpeedZ, Time.deltaTime, isJumping);
-    }
-
-    [BurstCompile]
-    private static void Move(this Transform tr, CharacterController controller, MovementTypes.MovementType movementType,
-        Vector3 inputDirection, float currentSpeed, float duration, bool isJumping)
-    {
-        if (currentSpeed == 0 || !controller.enabled || isJumping)
-        {
-            return;
-        }
-        
-        if (movementType == MovementTypes.MovementType.DotWeen)
-        {
-            MoveDotWeen(tr, controller, inputDirection, currentSpeed, duration);
-        }
-    }
-    
-    [BurstCompile]
-    private static void MoveDotWeen(this Transform tr, CharacterController controller, Vector3 inputDirection,
-        float currentSpeed, float duration)
-    {
-        tr.DOKill();
-
-        var progress = 0f;
-        var startPosition = tr.position;
-        
-        var forwardMovement = tr.forward * Mathf.Max(inputDirection.z, 0f); 
-        var backwardMovement = -tr.forward * Mathf.Max(-inputDirection.z, 0f); 
-        var rightMovement = tr.right * Mathf.Max(inputDirection.x, 0f); 
-        var leftMovement = -tr.right * Mathf.Max(-inputDirection.x, 0f); 
-
-        var movementDirection = (forwardMovement + backwardMovement + rightMovement + leftMovement).normalized *
-                                currentSpeed;
-
-        var targetPosition = startPosition + movementDirection * duration;
-
-        DOTween.To(() => progress, x => progress = x, 1f, duration)
-            .SetEase(Ease.Linear)
-            .SetUpdate(UpdateType.Normal)
-            .OnUpdate(() =>
-            {
-                var currentTarget = Vector3.Lerp(startPosition, targetPosition, progress);
-                var moveDelta = currentTarget - tr.position;
-                controller.Move(moveDelta);
-            })
-            .OnComplete(() =>
-            {
-                var finalDelta = targetPosition - controller.transform.position;
-                controller.Move(finalDelta);
-            });
     }
 }

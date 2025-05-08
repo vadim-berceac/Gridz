@@ -34,14 +34,8 @@ public static class CharacterControllerExtensions
     }
     
     [BurstCompile]
-    public static void Jump(this CharacterController controller, MovementTypes.MovementType movementType, 
-        float currentSpeed, float jumpHeight, float duration, Action onComplete = null)
+    public static void Jump(this CharacterController controller, float currentSpeed, float jumpHeight, float duration, Action onComplete = null)
     {
-        if (movementType == MovementTypes.MovementType.None)
-        {
-            return;
-        }
-    
         var tr = controller.transform;
         var initialPosition = tr.position;
         var jumpDirection = tr.forward.normalized;

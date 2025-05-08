@@ -21,7 +21,6 @@ public class CharacterInputLayer : GravitationLayer
     protected SurfaceSlider SurfaceSlider;
     private ICharacterInput _inputByPlayer;
     private bool _isSubscribed;
-    protected MovementTypes.MovementType CurrentMovementType { get; private set; }
     protected bool RotateByCamera { get; private set; }
     protected CameraSystem CameraSystem { get; private set; }
    
@@ -62,7 +61,6 @@ public class CharacterInputLayer : GravitationLayer
             SelectedCharacter.UnsubscribeInputs();
             var newInput =  new AICharacterInput();
             SelectedCharacter.CharacterInput = newInput;
-            SelectedCharacter.CurrentMovementType = MovementTypes.MovementType.None;
             SelectedCharacter.SubscribeInputs();
             CameraSystem.Select(null);
             RotateByCamera = false;
@@ -73,7 +71,6 @@ public class CharacterInputLayer : GravitationLayer
         if (!IsDead)
         {
             CharacterInput = _inputByPlayer;
-            CurrentMovementType = MovementTypes.MovementType.RootMotion;
             SubscribeInputs();
         }
         CameraSystem.Select(this);
