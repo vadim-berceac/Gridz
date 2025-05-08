@@ -31,7 +31,8 @@ public class LocoMotionLayer : CharacterInputLayer
             LocoMotionSettings.BackWardRunSpeedCurve, ref _selectedMovementCurve);
         
         Speed.Update(IsDead, IsJump, SpeedChangeRate, CorrectedDirection, _selectedMovementCurve, ref CurrentSpeedX, ref CurrentSpeedZ);
-        TargetingSettings.EnemyTargeting.Target(IsDead, IsTargetLock, CharacterInput);
+        TargetingSettings.EnemyTargeting.SetTargetingColliderRadius(TargetingSettings.MaxDistance);
+        TargetingSettings.EnemyTargeting.Target(IsDead, IsTargetLock, TargetingSettings.MaxDistance);
         
         CashedTransform.Rotate(IsDead, IsTargetLock, TargetingSettings.EnemyTargeting, RotateByCamera, CameraSystem, NominalMovementDirection, LocoMotionSettings.RotationSpeed);
     }
@@ -95,4 +96,5 @@ public struct TargetingSettings
 {
     [field: SerializeField] public CharacterTargeting EnemyTargeting { get; private set; }
     [field: SerializeField] public ItemTargeting ItemTargeting { get; private set; }
+    [field: SerializeField] public float MaxDistance { get; private set; }
 }

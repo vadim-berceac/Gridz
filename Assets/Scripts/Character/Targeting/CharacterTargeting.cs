@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CharacterTargeting : AbstractTargeting
 {
-    [SerializeField] private float targetMaxDistance = 10f;
     public Vector3 TargetDirection { get; private set; }
     
     private Transform _cashedTransform;
@@ -17,7 +16,7 @@ public class CharacterTargeting : AbstractTargeting
     }
 
     [BurstCompile]
-    private void UpdateTarget()
+    private void UpdateTarget(float targetMaxDistance)
     {
         Targets.RemoveWhere(t => t == null); 
         if (Targets.Count == 0)
@@ -46,7 +45,7 @@ public class CharacterTargeting : AbstractTargeting
     }
     
     [BurstCompile]
-    public void Target(bool isDead, bool isTargetLock, ICharacterInput input)
+    public void Target(bool isDead, bool isTargetLock, float targetMaxDistance)
     {
         if (isDead)
         {
@@ -61,6 +60,6 @@ public class CharacterTargeting : AbstractTargeting
         {
             return;
         }
-        UpdateTarget();
+        UpdateTarget(targetMaxDistance);
     }
 }

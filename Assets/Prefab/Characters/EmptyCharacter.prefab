@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1376ef27a660fd1499820eab5daadcd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TargetingCollider>k__BackingField: {fileID: 8550443054356631273}
 --- !u!1 &4373059052394708103
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +290,7 @@ MonoBehaviour:
       m_Bits: 1
     <GroundOffset>k__BackingField: {x: 0, y: -0.8, z: 0}
     <SphereRadius>k__BackingField: 0.4
+    <ImmuneToFallDamage>k__BackingField: 0
     <FallDamageThreshold>k__BackingField: 5
     <LandingSoundsSetName>k__BackingField: Landing0
   <LocoMotionSettings>k__BackingField:
@@ -442,6 +444,7 @@ MonoBehaviour:
   <TargetingSettings>k__BackingField:
     <EnemyTargeting>k__BackingField: {fileID: 8398287543195089317}
     <ItemTargeting>k__BackingField: {fileID: 6312215889744057395}
+    <MaxDistance>k__BackingField: 10
   <CharacterAnimationParamsSettings>k__BackingField:
     <IdleTimeOut>k__BackingField: 5
 --- !u!1 &5927873971416705715
@@ -510,7 +513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 356836ec2a398fb4a81869aaf711449b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetMaxDistance: 10
+  <TargetingCollider>k__BackingField: {fileID: 6968004629093848995}
 --- !u!1 &6115588567337006044
 GameObject:
   m_ObjectHideFlags: 0

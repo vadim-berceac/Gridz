@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class AbstractTargeting : MonoBehaviour
 {
+    [field: SerializeField] protected SphereCollider TargetingCollider { get; private set; }
     public HashSet<Transform> Targets { get; private set; }
     
     protected Transform Parent;
@@ -27,6 +28,11 @@ public abstract class AbstractTargeting : MonoBehaviour
         }
         Targets.Remove(target);
         Debug.LogWarning($"Removing {target.name}");
+    }
+
+    public void SetTargetingColliderRadius(float radius)
+    {
+        TargetingCollider.radius = radius;
     }
 
     protected virtual void OnTriggerEnter(Collider other)
