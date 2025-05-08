@@ -11,16 +11,8 @@ public class WeaponColliderDamage : MonoBehaviour
     public CharacterAnimationParamsLayer AnimationParamsLayer { get; private set; }
     public bool Enabled { get; private set; }
     public string SvxSetName { get; private set; }
-    
-    private SfxContainer _sfxContainer;
     public SfxSet SvxSet { get; private set; }
 
-    [Inject]
-    private void Construct(SfxContainer sfxContainer)
-    {
-        _sfxContainer = sfxContainer;
-        SvxSet = _sfxContainer.GetSfxSet(SvxSetName);
-    }
 
     public void Init(float damage, float damageDelay, bool isRanged, CharacterAnimationParamsLayer animationParamsLayer, string svxSetName)
     {
