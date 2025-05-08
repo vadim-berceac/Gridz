@@ -13,11 +13,11 @@ public class GravitationLayer : MonoBehaviour
 
     protected CharacterController CharacterController;
     private float _currentFallSpeed = 0f;
-    private bool _isGrounded;
+    private bool _isOnValidGround;
 
-    public bool IsGrounded => _isGrounded;
-    public Transform CashedTransform { get; private set; }
-    public SfxContainer SfxContainer { get; private set; }
+    public bool IsGrounded { get; private set; }
+    protected Transform CashedTransform { get; private set; }
+    protected SfxContainer SfxContainer { get; private set; }
     private SfxSet _landingSfx;
 
     [Inject]
@@ -42,31 +42,60 @@ public class GravitationLayer : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         UpdateGrounded();
-        UpdateGravity();
+        ApplyGravitation(ref _currentFallSpeed, GravityConstants.MaxFallSpeed, GravityConstants.GravityForce);
         UpdateFallDetection();
     }
-
-    private void UpdateGravity()
+    
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        CharacterController.ApplyGravitation(ref _currentFallSpeed, _isGrounded, GravityConstants.MaxFallSpeed,
-            GravityConstants.GravityForce);
+        if (hit.normal.y > 0.7f)
+        {
+            _isOnValidGround = (1 << hit.gameObject.layer & GravitationSettings.GroundLayerMask) != 0;
+        }
     }
-    [BurstCompile]
 
+    [BurstCompile]
+    private void ApplyGravitation(ref float currentFallSpeed, float maxFallSpeed, float gravityForce)
+    {
+        if (_isOnValidGround)
+        {
+            if (currentFallSpeed < 0f)
+            {
+                currentFallSpeed = -2f;
+            }
+        }
+        else
+        {
+            var gravityDelta = gravityForce * Time.fixedDeltaTime;
+            currentFallSpeed = Mathf.Max(currentFallSpeed - gravityDelta, -maxFallSpeed);
+        }
+
+        var moveVector = currentFallSpeed * Time.fixedDeltaTime * Vector3.up;
+        var previousPosition = CharacterController.transform.position;
+        CharacterController.Move(moveVector);
+        var newPosition = CharacterController.transform.position;
+
+        if (!_isOnValidGround && moveVector.y < 0f && Mathf.Approximately(newPosition.y, previousPosition.y))
+        {
+            currentFallSpeed = -2f;
+        }
+    }
+    
+    [BurstCompile]
     private void UpdateFallDetection()
     {
         var currentHeight = CashedTransform.position.y;
         
-        if (!_isGrounded)
+        if (!IsGrounded)
         {
             _maxHeightReached = Mathf.Max(_maxHeightReached, currentHeight);
         }
         
-        if (_isGrounded && !_wasGroundedLastFrame)
+        if (IsGrounded && !_wasGroundedLastFrame)
         {
-            PlayLandingSound();
+           _landingSfx.PlayRandomAtPoint(CashedTransform.position);
             var fallDistance = _maxHeightReached - currentHeight;
-            if (fallDistance > GravitationSettings.FallDamageThreshold)
+            if (fallDistance > GravitationSettings.FallDamageThreshold && !GravitationSettings.ImmuneToFallDamage)
             {
                 OnFallDamage?.Invoke(fallDistance);
             }
@@ -74,12 +103,7 @@ public class GravitationLayer : MonoBehaviour
             _maxHeightReached = currentHeight; 
         }
 
-        _wasGroundedLastFrame = _isGrounded;
-    }
-
-    private void PlayLandingSound()
-    {
-        AudioSource.PlayClipAtPoint( _landingSfx.GetRandomClip(), CashedTransform.position );
+        _wasGroundedLastFrame = IsGrounded;
     }
     
     [BurstCompile]
@@ -90,7 +114,7 @@ public class GravitationLayer : MonoBehaviour
         var hitsCount = Physics.OverlapSphereNonAlloc(spherePos, GravitationSettings.SphereRadius, hitColliders, 
             GravitationSettings.GroundLayerMask);
 
-        _isGrounded = hitsCount > 0;
+        IsGrounded = hitsCount > 0;
     }
 }
 
@@ -103,6 +127,7 @@ public struct GravitationSettings
     [field: SerializeField] public float SphereRadius { get; private set; }
     
     [field: Header("Fall Damage")]
+    [field: SerializeField] public bool ImmuneToFallDamage { get; private set; }
     [field: SerializeField] public float FallDamageThreshold { get; private set; }
     
     [field: Header("Sound")]

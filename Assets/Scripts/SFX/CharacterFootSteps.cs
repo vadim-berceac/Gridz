@@ -23,7 +23,7 @@ public class CharacterFootSteps : MonoBehaviour
 
    private void CheckCurveValue()
    {
-       if (Time.time < _lastFootstepTime + FootstepCooldown)
+       if (Time.time < _lastFootstepTime + FootstepCooldown || !FootStepsSettings.Character.IsGrounded)
        {
            return;
        }
@@ -32,7 +32,7 @@ public class CharacterFootSteps : MonoBehaviour
     
        if (Mathf.Abs(curveValue - FootStepsSettings.LeftFootStepValue) <= Tolerance)
        {
-           AudioSource.PlayClipAtPoint(_footStepsSfxSet.GetRandomClip(), FootStepsSettings.LeftFootTransform.position);
+           _footStepsSfxSet.PlayRandomAtPoint(FootStepsSettings.LeftFootTransform.position);
            _lastFootstepTime = Time.time;
            return;
        }
@@ -41,8 +41,7 @@ public class CharacterFootSteps : MonoBehaviour
        {
            return;
        }
-       
-       AudioSource.PlayClipAtPoint(_footStepsSfxSet.GetRandomClip(), FootStepsSettings.RightFootTransform.position);
+       _footStepsSfxSet.PlayRandomAtPoint(FootStepsSettings.RightFootTransform.position);
        _lastFootstepTime = Time.time;
    }
 }

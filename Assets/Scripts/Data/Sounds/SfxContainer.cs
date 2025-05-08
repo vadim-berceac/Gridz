@@ -19,8 +19,13 @@ public class SfxSet
     [field: SerializeField] public string SetName { get; private set; }
     [field: SerializeField] public AudioClip[] Clip { get; private set; }
 
-    public AudioClip GetRandomClip()
+    private AudioClip GetRandomClip()
     {
         return Clip[Random.Range(0, Clip.Length)];
+    }
+
+    public void PlayRandomAtPoint(Vector3 position)
+    {
+        AudioSource.PlayClipAtPoint(GetRandomClip(), position);
     }
 }
