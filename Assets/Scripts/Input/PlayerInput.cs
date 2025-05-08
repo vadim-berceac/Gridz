@@ -17,7 +17,6 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     protected InputAction Jump { get; private set; }
     protected InputAction Sprint { get; private set; }
     protected InputAction Sneak { get; private set; }
-    protected InputAction HoldTarget { get; private set; }
     protected InputAction DrawWeapon { get; private set; }
     protected InputAction WeaponSelect0 { get; private set; }
     protected InputAction WeaponSelect1 { get; private set; }
@@ -40,7 +39,6 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
     public event Action OnWeaponSelect0;
     public event Action OnWeaponSelect1;
     public event Action OnWeaponSelect2;
-    public event Action OnHoldTarget;
     public event Action OnDrawWeapon;
     public event Action OnSprint;
     public event Action OnSneak;
@@ -64,7 +62,6 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Jump = inputActionAsset.FindAction("Jump");
         Sprint = inputActionAsset.FindAction("Sprint");
         Sneak = inputActionAsset.FindAction("Sneak");
-        HoldTarget = inputActionAsset.FindAction("HoldTarget");
         DrawWeapon = inputActionAsset.FindAction("DrawWeapon");
         WeaponSelect0 = inputActionAsset.FindAction("WeaponSelect0");
         WeaponSelect1 = inputActionAsset.FindAction("WeaponSelect1");
@@ -87,7 +84,6 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Jump.Enable();
         Sprint.Enable();
         Sneak.Enable();
-        HoldTarget.Enable();
         DrawWeapon.Enable();
         WeaponSelect0.Enable();
         WeaponSelect1.Enable();
@@ -110,7 +106,6 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         Jump.Disable();
         Sprint.Disable();
         Sneak.Disable();
-        HoldTarget.Disable();
         DrawWeapon.Disable();
         WeaponSelect0.Disable();
         WeaponSelect1.Disable();
@@ -148,11 +143,6 @@ public class PlayerInput : MonoBehaviour, ICharacterInput
         WeaponSelect0.performed += ctx => OnWeaponSelect0?.Invoke();
         WeaponSelect1.performed += ctx => OnWeaponSelect1?.Invoke();
         WeaponSelect2.performed += ctx => OnWeaponSelect2?.Invoke();
-
-        HoldTarget.performed += ctx =>
-        {
-            OnHoldTarget?.Invoke();
-        };
         
         DrawWeapon.performed += ctx => 
         {

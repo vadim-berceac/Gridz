@@ -12,7 +12,6 @@ public interface ICharacterInput
     public event Action OnWeaponSelect0;
     public event Action OnWeaponSelect1;
     public event Action OnWeaponSelect2;
-    public event Action OnHoldTarget;
     public event Action OnDrawWeapon;
     public event Action OnSprint; 
     public event Action OnSneak;
