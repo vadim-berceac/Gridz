@@ -92,7 +92,6 @@ public class CharacterInputLayer : GravitationLayer
         CharacterInput.OnJump += OnJump;
         CharacterInput.OnSneak += HandleSneak;
         CharacterInput.OnSprint += HandleSprint;
-        CharacterInput.OnHoldTarget += HandleTargetLock;
         CharacterInput.OnDrawWeapon += HandleDrawWeapon;
         CharacterInput.OnAttack += HandleAttack;
         CharacterInput.OnInteract += Take;
@@ -113,7 +112,6 @@ public class CharacterInputLayer : GravitationLayer
         CharacterInput.OnJump -= OnJump;
         CharacterInput.OnSneak -= HandleSneak;
         CharacterInput.OnSprint -= HandleSprint;
-        CharacterInput.OnHoldTarget -= HandleTargetLock;
         CharacterInput.OnDrawWeapon -= HandleDrawWeapon;
         CharacterInput.OnAttack -= HandleAttack;
         CharacterInput.OnInteract -= Take;
@@ -168,10 +166,9 @@ public class CharacterInputLayer : GravitationLayer
         IsSneaking = !IsSneaking;
     }
 
-    private void HandleTargetLock()
+    protected void SetTargetLock(bool lockState)
     {
-        IsTargetLock = !IsTargetLock;
-        Debug.LogWarning(gameObject.name + IsTargetLock);
+        IsTargetLock = lockState;
     }
 
     protected virtual void HandleDrawWeapon()

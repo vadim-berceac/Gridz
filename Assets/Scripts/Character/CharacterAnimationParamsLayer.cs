@@ -33,7 +33,7 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
         CharacterInput.OnAttack -= HandleAttackTrigger;
         CharacterInput.OnDrawWeapon -= HandleDrawTrigger;
     }
-
+    
     protected void SetAnimationType(AnimationTypes.Type animationType)
     {
         Debug.Log(animationType);
@@ -71,6 +71,7 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
         OneShotPlayedValue = Animator.GetFloat(AnimationParams.OneShotPlayed);
         FootStepsCurveValue = Animator.GetFloat(AnimationParams.FootStepsCurve);
         Animator.SetBool(AnimationParams.InputDetected, InputDetected);
+        SetTargetLock(OneShotPlayedValue > 0);
     }
 
     private void HandleAttackTrigger()
@@ -105,7 +106,6 @@ public abstract class CharacterAnimationParamsLayer : LocoMotionLayer
     
     private void TimeoutToIdle()
     {
-        
         if (IsGrounded && !IsDead && !InputDetected)
         {
             _currentIdleTimer += Time.deltaTime;

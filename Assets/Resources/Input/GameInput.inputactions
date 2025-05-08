@@ -123,15 +123,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "HoldTarget",
-                    "type": "Button",
-                    "id": "d5fead81-0a56-4a8e-9bf5-0d2b2098c6c8",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "DrawWeapon",
                     "type": "Button",
                     "id": "57e36231-15c5-46f9-a0d6-94ae0638baa5",
@@ -568,17 +559,6 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Sneak",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9fdd39a8-5168-45c5-ae99-62951785105a",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "HoldTarget",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
